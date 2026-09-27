@@ -6129,3 +6129,75 @@ footer a[href*="category.html?category="]:not(:has(img)),
     }
 
 }
+
+
+/* =========================================================
+   HIDE PRODUCT FEATURE TRIO
+   (removes: Premium Quality Card / Elegant Designs / Secure Packaging)
+========================================================= */
+
+.dw-product-features,
+.dw-product-feature,
+.product-service-info {
+    display: none !important;
+}
+
+/* =========================================================
+   HIDE IMAGE PAGER (the "1/2 ‹ ›" black pill)
+========================================================= */
+
+.dw-product-pager {
+    display: none !important;
+}
+
+
+
+/* =========================================================
+   MOBILE — WIDER PRODUCT CARDS
+   Removes the doubled padding so cards fill the screen
+========================================================= */
+
+@media (max-width: 700px) {
+
+    /* Outer container — remove its 26px side padding */
+    .catalog-section .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* Inner grid — reduce side padding from 14px to 8px */
+    .catalog-section #categoryProducts,
+    #categoryProducts.product-grid {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    /* Safety: also relax the padding of the featured section
+       on the homepage if it's rendered inside a .container */
+    .everafter-homepage-catalog .everafter-home-featured-grid {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    /* And the related products on the invitation page */
+    .related-section .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    #relatedProducts.product-grid {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+}
+
+
+/* =========================================================
+   HIDE "CUSTOM DESIGNS AVAILABLE" PILL + FAVOURITE HEART
+   (on homepage, category pages, and related products)
+========================================================= */
+
+.dw-product-custom,
+.dw-product-fav {
+    display: none !important;
+}
