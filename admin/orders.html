@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Orders | EverAfter Admin
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f6f3ef;
+            color: #222;
+        }
+
+
+        header {
+            background: #211a16;
+            color: white;
+            padding: 18px 25px;
+        }
+
+
+        header strong {
+            font-size: 20px;
+        }
+
+
+        header small {
+            display: block;
+            margin-top: 4px;
+            opacity: 0.7;
+        }
+
+
+        nav {
+            background: white;
+            padding: 15px 25px;
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        nav a {
+            margin-right: 22px;
+            text-decoration: none;
+            color: #333;
+        }
+
+
+        nav a.active {
+            font-weight: bold;
+        }
+
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+
+        main {
+            padding: 30px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+
+        input,
+        select,
+        button {
+            padding: 11px 13px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+
+        input {
+            min-width: 280px;
+        }
+
+
+        button {
+            cursor: pointer;
+            background: #211a16;
+            color: white;
+            border: none;
+        }
+
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+
+        .stat {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+
+        .stat span {
+            display: block;
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+
+        .stat strong {
+            font-size: 28px;
+        }
+
+
+        .panel {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        .panel-header p {
+            margin: 5px 0 0;
+            color: #777;
+        }
+
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            vertical-align: top;
+        }
+
+
+        th {
+            background: #fafafa;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+
+        td small {
+            display: block;
+            margin-top: 4px;
+            color: #777;
+        }
+
+
+        .order-status {
+            padding: 7px 9px;
+            border-radius: 5px;
+            font-size: 12px;
+            background: white;
+            min-width: 125px;
+        }
+
+
+        .status-new {
+            background: #e8f1ff;
+        }
+
+
+        .status-in_progress {
+            background: #fff1d6;
+        }
+
+
+        .status-completed {
+            background: #e2f7e8;
+        }
+
+
+        .status-cancelled {
+            background: #ffe3e3;
+        }
+
+
+        .view-btn,
+        .reference-button {
+            display: inline-block;
+            padding: 7px 10px;
+            background: #211a16;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        .view-btn:hover,
+        .reference-button:hover {
+            opacity: 0.9;
+        }
+
+
+        .reference-name {
+            display: block;
+            margin-top: 5px;
+            max-width: 150px;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            color: #777;
+            font-size: 12px;
+        }
+
+
+        .no-reference {
+            color: #999;
+            font-size: 12px;
+        }
+
+
+        .message {
+            padding: 25px;
+            color: #666;
+        }
+
+
+        .error {
+            color: #a40000;
+            background: #fff0f0;
+            padding: 15px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+        }
+
+
+        @media (max-width: 800px) {
+
+            main {
+                padding: 20px;
+            }
+
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+
+            input {
+                min-width: 100%;
+                width: 100%;
+            }
+
+
+            select,
+            button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <strong>
+        Digital World
+    </strong>
+
+    <small>
+        ADMIN PANEL
+    </small>
+
+</header>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav>
+
+    <a href="dashboard.html">
+        Dashboard
+    </a>
+
+    <a href="categories.html">
+        Categories
+    </a>
+
+    <a href="products.html">
+        Products
+    </a>
+
+    <a
+        href="orders.html"
+        class="active"
+    >
+        Orders
+    </a>
+
+    <a
+        href="#"
+        id="logoutButton"
+    >
+        Logout
+    </a>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+    <h1>
+        Customer Orders
+    </h1>
+
+
+    <p class="subtitle">
+        View and manage all wedding invitation orders.
+    </p>
+
+
+    <!-- ================= FILTERS ================= -->
+
+    <div class="toolbar">
+
+        <input
+            type="search"
+            id="searchOrders"
+            placeholder="Search order, customer or WhatsApp..."
+        >
+
+
+        <select id="statusFilter">
+
+            <option value="all">
+                All Statuses
+            </option>
+
+            <option value="new">
+                New
+            </option>
+
+            <option value="in_progress">
+                In Progress
+            </option>
+
+            <option value="completed">
+                Completed
+            </option>
+
+            <option value="cancelled">
+                Cancelled
+            </option>
+
+        </select>
+
+
+        <button
+            type="button"
+            id="refreshOrders"
+        >
+            Refresh
+        </button>
+
+    </div>
+
+
+    <!-- ================= STATS ================= -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <span>
+                Total Orders
+            </span>
+
+            <strong id="totalOrders">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                New
+            </span>
+
+            <strong id="newOrders">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                In Progress
+            </span>
+
+            <strong id="progressOrders">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Completed
+            </span>
+
+            <strong id="completedOrders">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ORDERS ================= -->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <strong>
+                Orders
+            </strong>
+
+            <p id="ordersMessage">
+                Loading orders...
+            </p>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Order
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Invitation
+                        </th>
+
+                        <th>
+                            Wedding
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Reference
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="ordersTableBody">
+
+                    <tr>
+
+                        <td
+                            colspan="9"
+                            class="message"
+                        >
+                            Loading...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script
+    type="module"
+    src="../js/admin/orders.js"
+></script>
+
+
+</body>
+
+</html>

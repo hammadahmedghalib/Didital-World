@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="EverAfter administration panel login."
+    >
+
+    <title>
+        Admin Login | Digital World
+    </title>
+
+
+    <!-- =========================================================
+         STYLES
+    ========================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/premium.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/responsive.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/admin.css"
+    >
+
+
+    <style>
+
+        /* ========================================================
+           ADMIN LOGIN PAGE
+        ======================================================== */
+
+        body.admin-login-page {
+            min-height: 100vh;
+            margin: 0;
+
+            background:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(184, 154, 103, 0.12),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(184, 154, 103, 0.08),
+                    transparent 28%
+                ),
+                var(--ea-ivory);
+
+            color: var(--ea-charcoal);
+        }
+
+
+        .admin-login-container {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 35px 20px;
+        }
+
+
+        .admin-login-card {
+            width: min(100%, 500px);
+
+            padding: 44px;
+
+            background:
+                rgba(255, 255, 255, 0.96);
+
+            border:
+                1px solid var(--ea-border);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 30px 80px rgba(53, 43, 30, 0.10);
+        }
+
+
+        /* ========================================================
+           BRAND
+        ======================================================== */
+
+        .admin-login-brand {
+            text-align: center;
+            margin-bottom: 38px;
+        }
+
+
+        .admin-login-brand .logo-main {
+            display: block;
+
+            color: var(--ea-charcoal);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 42px;
+            font-weight: 500;
+            line-height: 1;
+        }
+
+
+        .admin-login-brand .logo-sub {
+            display: block;
+
+            margin-top: 9px;
+
+            color: var(--ea-gold-dark);
+
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+        }
+
+
+        /* ========================================================
+           HEADING
+        ======================================================== */
+
+        .admin-login-heading {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+
+        .admin-login-heading .section-label {
+            margin-bottom: 12px;
+        }
+
+
+        .admin-login-heading h1 {
+            margin: 0;
+
+            color: var(--ea-charcoal);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: clamp(40px, 7vw, 56px);
+            font-weight: 500;
+
+            line-height: 1.05;
+        }
+
+
+        .admin-login-heading p:last-child {
+            max-width: 380px;
+
+            margin: 16px auto 0;
+
+            color: var(--ea-muted);
+
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+
+        /* ========================================================
+           FORM
+        ======================================================== */
+
+        .admin-login-page #adminLoginForm {
+            margin-top: 5px;
+        }
+
+
+        .admin-form-group {
+            margin-bottom: 20px;
+        }
+
+
+        .admin-form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: var(--ea-charcoal);
+
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+
+        .admin-form-group input {
+            width: 100%;
+            min-height: 54px;
+
+            box-sizing: border-box;
+
+            padding:
+                0 16px;
+
+            border:
+                1px solid var(--ea-border);
+
+            border-radius: 14px;
+
+            outline: none;
+
+            background:
+                #fcfaf7;
+
+            color:
+                var(--ea-charcoal);
+
+            font: inherit;
+            font-size: 14px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+
+        .admin-form-group input::placeholder {
+            color: #aaa29a;
+        }
+
+
+        .admin-form-group input:focus {
+            background: #fff;
+
+            border-color:
+                rgba(184, 154, 103, 0.8);
+
+            box-shadow:
+                0 0 0 4px rgba(184, 154, 103, 0.10);
+        }
+
+
+        /* ========================================================
+           ERROR
+        ======================================================== */
+
+        .admin-error {
+            min-height: 18px;
+
+            margin:
+                8px 0 15px;
+
+            color: #a42318;
+
+            font-size: 13px;
+            line-height: 1.5;
+
+            text-align: center;
+        }
+
+
+        /* ========================================================
+           LOGIN BUTTON
+        ======================================================== */
+
+        .admin-login-button {
+            width: 100%;
+            min-height: 54px;
+
+            border-radius: 999px !important;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .admin-login-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 28px rgba(29, 28, 26, 0.15);
+        }
+
+
+        .admin-login-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+        /* ========================================================
+           RESPONSIVE
+        ======================================================== */
+
+        @media (max-width: 600px) {
+
+            .admin-login-container {
+                padding: 20px 16px;
+            }
+
+
+            .admin-login-card {
+                padding: 32px 22px;
+
+                border-radius: 23px;
+            }
+
+
+            .admin-login-brand .logo-main {
+                font-size: 35px;
+            }
+
+
+            .admin-login-heading h1 {
+                font-size: 40px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="admin-login-page">
+
+
+<!-- ============================================================
+     LOGIN
+============================================================ -->
+
+<main class="admin-login-container">
+
+    <section class="admin-login-card">
+
+
+        <!-- BRAND -->
+
+        <div class="admin-login-brand">
+
+            <span class="logo-main">
+                Digital World
+            
+            </span>
+
+
+            <span class="logo-sub">
+                ADMIN PANEL
+            </span>
+
+        </div>
+
+
+
+        <!-- HEADING -->
+
+        <div class="admin-login-heading">
+
+            <p class="section-label">
+                ADMINISTRATION
+            </p>
+
+
+            <h1>
+                Welcome Back
+            </h1>
+
+
+            <p>
+                Sign in to manage your invitations,
+                orders and website content.
+            </p>
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <form
+            id="adminLoginForm"
+            novalidate
+        >
+
+
+            <!-- EMAIL -->
+
+            <div class="admin-form-group">
+
+                <label for="adminEmail">
+                    Email
+                </label>
+
+
+                <input
+                    type="email"
+                    id="adminEmail"
+                    name="email"
+                    autocomplete="email"
+                    placeholder="admin@example.com"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="admin-form-group">
+
+                <label for="adminPassword">
+                    Password
+                </label>
+
+
+                <input
+                    type="password"
+                    id="adminPassword"
+                    name="password"
+                    autocomplete="current-password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- ERROR -->
+
+            <p
+                id="adminLoginError"
+                class="admin-error"
+                aria-live="polite"
+            ></p>
+
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="button button-primary admin-login-button"
+            >
+                Sign In
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+
+<!-- ============================================================
+     SUPABASE
+============================================================ -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+
+<!-- ============================================================
+     ADMIN AUTH
+============================================================ -->
+
+<script
+    type="module"
+    src="../js/admin/auth.js"
+></script>
+
+
+</body>
+
+</html>

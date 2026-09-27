@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Order Details | EverAfter Admin
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f6f3ef;
+            color: #222;
+        }
+
+
+        header {
+            background: #211a16;
+            color: white;
+            padding: 18px 25px;
+        }
+
+
+        header strong {
+            font-size: 20px;
+        }
+
+
+        header small {
+            display: block;
+            margin-top: 4px;
+            opacity: .7;
+        }
+
+
+        nav {
+            background: white;
+            padding: 15px 25px;
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        nav a {
+            margin-right: 22px;
+            color: #333;
+            text-decoration: none;
+        }
+
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px;
+        }
+
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+
+        h1 {
+            margin: 0 0 8px;
+        }
+
+
+        h2 {
+            margin-top: 0;
+        }
+
+
+        h3 {
+            margin-top: 0;
+        }
+
+
+        .muted {
+            color: #777;
+        }
+
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+
+        button,
+        .button {
+            padding: 11px 15px;
+            border: 0;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+
+        .primary {
+            background: #211a16;
+            color: white;
+        }
+
+
+        .secondary {
+            background: white;
+            color: #222;
+            border: 1px solid #ccc;
+        }
+
+
+        .primary:hover,
+        .secondary:hover {
+            opacity: .9;
+        }
+
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 22px;
+            min-width: 0;
+        }
+
+
+        .card.full {
+            grid-column: 1 / -1;
+        }
+
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+
+        .row:last-child {
+            border-bottom: 0;
+        }
+
+
+        .label {
+            color: #777;
+            flex: 0 0 145px;
+        }
+
+
+        .value {
+            text-align: right;
+            font-weight: 600;
+            min-width: 0;
+            max-width: 70%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+
+
+        .product {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+
+        .product-image {
+            width: 130px;
+            height: 160px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #eee;
+            flex-shrink: 0;
+        }
+
+
+        .product h3 {
+            margin: 0 0 8px;
+        }
+
+
+        .product p {
+            margin: 0 0 10px;
+        }
+
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            min-width: 160px;
+            background: white;
+        }
+
+
+        .loading {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+
+        .error {
+            background: #fff0f0;
+            color: #a00000;
+            padding: 18px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+        }
+
+
+        #referenceFilesList {
+            margin-top: 15px;
+        }
+
+
+        .reference-file {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #fafafa;
+        }
+
+
+        .reference-file-name {
+            font-weight: 700;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+
+        .reference-file-meta {
+            margin: 6px 0 12px;
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        .empty-file {
+            color: #777;
+            margin: 0;
+        }
+
+
+        @media (max-width: 800px) {
+
+            main {
+                padding: 20px;
+            }
+
+
+            .top {
+                flex-direction: column;
+            }
+
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .card.full {
+                grid-column: auto;
+            }
+
+
+            .row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+
+            .label {
+                flex: none;
+            }
+
+
+            .value {
+                text-align: left;
+                max-width: 100%;
+                width: 100%;
+            }
+
+
+            .product {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+
+            .product-image {
+                width: 100%;
+                max-width: 260px;
+                height: 300px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <strong>
+        Digital World
+    </strong>
+
+    <small>
+        ADMIN PANEL
+    </small>
+
+</header>
+
+
+<!-- ================= NAV ================= -->
+
+<nav>
+
+    <a href="dashboard.html">
+        Dashboard
+    </a>
+
+    <a href="categories.html">
+        Categories
+    </a>
+
+    <a href="products.html">
+        Products
+    </a>
+
+    <a href="orders.html">
+        Orders
+    </a>
+
+    <a
+        href="#"
+        id="logoutButton"
+    >
+        Logout
+    </a>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+
+    <div class="top">
+
+        <div>
+
+            <h1 id="pageTitle">
+                Order Details
+            </h1>
+
+
+            <div
+                class="muted"
+                id="orderSubtitle"
+            >
+                Loading order...
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <a
+                href="orders.html"
+                class="button secondary"
+            >
+                Back to Orders
+            </a>
+
+
+            <a
+                href="#"
+                id="whatsappButton"
+                class="button primary"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="display:none;"
+            >
+                WhatsApp Customer
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= LOADING ================= -->
+
+    <div
+        id="loadingBox"
+        class="loading"
+    >
+        Loading order details...
+    </div>
+
+
+    <!-- ================= ERROR ================= -->
+
+    <div
+        id="errorBox"
+        class="error"
+        style="display:none;"
+    ></div>
+
+
+    <!-- ================= ORDER CONTENT ================= -->
+
+    <div
+        id="orderContent"
+        class="grid"
+        style="display:none;"
+    >
+
+
+        <!-- ORDER -->
+
+        <section class="card">
+
+            <h2>
+                Order
+            </h2>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Order Number
+                </span>
+
+
+                <span
+                    class="value"
+                    id="orderNumber"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Status
+                </span>
+
+
+                <span class="value">
+
+                    <select
+                        id="statusSelect"
+                    >
+
+                        <option value="new">
+                            New
+                        </option>
+
+                        <option value="in_progress">
+                            In Progress
+                        </option>
+
+                        <option value="completed">
+                            Completed
+                        </option>
+
+                        <option value="cancelled">
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Price
+                </span>
+
+
+                <span
+                    class="value"
+                    id="orderPrice"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Created
+                </span>
+
+
+                <span
+                    class="value"
+                    id="orderCreated"
+                >
+                    —
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- CUSTOMER -->
+
+        <section class="card">
+
+            <h2>
+                Customer
+            </h2>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Name
+                </span>
+
+
+                <span
+                    class="value"
+                    id="customerName"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    WhatsApp
+                </span>
+
+
+                <span
+                    class="value"
+                    id="customerWhatsapp"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Email
+                </span>
+
+
+                <span
+                    class="value"
+                    id="customerEmail"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    City
+                </span>
+
+
+                <span
+                    class="value"
+                    id="customerCity"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Country
+                </span>
+
+
+                <span
+                    class="value"
+                    id="customerCountry"
+                >
+                    —
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- PRODUCT -->
+
+        <section class="card full">
+
+            <h2>
+                Selected Invitation
+            </h2>
+
+
+            <div class="product">
+
+                <div
+                    class="product-image"
+                    id="productImage"
+                ></div>
+
+
+                <div>
+
+                    <h3
+                        id="productName"
+                    >
+                        —
+                    </h3>
+
+
+                    <p
+                        class="muted"
+                        id="productSlug"
+                    >
+                        —
+                    </p>
+
+
+                    <strong
+                        id="productPrice"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- WEDDING -->
+
+        <section class="card">
+
+            <h2>
+                Wedding Details
+            </h2>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Bride
+                </span>
+
+
+                <span
+                    class="value"
+                    id="brideName"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Groom
+                </span>
+
+
+                <span
+                    class="value"
+                    id="groomName"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Date
+                </span>
+
+
+                <span
+                    class="value"
+                    id="weddingDate"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Time
+                </span>
+
+
+                <span
+                    class="value"
+                    id="weddingTime"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Event
+                </span>
+
+
+                <span
+                    class="value"
+                    id="eventType"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Venue
+                </span>
+
+
+                <span
+                    class="value"
+                    id="venue"
+                >
+                    —
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- ADDITIONAL -->
+
+        <section class="card">
+
+            <h2>
+                Additional Requirements
+            </h2>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Custom Text
+                </span>
+
+
+                <span
+                    class="value"
+                    id="customText"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Special Requirements
+                </span>
+
+
+                <span
+                    class="value"
+                    id="specialRequirements"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Notes
+                </span>
+
+
+                <span
+                    class="value"
+                    id="notes"
+                >
+                    —
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- REFERENCE FILE -->
+
+        <section
+            class="card full"
+            id="referenceFilesSection"
+            style="display:block;"
+        >
+
+            <h2>
+                Reference / Inspiration
+            </h2>
+
+
+            <div
+                id="referenceFilesList"
+            >
+                <p class="empty-file">
+                    Checking for reference files...
+                </p>
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+<script
+    type="module"
+    src="../js/admin/order-detail.js"
+></script>
+
+
+</body>
+
+</html>

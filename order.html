@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Place your wedding invitation order with Digital World Printing Press."
+    >
+
+    <meta name="theme-color" content="#1d1c1a">
+
+    <title>Place Your Order | Digital World</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <style>
+
+        :root {
+            --dw-ivory: #f7f3ec;
+            --dw-cream: #fbf8f2;
+            --dw-charcoal: #1d1c1a;
+            --dw-muted: #746d63;
+            --dw-border: #e7ddcd;
+            --dw-gold: #b89a67;
+            --dw-gold-dark: #8a6d3f;
+            --dw-gold-light: #d8bd8a;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--dw-ivory);
+            color: var(--dw-charcoal);
+            margin: 0;
+        }
+
+
+        /* =====================================================
+           HEADER (identical to homepage)
+        ===================================================== */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            background: rgba(251, 248, 242, .88);
+            backdrop-filter: saturate(150%) blur(14px);
+            -webkit-backdrop-filter: saturate(150%) blur(14px);
+            border-bottom: 1px solid var(--dw-border);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            min-height: 76px;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 26px;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .logo .logo-main {
+            color: var(--dw-charcoal);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 25px;
+            font-weight: 500;
+            letter-spacing: -.3px;
+        }
+
+        .logo .logo-sub {
+            margin-top: 5px;
+            color: var(--dw-gold-dark);
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 3.4px;
+            text-transform: uppercase;
+        }
+
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .premium-nav-link {
+            position: relative;
+            color: var(--dw-charcoal);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .4px;
+            text-decoration: none;
+            padding: 4px 0;
+            transition: color .2s ease;
+        }
+
+        .premium-nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; bottom: -2px;
+            height: 1px;
+            background: var(--dw-gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .3s ease;
+        }
+
+        .premium-nav-link:hover,
+        .premium-nav-link.active { color: var(--dw-gold-dark); }
+
+        .premium-nav-link:hover::after,
+        .premium-nav-link.active::after { transform: scaleX(1); }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ——— EXACT homepage button styles ——— */
+
+        .premium-header-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 16px;
+            border: 1px solid var(--dw-border);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--dw-charcoal);
+            font: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition:
+                background .25s ease,
+                border-color .25s ease,
+                color .25s ease,
+                transform .25s ease;
+        }
+
+        .premium-header-button:hover {
+            transform: translateY(-1px);
+            border-color: var(--dw-charcoal);
+        }
+
+        .premium-whatsapp-button {
+            background: var(--dw-charcoal);
+            border-color: var(--dw-charcoal);
+            color: #fff;
+        }
+
+        .premium-whatsapp-button:hover {
+            background: var(--dw-gold-dark);
+            border-color: var(--dw-gold-dark);
+            color: #fff;
+        }
+
+        .premium-signin-button {
+            background: transparent;
+            border-color: transparent;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+
+        .premium-signin-button:hover {
+            color: var(--dw-gold-dark);
+            border-color: transparent;
+            transform: translateY(-1px);
+        }
+
+        .mobile-menu-button {
+            display: none;
+            min-width: 42px;
+            min-height: 42px;
+            border: 1px solid var(--dw-border);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--dw-charcoal);
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            padding: 14px 22px 22px;
+            border-top: 1px solid var(--dw-border);
+            background: var(--dw-cream);
+        }
+
+        .mobile-nav.open,
+        .mobile-nav.active { display: flex; }
+
+        .mobile-nav a {
+            display: block;
+            padding: 12px 4px;
+            border-bottom: 1px solid var(--dw-border);
+            color: var(--dw-charcoal);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .mobile-nav a:last-child { border-bottom: 0; }
+        .mobile-nav a:hover { color: var(--dw-gold-dark); }
+
+
+        /* =====================================================
+           ORDER PAGE
+        ===================================================== */
+
+        .order-page {
+            padding: clamp(50px, 7vw, 90px) 0 clamp(70px, 8vw, 120px);
+            background:
+                radial-gradient(circle at 10% 0%, rgba(184,154,103,.10), transparent 40%),
+                radial-gradient(circle at 90% 100%, rgba(184,154,103,.08), transparent 40%),
+                var(--dw-ivory);
+        }
+
+        .order-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.65fr) minmax(320px, .9fr);
+            gap: clamp(30px, 4vw, 60px);
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 26px;
+            align-items: start;
+        }
+
+        .order-introduction { margin-bottom: 40px; }
+
+        .order-introduction .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 18px;
+            color: var(--dw-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 3.6px;
+            text-transform: uppercase;
+        }
+
+        .order-introduction .section-label::before,
+        .order-introduction .section-label::after {
+            content: "";
+            width: 26px;
+            height: 1px;
+            background: var(--dw-gold);
+        }
+
+        .order-introduction h1 {
+            margin: 0;
+            color: var(--dw-charcoal);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(36px, 4.6vw, 60px);
+            font-weight: 500;
+            line-height: 1.05;
+            letter-spacing: -1px;
+        }
+
+        .order-introduction p:last-child {
+            max-width: 560px;
+            margin: 18px 0 0;
+            color: var(--dw-muted);
+            font-size: 14px;
+            line-height: 1.85;
+        }
+
+
+        /* PROGRESS */
+
+        .order-progress {
+            display: grid;
+            grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+            align-items: center;
+            gap: 10px;
+            padding: 22px 24px;
+            margin-bottom: 34px;
+            background: #fff;
+            border: 1px solid var(--dw-border);
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--dw-muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            transition: color .3s ease;
+        }
+
+        .progress-step span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--dw-border);
+            border-radius: 50%;
+            background: var(--dw-cream);
+            font-family: Georgia, serif;
+            font-size: 12px;
+            transition: background .3s ease, border-color .3s ease, color .3s ease;
+        }
+
+        .progress-step.active { color: var(--dw-gold-dark); }
+        .progress-step.active span {
+            background: var(--dw-charcoal);
+            border-color: var(--dw-charcoal);
+            color: #fff;
+        }
+        .progress-step.completed { color: var(--dw-gold-dark); }
+        .progress-step.completed span {
+            background: var(--dw-gold-light);
+            border-color: var(--dw-gold-light);
+            color: var(--dw-charcoal);
+        }
+
+        .progress-line {
+            height: 1px;
+            background: linear-gradient(90deg, var(--dw-border), var(--dw-border));
+        }
+
+
+        /* STEPS */
+
+        .order-step {
+            display: none;
+            padding: clamp(28px, 3vw, 44px);
+            background: #fff;
+            border: 1px solid var(--dw-border);
+            box-shadow: 0 24px 60px rgba(31,25,19,.05);
+        }
+
+        .order-step.active { display: block; }
+
+        .form-section-heading {
+            margin-bottom: 30px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--dw-border);
+        }
+
+        .form-section-heading .section-label {
+            display: inline-block;
+            margin: 0 0 14px;
+            color: var(--dw-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 4.2px;
+            text-transform: uppercase;
+        }
+
+        .form-section-heading h2 {
+            margin: 0;
+            color: var(--dw-charcoal);
+            font-family: Georgia, serif;
+            font-size: clamp(24px, 2.6vw, 34px);
+            font-weight: 500;
+            letter-spacing: -.4px;
+        }
+
+        .form-section-heading p:last-child {
+            max-width: 560px;
+            margin: 10px 0 0;
+            color: var(--dw-muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+
+        /* FIELDS */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .form-group { min-width: 0; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--dw-charcoal);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group input[type="date"],
+        .form-group input[type="time"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid var(--dw-border);
+            border-radius: 12px;
+            background: #fcfaf7;
+            color: var(--dw-charcoal);
+            font: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"],
+        .form-group input[type="date"],
+        .form-group input[type="time"],
+        .form-group select {
+            min-height: 52px;
+            padding: 0 15px;
+        }
+
+        .form-group textarea {
+            min-height: 130px;
+            padding: 14px;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: #a8a196; }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: rgba(184,154,103,.75);
+            box-shadow: 0 0 0 4px rgba(184,154,103,.10);
+            background: #fff;
+        }
+
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 42px;
+            background-image:
+                linear-gradient(45deg, transparent 50%, var(--dw-gold-dark) 50%),
+                linear-gradient(135deg, var(--dw-gold-dark) 50%, transparent 50%);
+            background-position:
+                calc(100% - 20px) 50%,
+                calc(100% - 15px) 50%;
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        .file-help {
+            display: block;
+            margin-top: 8px;
+            color: var(--dw-muted);
+            font-size: 11px;
+            letter-spacing: .3px;
+        }
+
+        .field-error {
+            display: block;
+            min-height: 16px;
+            margin-top: 8px;
+            color: #a42318;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+
+        /* UPLOAD */
+
+        .premium-upload { position: relative; }
+
+        .premium-upload-input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .premium-upload-label {
+            display: block;
+            padding: 30px 24px;
+            text-align: center;
+            border: 2px dashed var(--dw-border);
+            border-radius: 16px;
+            background: #fcfaf7;
+            cursor: pointer;
+            transition:
+                border-color .3s ease,
+                background .3s ease,
+                transform .25s ease;
+        }
+
+        .premium-upload-label:hover {
+            border-color: rgba(184,154,103,.65);
+            background: var(--dw-cream);
+            transform: translateY(-1px);
+        }
+
+        .premium-upload-input:focus-visible + .premium-upload-label {
+            border-color: var(--dw-gold-dark);
+            box-shadow: 0 0 0 4px rgba(184,154,103,.14);
+        }
+
+        .premium-upload-title {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--dw-gold-dark);
+            font-family: Georgia, serif;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: .3px;
+        }
+
+        .premium-upload-headline {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dw-charcoal);
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: .2px;
+        }
+
+        .premium-upload-sub {
+            display: block;
+            color: var(--dw-muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .selected-file {
+            margin-top: 12px;
+            color: var(--dw-gold-dark);
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+
+        /* NAV BUTTONS */
+
+        .form-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 34px;
+            padding-top: 24px;
+            border-top: 1px solid var(--dw-border);
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;
+            padding: 0 28px;
+            border-radius: 999px;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background .25s ease, border-color .25s ease, color .25s ease, transform .25s ease;
+        }
+
+        .button-primary {
+            background: var(--dw-charcoal);
+            border: 1px solid var(--dw-charcoal);
+            color: #fff;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            background: var(--dw-gold-dark);
+            border-color: var(--dw-gold-dark);
+        }
+
+        .button.previous-step {
+            background: transparent;
+            border: 1px solid var(--dw-border);
+            color: var(--dw-charcoal);
+        }
+
+        .button.previous-step:hover {
+            background: var(--dw-cream);
+            border-color: var(--dw-charcoal);
+        }
+
+
+        /* REVIEW */
+
+        .order-review {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px 26px;
+            padding: 26px;
+            background: var(--dw-cream);
+            border: 1px solid var(--dw-border);
+        }
+
+        .order-review-item {
+            padding-bottom: 14px;
+            border-bottom: 1px dashed var(--dw-border);
+        }
+
+        .order-review-item strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--dw-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2.4px;
+            text-transform: uppercase;
+        }
+
+        .order-review-item span {
+            color: var(--dw-charcoal);
+            font-size: 14px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .confirmation-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 26px;
+            padding: 18px 20px;
+            border: 1px solid var(--dw-border);
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .confirmation-check input {
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--dw-gold-dark);
+            cursor: pointer;
+        }
+
+        .confirmation-check span {
+            color: var(--dw-charcoal);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        /* SIDEBAR */
+
+        .order-sidebar {
+            position: sticky;
+            top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-product-summary {
+            padding: 26px;
+            background: #fff;
+            border: 1px solid var(--dw-border);
+            box-shadow: 0 24px 60px rgba(31,25,19,.06);
+        }
+
+        .order-product-summary .section-label {
+            display: block;
+            margin: 0 0 18px;
+            color: var(--dw-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 3.6px;
+            text-transform: uppercase;
+        }
+
+        .order-product-image {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background: var(--dw-cream);
+            border: 1px solid var(--dw-border);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .order-product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .order-product-category {
+            margin: 0 0 8px;
+            color: var(--dw-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2.4px;
+            text-transform: uppercase;
+        }
+
+        .order-product-summary h2 {
+            margin: 0 0 12px;
+            color: var(--dw-charcoal);
+            font-family: Georgia, serif;
+            font-size: clamp(22px, 2.4vw, 28px);
+            font-weight: 500;
+            line-height: 1.15;
+            letter-spacing: -.4px;
+        }
+
+        .order-product-price {
+            color: var(--dw-charcoal);
+            font-family: Georgia, serif;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .order-product-price-note {
+            display: block;
+            margin-top: 4px;
+            color: var(--dw-muted);
+            font-size: 11px;
+            letter-spacing: .4px;
+        }
+
+
+        /* QUANTITY */
+
+        .order-quantity-block {
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 1px solid var(--dw-border);
+        }
+
+        .order-quantity-label {
+            display: block;
+            margin: 0 0 6px;
+            color: var(--dw-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 3.6px;
+            text-transform: uppercase;
+        }
+
+        .order-quantity-hint {
+            display: block;
+            margin: 0 0 14px;
+            color: var(--dw-muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .order-quantity-stepper {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--dw-border);
+            border-radius: 12px;
+            background: #fcfaf7;
+            overflow: hidden;
+        }
+
+        .order-quantity-stepper button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            border: 0;
+            background: transparent;
+            color: var(--dw-charcoal);
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 1;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .order-quantity-stepper button:hover {
+            background: var(--dw-cream);
+            color: var(--dw-gold-dark);
+        }
+
+        .order-quantity-stepper button:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        .order-quantity-stepper input {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            height: 54px;
+            padding: 0 6px;
+            border: 0;
+            border-left: 1px solid var(--dw-border);
+            border-right: 1px solid var(--dw-border);
+            background: transparent;
+            color: var(--dw-charcoal);
+            font-family: Georgia, serif;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            outline: none;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .order-quantity-stepper input::-webkit-outer-spin-button,
+        .order-quantity-stepper input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .order-quantity-stepper input:focus {
+            background: #fff;
+        }
+
+        .order-total {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 18px;
+            padding: 14px 16px;
+            background: var(--dw-cream);
+            border: 1px solid var(--dw-border);
+            border-radius: 12px;
+        }
+
+        .order-total span {
+            color: var(--dw-muted);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2.4px;
+            text-transform: uppercase;
+        }
+
+        .order-total strong {
+            color: var(--dw-charcoal);
+            font-family: Georgia, serif;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+
+        /* VARIANT BOX */
+
+        .selected-design-box {
+            display: none;
+            margin-top: 20px;
+            padding: 18px 20px;
+            border: 1px dashed rgba(184,154,103,.55);
+            background: var(--dw-cream);
+        }
+
+        .selected-design-box[style*="block"] { display: block; }
+
+        .selected-design-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dw-gold-dark);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .selected-design-name {
+            display: block;
+            color: var(--dw-charcoal);
+            font-family: Georgia, serif;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .selected-design-color {
+            display: block;
+            margin-top: 6px;
+            color: var(--dw-muted);
+            font-size: 12px;
+        }
+
+        .selected-design-price {
+            display: block;
+            margin-top: 8px;
+            color: var(--dw-gold-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .selected-design-dot {
+            display: inline-block;
+            width: 11px;
+            height: 11px;
+            margin-right: 7px;
+            border-radius: 50%;
+            vertical-align: middle;
+            border: 1px solid rgba(0,0,0,.15);
+        }
+
+        .order-sidebar-note {
+            padding: 22px 24px;
+            background: linear-gradient(135deg, #1a1613, #0f0d0b);
+            color: rgba(247,242,232,.75);
+            border: 1px solid rgba(215,188,134,.24);
+        }
+
+        .order-sidebar-note strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dw-gold-light);
+            font-family: Georgia, serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: .4px;
+        }
+
+        .order-sidebar-note p {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+
+        /* FOOTER */
+
+        .site-footer {
+            padding: clamp(70px, 8vw, 110px) 0 0;
+            background: linear-gradient(180deg, #16130f, #0d0b09);
+            color: rgba(247,242,232,.72);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+            gap: 46px;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 26px;
+        }
+
+        .footer-brand .logo-main {
+            display: block;
+            color: #fbf6ec;
+            font-family: Georgia, serif;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .footer-brand p {
+            max-width: 320px;
+            margin: 18px 0 0;
+            color: rgba(247,242,232,.6);
+            font-size: 12px;
+            line-height: 1.85;
+        }
+
+        .footer-brand .footer-ornament {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 24px;
+            color: var(--dw-gold-light);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .footer-brand .footer-ornament::before {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: rgba(215,188,134,.6);
+        }
+
+        .site-footer h4 {
+            margin: 0 0 20px;
+            color: #fbf6ec;
+            font-family: Georgia, serif;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .site-footer a {
+            display: block;
+            margin-bottom: 12px;
+            color: rgba(247,242,232,.62);
+            font-size: 12px;
+            text-decoration: none;
+            transition: color .2s ease, transform .2s ease;
+        }
+
+        .site-footer a:hover {
+            color: var(--dw-gold-light);
+            transform: translateX(3px);
+        }
+
+        .footer-contact-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: rgba(247,242,232,.62);
+            font-size: 12px;
+            line-height: 1.75;
+        }
+
+        .footer-contact-item span:first-child {
+            flex: 0 0 18px;
+            color: var(--dw-gold-light);
+        }
+
+        .footer-contact-item strong {
+            display: block;
+            margin-bottom: 3px;
+            color: #fbf6ec;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 1240px;
+            margin: clamp(50px, 6vw, 80px) auto 0;
+            padding: 26px 26px 30px;
+            border-top: 1px solid rgba(215,188,134,.16);
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            color: rgba(247,242,232,.5);
+            font-size: 11px;
+        }
+
+        .footer-bottom a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            color: rgba(247,242,232,.72);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .footer-bottom a:hover {
+            color: var(--dw-gold-light);
+            transform: none;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1024px) {
+            .order-layout { grid-template-columns: 1fr; }
+            .order-sidebar { position: static; order: -1; }
+            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 900px) {
+            .desktop-nav { display: none; }
+            .mobile-menu-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .premium-signin-button { display: none; }
+        }
+
+        @media (max-width: 640px) {
+            .header-actions .premium-whatsapp-button { display: none; }
+            .header-inner { padding: 0 20px; }
+            .order-layout { padding: 0 20px; }
+            .order-introduction h1 { font-size: clamp(30px, 9vw, 42px); }
+
+            .order-progress {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 6px;
+                padding: 18px 12px;
+            }
+            .progress-line { display: none; }
+            .progress-step small { font-size: 9px; letter-spacing: 1.2px; }
+            .progress-step span { width: 30px; height: 30px; font-size: 11px; }
+
+            .order-step { padding: 24px 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-navigation { flex-direction: column-reverse; align-items: stretch; }
+            .form-navigation .button { width: 100%; }
+            .order-review { grid-template-columns: 1fr; padding: 20px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 34px; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+        }
+
+    </style>
+
+</head>
+
+
+<body id="top">
+
+
+<!-- HEADER -->
+
+<header class="site-header">
+
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+            <span class="logo-main">Digital World</span>
+            <span class="logo-sub">Printing Press</span>
+        </a>
+
+        <nav class="desktop-nav">
+            <a href="index.html" class="premium-nav-link">Home</a>
+            <a href="category.html?category=all" class="premium-nav-link">Collections</a>
+            <a href="index.html#featured" class="premium-nav-link">Invitations</a>
+            <a href="index.html#how-it-works" class="premium-nav-link">How It Works</a>
+            <a href="index.html#contact" class="premium-nav-link">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+
+            <button
+                type="button"
+                id="searchButton"
+                class="premium-header-button"
+                aria-label="Search invitations"
+            >
+                Search
+            </button>
+
+            <a
+                href="https://wa.me/923005050947"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="premium-header-button premium-whatsapp-button"
+            >
+                WhatsApp
+            </a>
+
+            <a
+                href="login.html"
+                class="premium-header-button premium-signin-button"
+            >
+                My Account
+            </a>
+
+            <button
+                type="button"
+                id="mobileMenuButton"
+                class="mobile-menu-button"
+                aria-label="Open menu"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div id="mobileNav" class="mobile-nav">
+
+        <a href="index.html">Home</a>
+        <a href="category.html?category=all">Collections</a>
+        <a href="index.html#featured">Invitations</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="login.html">My Account</a>
+
+        <a
+            href="https://wa.me/923005050947"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            WhatsApp
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- MAIN -->
+
+<main>
+
+    <section class="order-page">
+
+        <div class="container order-layout">
+
+
+            <!-- LEFT — FORM -->
+
+            <div class="order-main">
+
+                <div class="order-introduction">
+
+                    <p class="section-label">
+                        Your Order
+                    </p>
+
+                    <h1>
+                        Let's Create Your Invitation
+                    </h1>
+
+                    <p>
+                        Share your details below and our team
+                        will contact you to continue your order.
+                    </p>
+
+                </div>
+
+
+                <div class="order-progress">
+
+                    <div class="progress-step active" data-step="1">
+                        <span>1</span>
+                        <small>Customer</small>
+                    </div>
+
+                    <div class="progress-line"></div>
+
+                    <div class="progress-step" data-step="2">
+                        <span>2</span>
+                        <small>Wedding</small>
+                    </div>
+
+                    <div class="progress-line"></div>
+
+                    <div class="progress-step" data-step="3">
+                        <span>3</span>
+                        <small>Details</small>
+                    </div>
+
+                    <div class="progress-line"></div>
+
+                    <div class="progress-step" data-step="4">
+                        <span>4</span>
+                        <small>Review</small>
+                    </div>
+
+                </div>
+
+
+                <form id="orderForm" novalidate>
+
+                    <input type="hidden" id="selectedVariantId" name="selectedVariantId" value="">
+                    <input type="hidden" id="selectedVariantName" name="selectedVariantName" value="">
+                    <input type="hidden" id="selectedVariantColor" name="selectedVariantColor" value="">
+                    <input type="hidden" id="selectedVariantPrice" name="selectedVariantPrice" value="">
+
+
+                    <!-- STEP 1 -->
+
+                    <section class="order-step active" data-step-content="1">
+
+                        <div class="form-section-heading">
+                            <p class="section-label">Step 01</p>
+                            <h2>Your Information</h2>
+                            <p>Tell us how we can contact you.</p>
+                        </div>
+
+                        <div class="form-grid">
+
+                            <div class="form-group full">
+                                <label for="fullName">Full Name *</label>
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    name="fullName"
+                                    placeholder="Enter your full name"
+                                    autocomplete="name"
+                                    required
+                                >
+                                <small class="field-error" id="fullNameError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="whatsapp">WhatsApp Number *</label>
+                                <input
+                                    type="tel"
+                                    id="whatsapp"
+                                    name="whatsapp"
+                                    placeholder="+92 300 1234567"
+                                    autocomplete="tel"
+                                    required
+                                >
+                                <small class="field-error" id="whatsappError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="you@example.com"
+                                    autocomplete="email"
+                                    required
+                                >
+                                <small class="field-error" id="emailError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <input
+                                    type="text"
+                                    id="city"
+                                    name="city"
+                                    placeholder="e.g. Rawalpindi"
+                                    autocomplete="address-level2"
+                                    required
+                                >
+                                <small class="field-error" id="cityError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="country">Country *</label>
+                                <input
+                                    type="text"
+                                    id="country"
+                                    name="country"
+                                    value="Pakistan"
+                                    autocomplete="country-name"
+                                    required
+                                >
+                                <small class="field-error" id="countryError"></small>
+                            </div>
+
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="button button-primary next-step">
+                                Continue
+                            </button>
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- STEP 2 -->
+
+                    <section class="order-step" data-step-content="2">
+
+                        <div class="form-section-heading">
+                            <p class="section-label">Step 02</p>
+                            <h2>Wedding Details</h2>
+                            <p>Give us the details that should appear in your invitation.</p>
+                        </div>
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label for="brideName">Bride Name *</label>
+                                <input
+                                    type="text"
+                                    id="brideName"
+                                    name="brideName"
+                                    placeholder="Bride's name"
+                                    required
+                                >
+                                <small class="field-error" id="brideNameError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="groomName">Groom Name *</label>
+                                <input
+                                    type="text"
+                                    id="groomName"
+                                    name="groomName"
+                                    placeholder="Groom's name"
+                                    required
+                                >
+                                <small class="field-error" id="groomNameError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="weddingDate">Wedding Date *</label>
+                                <input
+                                    type="date"
+                                    id="weddingDate"
+                                    name="weddingDate"
+                                    required
+                                >
+                                <small class="field-error" id="weddingDateError"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="weddingTime">Wedding Time</label>
+                                <input
+                                    type="time"
+                                    id="weddingTime"
+                                    name="weddingTime"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="eventType">Event Type *</label>
+                                <select id="eventType" name="eventType" required>
+                                    <option value="">Select event type</option>
+                                    <option value="Wedding">Wedding</option>
+                                    <option value="Nikah">Nikah</option>
+                                    <option value="Walima">Walima</option>
+                                    <option value="Engagement">Engagement</option>
+                                    <option value="Mehndi">Mehndi</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <small class="field-error" id="eventTypeError"></small>
+                            </div>
+
+                            <div class="form-group full">
+                                <label for="venue">Venue *</label>
+                                <input
+                                    type="text"
+                                    id="venue"
+                                    name="venue"
+                                    placeholder="Wedding venue"
+                                    required
+                                >
+                                <small class="field-error" id="venueError"></small>
+                            </div>
+
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="button previous-step">
+                                Back
+                            </button>
+                            <button type="button" class="button button-primary next-step">
+                                Continue
+                            </button>
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- STEP 3 -->
+
+                    <section class="order-step" data-step-content="3">
+
+                        <div class="form-section-heading">
+                            <p class="section-label">Step 03</p>
+                            <h2>Additional Details</h2>
+                            <p>Add anything else you want our team to know about your invitation.</p>
+                        </div>
+
+                        <div class="form-grid">
+
+                            <div class="form-group full">
+                                <label for="customText">Custom Text</label>
+                                <textarea
+                                    id="customText"
+                                    name="customText"
+                                    rows="5"
+                                    placeholder="Enter any special wording or text you want on the invitation..."
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group full">
+                                <label for="specialRequirements">Special Requirements</label>
+                                <textarea
+                                    id="specialRequirements"
+                                    name="specialRequirements"
+                                    rows="5"
+                                    placeholder="Colors, language, special styling, family names, etc."
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group full">
+                                <label for="orderNotes">Additional Notes</label>
+                                <textarea
+                                    id="orderNotes"
+                                    name="orderNotes"
+                                    rows="5"
+                                    placeholder="Anything else you would like us to know..."
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group full">
+
+                                <label>Upload Your Design</label>
+
+                                <div class="premium-upload">
+
+                                    <input
+                                        type="file"
+                                        id="referenceFile"
+                                        name="referenceFile"
+                                        accept=".jpg,.jpeg,.png,.webp,.pdf"
+                                        class="premium-upload-input"
+                                    >
+
+                                    <label
+                                        for="referenceFile"
+                                        class="premium-upload-label"
+                                    >
+                                        <span class="premium-upload-title">
+                                            Upload Your Design
+                                        </span>
+
+                                        <span class="premium-upload-headline">
+                                            Add your image or file here
+                                        </span>
+
+                                        <span class="premium-upload-sub">
+                                            Upload a clear image or file.
+                                            JPG, PNG, or PDF up to 10 MB.
+                                        </span>
+                                    </label>
+
+                                    <div class="selected-file" id="selectedFile"></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="button previous-step">
+                                Back
+                            </button>
+                            <button type="button" class="button button-primary next-step">
+                                Review Order
+                            </button>
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- STEP 4 -->
+
+                    <section class="order-step" data-step-content="4">
+
+                        <div class="form-section-heading">
+                            <p class="section-label">Step 04</p>
+                            <h2>Review Your Order</h2>
+                            <p>Check everything carefully before submitting.</p>
+                        </div>
+
+                        <div class="order-review" id="orderReview"></div>
+
+                        <label class="confirmation-check">
+                            <input
+                                type="checkbox"
+                                id="informationConfirmed"
+                            >
+                            <span>
+                                I confirm that the information above is correct.
+                            </span>
+                        </label>
+
+                        <small class="field-error" id="confirmationError"></small>
+
+                        <div class="form-navigation">
+                            <button type="button" class="button previous-step">
+                                Back
+                            </button>
+                            <button type="submit" class="button button-primary">
+                                Place Order
+                            </button>
+                        </div>
+
+                    </section>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- RIGHT — SIDEBAR -->
+
+            <aside class="order-sidebar">
+
+                <div class="order-product-summary">
+
+                    <p class="section-label">
+                        Selected Invitation
+                    </p>
+
+                    <div class="order-product-image" id="orderProductImage"></div>
+
+                    <p class="order-product-category" id="orderProductCategory"></p>
+
+                    <h2 id="orderProductName">Invitation</h2>
+
+                    <div class="order-product-price" id="orderProductPrice">
+                        PKR 0
+                    </div>
+
+                    <span class="order-product-price-note">
+                        Price per card
+                    </span>
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="order-quantity-block">
+
+                        <span class="order-quantity-label">
+                            Quantity
+                        </span>
+
+                        <span class="order-quantity-hint">
+                            Minimum order: 100 cards
+                        </span>
+
+                        <div class="order-quantity-stepper">
+
+                            <button
+                                type="button"
+                                id="orderQuantityMinus"
+                                aria-label="Decrease quantity"
+                            >
+                                −
+                            </button>
+
+                            <input
+                                type="number"
+                                id="orderQuantity"
+                                name="orderQuantity"
+                                value="100"
+                                min="100"
+                                step="1"
+                                inputmode="numeric"
+                                aria-label="Order quantity"
+                            >
+
+                            <button
+                                type="button"
+                                id="orderQuantityPlus"
+                                aria-label="Increase quantity"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+                        <small class="field-error" id="quantityError"></small>
+
+                        <div class="order-total">
+                            <span>Total</span>
+                            <strong id="orderTotalPrice">PKR 0</strong>
+                        </div>
+
+                    </div>
+
+
+                    <!-- VARIANT -->
+
+                    <div class="selected-design-box" id="orderProductVariant">
+
+                        <span class="selected-design-label">
+                            Selected Design
+                        </span>
+
+                        <span class="selected-design-name" id="orderVariantName">
+                            Design
+                        </span>
+
+                        <span class="selected-design-color" id="orderVariantColor"></span>
+
+                        <span class="selected-design-price" id="orderVariantPrice"></span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="order-sidebar-note">
+                    <strong>No online payment required</strong>
+                    <p>
+                        Submit your order and our team will contact
+                        you to confirm the details.
+                    </p>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- FOOTER -->
+
+<footer class="site-footer" id="contact">
+
+    <div class="container footer-grid">
+
+        <div class="footer-brand">
+
+            <span class="logo-main">
+                Digital World<br>Printing Press
+            </span>
+
+            <p>
+                Elegant wedding invitations
+                designed for beautiful beginnings.
+                Crafted in Pakistan, delivered with care.
+            </p>
+
+            <span class="footer-ornament">Since 2014</span>
+
+        </div>
+
+        <div>
+            <h4>Explore</h4>
+            <a href="index.html">Home</a>
+            <a href="category.html?category=luxury">Luxury Collection</a>
+            <a href="category.html?category=affordable">Affordable Collection</a>
+            <a href="category.html?category=traditional">Traditional Collection</a>
+            <a href="category.html?category=modern">Modern Collection</a>
+            <a href="category.html?category=all">All Invitations</a>
+        </div>
+
+        <div>
+            <h4>Help</h4>
+            <a href="index.html#how-it-works">How It Works</a>
+            <a href="login.html">Customer Account</a>
+            <a href="#contact">Contact Us</a>
+
+            <a
+                href="https://wa.me/923005050947"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                WhatsApp Support
+            </a>
+
+            <a href="#">Shipping &amp; Delivery</a>
+        </div>
+
+        <div>
+            <h4>Get in Touch</h4>
+
+            <div class="footer-contact-item">
+                <span>✦</span>
+                <div>
+                    <strong>Address</strong>
+                    Digital World Printing Press,
+                    Main Khanna Road, Rawalpindi, Pakistan
+                </div>
+            </div>
+
+            <div class="footer-contact-item">
+                <span>✦</span>
+                <div>
+                    <strong>Phone</strong>
+                    <a
+                        href="tel:+923005050947"
+                        style="display:inline;margin:0;padding:0;color:inherit;"
+                    >
+                        +92 300 505 0947
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-contact-item">
+                <span>✦</span>
+                <div>
+                    <strong>Hours</strong>
+                    Mon – Sat · 10:00 AM – 9:00 PM
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container footer-bottom">
+
+        <p>© 2026 Digital World Printing Press. All rights reserved.</p>
+
+        <a href="#top">Back to Top ↑</a>
+
+    </div>
+
+</footer>
+
+
+
+<!-- VARIATION LOADER (unchanged) -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const variantBox = document.getElementById("orderProductVariant");
+    const variantName = document.getElementById("orderVariantName");
+    const variantColor = document.getElementById("orderVariantColor");
+    const variantPrice = document.getElementById("orderVariantPrice");
+
+    const variantIdInput = document.getElementById("selectedVariantId");
+    const variantNameInput = document.getElementById("selectedVariantName");
+    const variantColorInput = document.getElementById("selectedVariantColor");
+    const variantPriceInput = document.getElementById("selectedVariantPrice");
+
+    if (!variantBox) return;
+
+    try {
+
+        const saved = sessionStorage.getItem("selectedInvitationVariant");
+        if (!saved) return;
+
+        const parsed = JSON.parse(saved);
+        const variant = parsed?.variant;
+        if (!variant) return;
+
+        if (variantName) {
+            variantName.textContent = variant.name || "Selected Design";
+        }
+
+        if (variantColor && variant.colorName) {
+            variantColor.innerHTML = `
+                <span
+                    class="selected-design-dot"
+                    style="background:${variant.colorHex || "#b89a67"};"
+                ></span>
+                Colour: ${variant.colorName}
+            `;
+        }
+
+        if (
+            variantPrice &&
+            variant.price !== null &&
+            variant.price !== undefined &&
+            variant.price !== ""
+        ) {
+            variantPrice.textContent =
+                `Variation price: PKR ${Number(variant.price).toLocaleString("en-PK")}`;
+        }
+
+        if (variantIdInput) variantIdInput.value = variant.id || "";
+        if (variantNameInput) variantNameInput.value = variant.name || "";
+        if (variantColorInput) variantColorInput.value = variant.colorName || "";
+        if (variantPriceInput) variantPriceInput.value = variant.price ?? "";
+
+        variantBox.style.display = "block";
+
+    }
+    catch (error) {
+        console.error(
+            "Could not load selected invitation variation:",
+            error
+        );
+    }
+
+});
+
+</script>
+
+
+<!-- SCRIPTS -->
+
+<script type="module" src="js/order.js"></script>
+<script type="module" src="js/site-search.js"></script>
+<script type="module" src="js/auth-nav.js"></script>
+
+</body>
+
+</html>

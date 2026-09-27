@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Catalog Query Test</title>
+</head>
+<body>
+  <h2>Testing Catalog Query...</h2>
+  <pre id="result">Loading...</pre>
+
+  <script type="module">
+    const result = document.getElementById("result");
+
+    try {
+      const { supabaseClient } = await import("./js/supabase.js");
+
+      const { data, error } = await supabaseClient
+        .from("products")
+        .select(`
+          id,
+          name,
+          slug,
+          price,
+          short_description,
+          description,
+          main_image_url,
+          demo_url,
+          style,
+          tags,
+          event_types,
+          status,
+          featured,
+          popular,
+          sort_order,
+          category_id,
+          categories (
+            id,
+            name,
+            slug
+          )
+        `)
+        .eq("status", "published")
+        .order("sort_order", { ascending: true });
+
+      if (error) {
+        throw new Error(JSON.stringify(error, null, 2));
+      }
+
+      result.textContent = JSON.stringify(
+        {
+          success: true,
+          count: data?.length || 0,
+          products: data
+        },
+        null,
+        2
+      );
+
+    } catch (error) {
+      console.error(error);
+
+      result.textContent =
+        "ERROR:\n\n" +
+        (error?.stack || error?.message || JSON.stringify(error, null, 2));
+    }
+  </script>
+</body>
+</html>

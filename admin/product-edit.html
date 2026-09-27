@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Create and manage EverAfter wedding invitation products."
+    >
+
+    <title>
+        Product Editor | EverAfter Admin
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/premium.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/admin.css"
+    >
+
+    <style>
+
+        :root {
+            --admin-bg: #f6f2eb;
+            --admin-card: #ffffff;
+            --admin-sidebar: #211f1c;
+            --admin-text: #1d1c1a;
+            --admin-muted: #756f67;
+            --admin-border: #e7dfd3;
+            --admin-gold: #b89a67;
+            --admin-gold-dark: #8e7144;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 80% 0%,
+                    rgba(184,154,103,.08),
+                    transparent 25%
+                ),
+                var(--admin-bg);
+            color: var(--admin-text);
+        }
+
+        .admin-shell {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .admin-sidebar {
+            width: 255px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 20px 24px;
+            background:
+                linear-gradient(
+                    180deg,
+                    #211f1c,
+                    #181715
+                );
+            color: #fff;
+            box-shadow:
+                10px 0 30px rgba(29,28,26,.08);
+        }
+
+        .admin-sidebar-brand {
+            padding: 4px 12px 32px;
+            margin-bottom: 25px;
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.09);
+        }
+
+        .admin-sidebar-brand .logo-main {
+            display: block;
+            color: #fff;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 34px;
+            font-weight: 500;
+            line-height: 1;
+        }
+
+        .admin-sidebar-brand .logo-sub {
+            display: block;
+            margin-top: 9px;
+            color: #cdb78e;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.7px;
+            text-transform: uppercase;
+        }
+
+        .admin-navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .admin-navigation a {
+            display: flex;
+            align-items: center;
+            min-height: 46px;
+            padding: 0 14px;
+            border-radius: 12px;
+            color: rgba(255,255,255,.70);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition:
+                background .2s ease,
+                color .2s ease,
+                transform .2s ease;
+        }
+
+        .admin-navigation a::before {
+            content: "✦";
+            margin-right: 11px;
+            color: #8f8981;
+            font-size: 9px;
+        }
+
+        .admin-navigation a:hover {
+            background:
+                rgba(255,255,255,.07);
+            color: #fff;
+            transform:
+                translateX(2px);
+        }
+
+        .admin-navigation a[href="products.html"],
+        .admin-navigation .admin-nav-active {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(184,154,103,.22),
+                    rgba(184,154,103,.08)
+                );
+            color: #fff;
+        }
+
+        .admin-navigation a[href="products.html"]::before,
+        .admin-navigation .admin-nav-active::before {
+            color: #d5b982;
+        }
+
+        .admin-logout-button {
+            width: 100%;
+            min-height: 46px;
+            margin-top: auto;
+            padding: 0 14px;
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+            border-radius: 12px;
+            background:
+                rgba(255,255,255,.04);
+            color:
+                rgba(255,255,255,.78);
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                background .2s ease,
+                color .2s ease;
+        }
+
+        .admin-logout-button:hover {
+            background:
+                rgba(185,67,52,.16);
+            color: #fff;
+        }
+
+        .admin-main {
+            flex: 1;
+            min-width: 0;
+            padding:
+                54px clamp(24px,5vw,70px)
+                70px;
+        }
+
+        .admin-page-heading {
+            max-width: 900px;
+            margin-bottom: 42px;
+        }
+
+        .admin-page-heading h1 {
+            margin: 0;
+            color: var(--admin-text);
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size:
+                clamp(42px,6vw,68px);
+            font-weight: 500;
+            line-height: 1.02;
+        }
+
+        .admin-page-heading > p:last-child {
+            max-width: 650px;
+            margin: 16px 0 0;
+            color: var(--admin-muted);
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+        .admin-editor-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .admin-editor-section {
+            padding: 30px;
+            border:
+                1px solid
+                var(--admin-border);
+            border-radius: 22px;
+            background:
+                var(--admin-card);
+            box-shadow:
+                0 12px 40px
+                rgba(53,43,30,.05);
+        }
+
+        .admin-editor-section > h2 {
+            margin:
+                0 0 24px;
+            color: var(--admin-text);
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .admin-editor-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2,minmax(0,1fr));
+            gap: 22px;
+        }
+
+        .admin-form-group {
+            min-width: 0;
+        }
+
+        .admin-form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .admin-form-group label {
+            display: block;
+            margin-bottom: 9px;
+            color: var(--admin-text);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        .optional-label {
+            color: var(--admin-muted);
+            font-weight: 500;
+        }
+
+        .admin-form-group input[type="text"],
+        .admin-form-group input[type="number"],
+        .admin-form-group input[type="file"],
+        .admin-form-group textarea,
+        .admin-form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            border:
+                1px solid
+                var(--admin-border);
+            border-radius: 13px;
+            background: #fcfaf7;
+            color: var(--admin-text);
+            font: inherit;
+            font-size: 14px;
+            outline: none;
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
+        }
+
+        .admin-form-group input[type="text"],
+        .admin-form-group input[type="number"],
+        .admin-form-group select {
+            min-height: 52px;
+            padding: 0 15px;
+        }
+
+        .admin-form-group input[type="file"] {
+            min-height: 52px;
+            padding: 14px;
+        }
+
+        .admin-form-group textarea {
+            min-height: 125px;
+            padding: 14px;
+            resize: vertical;
+        }
+
+        .admin-form-group input::placeholder,
+        .admin-form-group textarea::placeholder {
+            color: #aaa29a;
+        }
+
+        .admin-form-group input:focus,
+        .admin-form-group textarea:focus,
+        .admin-form-group select:focus {
+            background: #fff;
+            border-color:
+                rgba(184,154,103,.8);
+            box-shadow:
+                0 0 0 4px
+                rgba(184,154,103,.10);
+        }
+
+        .admin-help,
+        .admin-form-group small {
+            display: block;
+            margin-top: 8px;
+            color: var(--admin-muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .admin-form-group select:disabled,
+        .admin-form-group input:disabled {
+            opacity: .58;
+            cursor: not-allowed;
+        }
+
+        .admin-image-preview {
+            min-height: 150px;
+            margin-top: 14px;
+            border:
+                1px dashed
+                #d8cebf;
+            border-radius: 14px;
+            background:
+                #faf7f1;
+            overflow: hidden;
+        }
+
+        .admin-image-preview.large {
+            min-height: 260px;
+        }
+
+        .admin-image-preview img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 150px;
+            object-fit: contain;
+        }
+
+        .admin-gallery-preview {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fill,minmax(100px,1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .admin-gallery-preview img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 10px;
+            background:
+                #f4efe7;
+        }
+
+        .admin-checkbox-row {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px 30px;
+            padding-top: 4px;
+        }
+
+        .admin-checkbox-row label {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--admin-text);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .admin-checkbox-row input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+            accent-color:
+                var(--admin-gold-dark);
+            cursor: pointer;
+        }
+
+        .admin-error {
+            min-height: 20px;
+            margin: 0;
+            color: #a42318;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .admin-homepage-section {
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff,
+                    #fbf6ef
+                );
+        }
+
+        .admin-homepage-kicker {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--admin-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .admin-homepage-description {
+            max-width: 760px;
+            margin:
+                -8px 0 24px;
+            color: var(--admin-muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .admin-homepage-rule {
+            height: 1px;
+            margin: 3px 0 24px;
+            background:
+                var(--admin-border);
+        }
+
+        .admin-variation-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 22px;
+        }
+
+        .variation-kicker {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--admin-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .admin-variation-heading h2 {
+            margin: 0;
+            color: var(--admin-text);
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+        .admin-variation-heading p {
+            max-width: 650px;
+            margin: 10px 0 0;
+            color: var(--admin-muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .admin-variation-add {
+            min-height: 46px;
+            padding: 0 18px;
+            border:
+                1px solid
+                var(--admin-border);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--admin-text);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .admin-variation-add:hover {
+            background: #faf7f1;
+        }
+
+        .admin-variants-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .admin-variant-card {
+            padding: 24px;
+            border:
+                1px solid
+                var(--admin-border);
+            border-radius: 20px;
+            background: #fcfaf7;
+        }
+
+        .admin-variant-top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .admin-variant-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #211f1c;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .admin-variant-title {
+            margin-right: auto;
+            color: var(--admin-text);
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .admin-variant-remove {
+            border: 0;
+            padding: 7px 11px;
+            border-radius: 9px;
+            background: #f5e8e5;
+            color: #9b3a2f;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .admin-variant-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2,minmax(0,1fr));
+            gap: 18px;
+        }
+
+        .admin-variant-field.full {
+            grid-column: 1 / -1;
+        }
+
+        .admin-variant-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--admin-text);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .3px;
+        }
+
+        .admin-variant-field input[type="text"],
+        .admin-variant-field input[type="number"],
+        .admin-variant-field input[type="color"],
+        .admin-variant-field input[type="file"] {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 48px;
+            border:
+                1px solid
+                var(--admin-border);
+            border-radius: 12px;
+            background: #fff;
+            color: var(--admin-text);
+            font: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .admin-variant-field input[type="text"],
+        .admin-variant-field input[type="number"] {
+            padding: 0 13px;
+        }
+
+        .admin-variant-field input[type="color"] {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .admin-variant-field input[type="file"] {
+            padding: 11px;
+        }
+
+        .admin-variant-field input:focus {
+            border-color:
+                rgba(184,154,103,.8);
+            box-shadow:
+                0 0 0 4px
+                rgba(184,154,103,.10);
+        }
+
+        .admin-variant-field small {
+            display: block;
+            margin-top: 7px;
+            color: var(--admin-muted);
+            font-size: 10px;
+        }
+
+        .admin-variant-images {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fill,minmax(100px,1fr));
+            gap: 10px;
+            margin-top: 13px;
+        }
+
+        .admin-variant-image {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border:
+                1px solid
+                var(--admin-border);
+            border-radius: 12px;
+            background: #f2ede5;
+        }
+
+        .admin-variant-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .admin-variant-image button {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 25px;
+            height: 25px;
+            border: 0;
+            border-radius: 50%;
+            background:
+                rgba(29,28,26,.78);
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .admin-variant-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+            padding: 15px;
+            border:
+                1px dashed
+                #d7cbbb;
+            border-radius: 12px;
+            color: #8a8176;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .admin-variant-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .admin-variant-message {
+            min-height: 20px;
+            color: var(--admin-muted);
+            font-size: 12px;
+        }
+
+        .admin-variant-message.success {
+            color: #4f7359;
+        }
+
+        .admin-variant-message.error {
+            color: #9b3a2f;
+        }
+
+        .admin-form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 11px;
+            padding: 6px 0;
+        }
+
+        .admin-form-actions .button {
+            min-height: 50px;
+            padding: 0 23px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .admin-secondary-button {
+            border:
+                1px solid
+                var(--admin-border);
+            background: #fff;
+            color: var(--admin-text);
+        }
+
+        .admin-secondary-button:hover {
+            background: #faf7f1;
+        }
+
+        @media (max-width: 1050px) {
+
+            .admin-sidebar {
+                width: 225px;
+            }
+
+        }
+
+        @media (max-width: 900px) {
+
+            .admin-shell {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+                min-height: auto;
+                position: relative;
+                padding: 20px 18px 18px;
+            }
+
+            .admin-sidebar-brand {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 2px 20px;
+                margin-bottom: 15px;
+            }
+
+            .admin-sidebar-brand .logo-main {
+                font-size: 29px;
+            }
+
+            .admin-sidebar-brand .logo-sub {
+                margin-top: 0;
+            }
+
+            .admin-navigation {
+                display: grid;
+                grid-template-columns:
+                    repeat(3,minmax(0,1fr));
+                gap: 7px;
+            }
+
+            .admin-navigation a {
+                justify-content: center;
+                min-height: 42px;
+                padding: 0 7px;
+                font-size: 12px;
+            }
+
+            .admin-navigation a::before {
+                display: none;
+            }
+
+            .admin-logout-button {
+                margin-top: 13px;
+            }
+
+            .admin-main {
+                padding:
+                    40px 22px
+                    55px;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .admin-main {
+                padding:
+                    32px 15px
+                    50px;
+            }
+
+            .admin-page-heading h1 {
+                font-size: 45px;
+            }
+
+            .admin-editor-section {
+                padding:
+                    22px 17px;
+                border-radius: 18px;
+            }
+
+            .admin-editor-grid,
+            .admin-variant-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form-group.full,
+            .admin-variant-field.full,
+            .admin-checkbox-row {
+                grid-column: auto;
+            }
+
+            .admin-checkbox-row {
+                flex-direction: column;
+                gap: 13px;
+            }
+
+            .admin-variation-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .admin-variation-add {
+                width: 100%;
+            }
+
+            .admin-variant-footer {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            #saveVariantsButton {
+                width: 100%;
+            }
+
+            .admin-form-actions {
+                flex-direction: column;
+            }
+
+            .admin-form-actions .button {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        }
+
+        @media (max-width: 430px) {
+
+            .admin-navigation {
+                grid-template-columns:
+                    repeat(2,minmax(0,1fr));
+            }
+
+            .admin-page-heading h1 {
+                font-size: 40px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="admin-shell">
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-sidebar-brand">
+
+            <span class="logo-main">
+                Digital World
+            </span>
+
+            <span class="logo-sub">
+                ADMIN PANEL
+            </span>
+
+        </div>
+
+
+        <nav
+            class="admin-navigation"
+            aria-label="Admin navigation"
+        >
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a
+                href="products.html"
+                class="admin-nav-active"
+            >
+                Products
+            </a>
+
+            <a href="categories.html">
+                Categories
+            </a>
+
+            <a href="orders.html">
+                Orders
+            </a>
+
+            <a href="../index.html#collections">
+                Homepage
+            </a>
+
+            <a href="#">
+                Settings
+            </a>
+
+        </nav>
+
+
+        <button
+            id="logoutButton"
+            class="admin-logout-button"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </aside>
+
+
+    <main class="admin-main">
+
+        <div class="admin-page-heading">
+
+            <p class="section-label">
+                CATALOG
+            </p>
+
+            <h1 id="editorTitle">
+                Add Product
+            </h1>
+
+            <p>
+                Create or update an invitation design,
+                including its images, variations, pricing,
+                homepage placement and SEO.
+            </p>
+
+        </div>
+
+
+        <form
+            id="productForm"
+            class="admin-editor-form product-editor"
+        >
+
+            <input
+                type="hidden"
+                id="productId"
+            >
+
+
+            <section class="admin-editor-section">
+
+                <h2>
+                    Basic Information
+                </h2>
+
+                <div class="admin-editor-grid">
+
+                    <div class="admin-form-group">
+
+                        <label for="productName">
+                            Product Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productName"
+                            placeholder="Royal Gold"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="productSlug">
+                            Slug *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productSlug"
+                            placeholder="royal-gold"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="productCategory">
+                            Category *
+                        </label>
+
+                        <select
+                            id="productCategory"
+                            autocomplete="off"
+                            required
+                        >
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="productPrice">
+                            Price (PKR) *
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productPrice"
+                            min="0"
+                            step="1"
+                            placeholder="4999"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group full">
+
+                        <label for="productShortDescription">
+                            Short Description
+                        </label>
+
+                        <textarea
+                            id="productShortDescription"
+                            rows="3"
+                            placeholder="Short description shown on product cards..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="admin-form-group full">
+
+                        <label for="productDescription">
+                            Full Description
+                        </label>
+
+                        <textarea
+                            id="productDescription"
+                            rows="7"
+                            placeholder="Full product description..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="admin-editor-section">
+
+                <h2>
+                    Main Product Images
+                </h2>
+
+                <div class="admin-editor-grid">
+
+                    <div class="admin-form-group">
+
+                        <label for="mainImage">
+                            Main Image *
+                        </label>
+
+                        <input
+                            type="file"
+                            id="mainImage"
+                            accept=".jpg,.jpeg,.png,.webp"
+                        >
+
+                        <small class="admin-help">
+                            Recommended: high-quality JPG or WEBP.
+                        </small>
+
+                        <div
+                            id="mainImagePreview"
+                            class="admin-image-preview large"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="galleryImages">
+                            Gallery Images
+                        </label>
+
+                        <input
+                            type="file"
+                            id="galleryImages"
+                            accept=".jpg,.jpeg,.png,.webp"
+                            multiple
+                        >
+
+                        <small class="admin-help">
+                            You can select multiple images.
+                        </small>
+
+                        <div
+                            id="galleryPreview"
+                            class="admin-gallery-preview"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="admin-editor-section">
+
+                <div class="admin-variation-heading">
+
+                    <div>
+
+                        <span class="variation-kicker">
+                            PRODUCT OPTIONS
+                        </span>
+
+                        <h2>
+                            Design Variations
+                        </h2>
+
+                        <p>
+                            Add different colours or design versions.
+                            Each variation can have its own images
+                            and optional price.
+                        </p>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="button admin-variation-add"
+                        id="addVariantButton"
+                    >
+                        + Add Variation
+                    </button>
+
+                </div>
+
+                <div
+                    id="productVariants"
+                    class="admin-variants-container"
+                ></div>
+
+                <div class="admin-variant-footer">
+
+                    <span
+                        id="variantMessage"
+                        class="admin-variant-message"
+                        aria-live="polite"
+                    ></span>
+
+                    <button
+                        type="button"
+                        class="button button-primary"
+                        id="saveVariantsButton"
+                    >
+                        Save Variations
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <section class="admin-editor-section">
+
+                <h2>
+                    Features
+                </h2>
+
+                <div class="admin-form-group">
+
+                    <label for="productFeatures">
+                        One feature per line
+                    </label>
+
+                    <textarea
+                        id="productFeatures"
+                        rows="7"
+                        placeholder="Premium luxury design
+Custom wedding details
+Mobile-friendly invitation
+Personalized text"
+                    ></textarea>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 HOMEPAGE PLACEMENT
+            =================================================== -->
+
+            <section
+                class="admin-editor-section admin-homepage-section"
+            >
+
+                <span class="admin-homepage-kicker">
+                    HOMEPAGE CONTROL
+                </span>
+
+                <h2>
+                    Featured Homepage Placement
+                </h2>
+
+                <p class="admin-homepage-description">
+                    The homepage shows 12 mixed invitation cards:
+                    3 products from each of the 4 main collections.
+                    Use these controls to decide which products appear,
+                    their position and the badge shown on the card.
+                </p>
+
+                <div class="admin-homepage-rule"></div>
+
+                <div class="admin-editor-grid">
+
+                    <div class="admin-form-group">
+
+                        <label for="homepageEnabled">
+                            Show on Homepage
+                        </label>
+
+                        <select
+                            id="homepageEnabled"
+                        >
+
+                            <option value="false">
+                                No
+                            </option>
+
+                            <option value="true">
+                                Yes
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Enable this for one of the 3 homepage
+                            selections in this product's category.
+                        </small>
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="homepageSlot">
+                            Homepage Position
+                        </label>
+
+                        <select
+                            id="homepageSlot"
+                        >
+
+                            <option value="">
+                                Select Position
+                            </option>
+
+                            <option value="1">
+                                Position 1
+                            </option>
+
+                            <option value="2">
+                                Position 2
+                            </option>
+
+                            <option value="3">
+                                Position 3
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Each category can use positions 1, 2 and 3
+                            only once.
+                        </small>
+
+                    </div>
+
+
+                    <div class="admin-form-group full">
+
+                        <label for="homepageBadge">
+                            Homepage Badge
+                        </label>
+
+                        <input
+                            type="text"
+                            id="homepageBadge"
+                            placeholder="Popular / Top Seller / Most Demanded"
+                        >
+
+                        <small>
+                            Examples:
+                            Popular, Top Seller, Most Demanded,
+                            Trending, New, Editor's Pick.
+                            Leave blank to automatically use matching
+                            product tags or Popular/Featured status.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="admin-editor-section">
+
+                <h2>
+                    Additional Details
+                </h2>
+
+                <div class="admin-editor-grid">
+
+                    <div class="admin-form-group">
+
+                        <label for="productStyle">
+                            Style
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productStyle"
+                            placeholder="Royal"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="productDemoUrl">
+                            Demo / Preview URL
+                            <span class="optional-label">
+                                (Optional)
+                            </span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productDemoUrl"
+                            placeholder="Leave empty if there is no live preview"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group full">
+
+                        <label for="productTags">
+                            Tags
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productTags"
+                            placeholder="gold, luxury, royal, popular, top seller"
+                        >
+
+                        <small class="admin-help">
+                            Separate tags with commas.
+                            Tags can also automatically create homepage badges.
+                        </small>
+
+                    </div>
+
+
+                    <div class="admin-form-group full">
+
+                        <label for="productEventTypes">
+                            Event Types
+                        </label>
+
+                        <input
+                            type="text"
+                            id="productEventTypes"
+                            placeholder="Wedding, Nikah, Walima"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="productSortOrder">
+                            Sort Order
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productSortOrder"
+                            min="0"
+                            value="0"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="productStatus">
+                            Status
+                        </label>
+
+                        <select
+                            id="productStatus"
+                        >
+
+                            <option value="draft">
+                                Draft
+                            </option>
+
+                            <option value="published">
+                                Published
+                            </option>
+
+                            <option value="archived">
+                                Archived
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="admin-checkbox-row">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="productFeatured"
+                            >
+
+                            Featured
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="productPopular"
+                            >
+
+                            Popular
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="admin-editor-section">
+
+                <h2>
+                    SEO
+                </h2>
+
+                <div class="admin-editor-grid">
+
+                    <div class="admin-form-group full">
+
+                        <label for="seoTitle">
+                            SEO Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="seoTitle"
+                            placeholder="Royal Gold Wedding Invitation"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group full">
+
+                        <label for="seoDescription">
+                            SEO Description
+                        </label>
+
+                        <textarea
+                            id="seoDescription"
+                            rows="4"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <p
+                id="productFormError"
+                class="admin-error"
+                aria-live="polite"
+            ></p>
+
+
+            <div class="admin-form-actions">
+
+                <a
+                    href="products.html"
+                    class="button admin-secondary-button"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="button button-primary"
+                    id="saveProductButton"
+                >
+                    Save Product
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<script
+    type="module"
+    src="../js/admin/products.js"
+></script>
+
+
+<script
+    type="module"
+    src="../js/admin/product-variants.js"
+></script>
+
+</body>
+
+</html>

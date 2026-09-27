@@ -1,0 +1,128 @@
+@media (max-width: 1000px) {
+
+    .desktop-nav {
+        display: none;
+    }
+
+    .mobile-menu-button {
+        display: block;
+    }
+
+    .mobile-nav.active {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding: 22px 20px;
+        border-top: 1px solid #ded9d0;
+        background: #f8f6f2;
+    }
+
+    .category-grid,
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .container {
+        width: calc(100% - 28px);
+    }
+
+    .header-inner {
+        min-height: 70px;
+    }
+
+    .logo-main {
+        font-size: 22px;
+    }
+
+    .logo-sub {
+        font-size: 7px;
+    }
+
+    .header-whatsapp,
+    .search-button {
+        display: none;
+    }
+
+    .hero {
+        min-height: 650px;
+    }
+
+    .hero h1 {
+        font-size: 54px;
+    }
+
+    .hero-description {
+        font-size: 15px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .button {
+        width: 100%;
+    }
+
+    .intro-section,
+    .categories-section,
+    .products-section,
+    .how-section {
+        padding: 75px 0;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .category-grid,
+    .product-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .category-card {
+        min-height: 240px;
+    }
+
+    .category-card h3 {
+        font-size: 23px;
+    }
+
+    .product-card h3 {
+        font-size: 18px;
+    }
+
+    .collection-banner {
+        min-height: 560px;
+    }
+
+    .collection-banner h2 {
+        font-size: 54px;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 35px 20px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+    }
+}

@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Manage EverAfter wedding invitation products."
+    >
+
+    <title>
+        Products | Digital World
+    </title>
+
+
+    <!-- =========================================================
+         STYLES
+    ========================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/premium.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/admin.css"
+    >
+
+
+    <style>
+
+        /* ========================================================
+           PREMIUM ADMIN PRODUCTS
+        ======================================================== */
+
+        :root {
+            --admin-bg: #f6f2eb;
+            --admin-card: #ffffff;
+            --admin-sidebar: #211f1c;
+            --admin-text: #1d1c1a;
+            --admin-muted: #756f67;
+            --admin-border: #e7dfd3;
+            --admin-gold: #b89a67;
+            --admin-gold-dark: #8e7144;
+        }
+
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 80% 0%,
+                    rgba(184, 154, 103, 0.08),
+                    transparent 25%
+                ),
+                var(--admin-bg);
+
+            color: var(--admin-text);
+        }
+
+
+        /* ========================================================
+           SHELL
+        ======================================================== */
+
+        .admin-shell {
+            min-height: 100vh;
+
+            display: flex;
+        }
+
+
+        /* ========================================================
+           SIDEBAR
+        ======================================================== */
+
+        .admin-sidebar {
+            width: 255px;
+            min-height: 100vh;
+
+            box-sizing: border-box;
+
+            position: sticky;
+            top: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            padding: 32px 20px 24px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #211f1c,
+                    #181715
+                );
+
+            color: #fff;
+
+            box-shadow:
+                10px 0 30px rgba(29, 28, 26, 0.08);
+        }
+
+
+        .admin-sidebar-brand {
+            padding:
+                4px 12px 32px;
+
+            margin-bottom: 25px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.09);
+        }
+
+
+        .admin-sidebar-brand .logo-main {
+            display: block;
+
+            color: #fff;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 34px;
+            font-weight: 500;
+
+            line-height: 1;
+        }
+
+
+        .admin-sidebar-brand .logo-sub {
+            display: block;
+
+            margin-top: 9px;
+
+            color: #cdb78e;
+
+            font-size: 9px;
+            font-weight: 700;
+
+            letter-spacing: 2.7px;
+
+            text-transform: uppercase;
+        }
+
+
+        /* ========================================================
+           NAVIGATION
+        ======================================================== */
+
+        .admin-navigation {
+            display: flex;
+            flex-direction: column;
+
+            gap: 6px;
+        }
+
+
+        .admin-navigation a {
+            display: flex;
+            align-items: center;
+
+            min-height: 46px;
+
+            padding: 0 14px;
+
+            border-radius: 12px;
+
+            color: rgba(255,255,255,0.70);
+
+            font-size: 13px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .admin-navigation a::before {
+            content: "✦";
+
+            margin-right: 11px;
+
+            color: #8f8981;
+
+            font-size: 9px;
+        }
+
+
+        .admin-navigation a:hover {
+            background:
+                rgba(255,255,255,0.07);
+
+            color: #fff;
+
+            transform: translateX(2px);
+        }
+
+
+        .admin-navigation a[href="products.html"],
+        .admin-navigation .admin-nav-active {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(184,154,103,0.22),
+                    rgba(184,154,103,0.08)
+                );
+
+            color: #fff;
+        }
+
+
+        .admin-navigation a[href="products.html"]::before,
+        .admin-navigation .admin-nav-active::before {
+            color: #d5b982;
+        }
+
+
+        /* ========================================================
+           LOGOUT
+        ======================================================== */
+
+        .admin-logout-button {
+            width: 100%;
+
+            min-height: 46px;
+
+            margin-top: auto;
+
+            padding: 0 14px;
+
+            border:
+                1px solid rgba(255,255,255,0.10);
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,0.04);
+
+            color:
+                rgba(255,255,255,0.78);
+
+            font: inherit;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .admin-logout-button:hover {
+            background:
+                rgba(185, 67, 52, 0.16);
+
+            color: #fff;
+        }
+
+
+        /* ========================================================
+           MAIN
+        ======================================================== */
+
+        .admin-main {
+            flex: 1;
+            min-width: 0;
+
+            padding:
+                54px clamp(24px, 5vw, 70px) 70px;
+        }
+
+
+        .admin-page-heading {
+            max-width: 900px;
+
+            margin-bottom: 42px;
+        }
+
+
+        .admin-page-heading h1 {
+            margin: 0;
+
+            color: var(--admin-text);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size:
+                clamp(42px, 6vw, 68px);
+
+            font-weight: 500;
+
+            line-height: 1.02;
+        }
+
+
+        .admin-page-heading > p:last-child {
+            max-width: 650px;
+
+            margin: 16px 0 0;
+
+            color: var(--admin-muted);
+
+            font-size: 15px;
+
+            line-height: 1.75;
+        }
+
+
+        /* ========================================================
+           SECTION
+        ======================================================== */
+
+        .admin-section {
+            margin-bottom: 42px;
+        }
+
+
+        /* ========================================================
+           TOOLBAR
+        ======================================================== */
+
+        .admin-products-toolbar {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 22px;
+
+            margin-bottom: 18px;
+
+            padding:
+                18px 20px;
+
+            border:
+                1px solid var(--admin-border);
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,0.80);
+
+            box-shadow:
+                0 8px 30px rgba(53,43,30,0.04);
+        }
+
+
+        .admin-products-toolbar > div:first-child strong {
+            color: var(--admin-text);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 21px;
+
+            font-weight: 500;
+        }
+
+
+        .admin-products-controls {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+
+        .admin-products-controls input[type="search"],
+        .admin-products-controls select {
+            height: 46px;
+
+            box-sizing: border-box;
+
+            border:
+                1px solid var(--admin-border);
+
+            border-radius: 12px;
+
+            background:
+                #fff;
+
+            color:
+                var(--admin-text);
+
+            font: inherit;
+
+            font-size: 13px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .admin-products-controls input[type="search"] {
+            width: 220px;
+
+            padding:
+                0 14px;
+        }
+
+
+        .admin-products-controls select {
+            min-width: 155px;
+
+            padding:
+                0 12px;
+        }
+
+
+        .admin-products-controls input::placeholder {
+            color: #aaa29a;
+        }
+
+
+        .admin-products-controls input:focus,
+        .admin-products-controls select:focus {
+            border-color:
+                rgba(184,154,103,0.8);
+
+            box-shadow:
+                0 0 0 4px rgba(184,154,103,0.10);
+        }
+
+
+        .admin-products-controls .button {
+            min-height: 46px;
+
+            padding:
+                0 18px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-decoration: none;
+
+            white-space: nowrap;
+        }
+
+
+        /* ========================================================
+           PRODUCT TABLE
+        ======================================================== */
+
+        .admin-table-wrapper {
+            min-height: 150px;
+
+            overflow-x: auto;
+
+            border:
+                1px solid var(--admin-border);
+
+            border-radius: 20px;
+
+            background:
+                var(--admin-card);
+
+            box-shadow:
+                0 10px 35px rgba(53,43,30,0.05);
+        }
+
+
+        .admin-table-wrapper table {
+            width: 100%;
+
+            min-width: 1050px;
+
+            border-collapse: collapse;
+        }
+
+
+        .admin-table-wrapper th {
+            padding:
+                17px 20px;
+
+            border-bottom:
+                1px solid var(--admin-border);
+
+            background:
+                #fbf8f3;
+
+            color:
+                #756f67;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            text-align: left;
+
+            text-transform: uppercase;
+
+            white-space: nowrap;
+        }
+
+
+        .admin-table-wrapper td {
+            padding:
+                17px 20px;
+
+            border-bottom:
+                1px solid #eee8df;
+
+            color:
+                var(--admin-text);
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+
+        .admin-table-wrapper tr:last-child td {
+            border-bottom: 0;
+        }
+
+
+        .admin-table-wrapper tbody tr {
+            transition:
+                background 0.15s ease;
+        }
+
+
+        .admin-table-wrapper tbody tr:hover {
+            background:
+                #fcfaf6;
+        }
+
+
+        /* Product image */
+
+        .admin-table-wrapper img {
+            display: block;
+
+            width: 62px;
+            height: 78px;
+
+            object-fit: cover;
+
+            border-radius: 10px;
+
+            background:
+                #f4efe7;
+        }
+
+
+        /* Product name */
+
+        .admin-table-wrapper td strong {
+            color:
+                var(--admin-text);
+
+            font-size: 13px;
+        }
+
+
+        /* Price */
+
+        .admin-table-wrapper td.price,
+        .admin-table-wrapper .price {
+            color:
+                var(--admin-gold-dark);
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+
+        /* Links */
+
+        .admin-table-wrapper a {
+            color:
+                var(--admin-gold-dark);
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .admin-table-wrapper a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Buttons */
+
+        .admin-table-wrapper button {
+            min-height: 34px;
+
+            padding:
+                0 11px;
+
+            border:
+                1px solid var(--admin-border);
+
+            border-radius: 9px;
+
+            background:
+                #fff;
+
+            color:
+                var(--admin-text);
+
+            font: inherit;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .admin-table-wrapper button:hover {
+            background:
+                #f8f3eb;
+
+            border-color:
+                #d8cbb8;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* ========================================================
+           BADGES / STATUS
+        ======================================================== */
+
+        .admin-table-wrapper .status,
+        .admin-table-wrapper .badge,
+        .admin-table-wrapper [class*="status"] {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-height: 27px;
+
+            padding:
+                0 10px;
+
+            border-radius: 999px;
+
+            background:
+                #f1ece3;
+
+            color:
+                #675d51;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: .4px;
+
+            text-transform: uppercase;
+
+            white-space: nowrap;
+        }
+
+
+        /* ========================================================
+           EMPTY / LOADING
+        ======================================================== */
+
+        .admin-table-wrapper:empty::before {
+            content: "No products found.";
+
+            min-height: 150px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color:
+                var(--admin-muted);
+
+            font-size: 13px;
+        }
+
+
+        /* ========================================================
+           RESPONSIVE
+        ======================================================== */
+
+        @media (max-width: 1180px) {
+
+            .admin-sidebar {
+                width: 230px;
+            }
+
+
+            .admin-products-toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+
+            .admin-products-controls {
+                width: 100%;
+
+                justify-content: flex-start;
+            }
+
+        }
+
+
+        @media (max-width: 850px) {
+
+            .admin-shell {
+                flex-direction: column;
+            }
+
+
+            .admin-sidebar {
+                width: 100%;
+
+                min-height: auto;
+
+                position: relative;
+
+                padding:
+                    20px 18px 18px;
+            }
+
+
+            .admin-sidebar-brand {
+                display: flex;
+
+                align-items: center;
+                justify-content: space-between;
+
+                padding:
+                    0 2px 20px;
+
+                margin-bottom: 15px;
+            }
+
+
+            .admin-sidebar-brand .logo-main {
+                font-size: 29px;
+            }
+
+
+            .admin-sidebar-brand .logo-sub {
+                margin-top: 0;
+            }
+
+
+            .admin-navigation {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+
+                gap: 7px;
+            }
+
+
+            .admin-navigation a {
+                justify-content: center;
+
+                min-height: 42px;
+
+                padding:
+                    0 7px;
+
+                font-size: 12px;
+            }
+
+
+            .admin-navigation a::before {
+                display: none;
+            }
+
+
+            .admin-logout-button {
+                margin-top: 13px;
+            }
+
+
+            .admin-main {
+                padding:
+                    40px 22px 55px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .admin-main {
+                padding:
+                    32px 15px 50px;
+            }
+
+
+            .admin-page-heading h1 {
+                font-size: 45px;
+            }
+
+
+            .admin-products-controls {
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+
+                width: 100%;
+            }
+
+
+            .admin-products-controls input[type="search"],
+            .admin-products-controls select,
+            .admin-products-controls .button {
+                width: 100%;
+                min-width: 0;
+            }
+
+
+            .admin-products-controls input[type="search"] {
+                grid-column: 1 / -1;
+            }
+
+
+            .admin-products-controls .button {
+                display: flex;
+
+                align-items: center;
+                justify-content: center;
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .admin-navigation {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .admin-products-toolbar {
+                padding:
+                    16px;
+            }
+
+
+            .admin-products-controls {
+                grid-template-columns: 1fr;
+            }
+
+
+            .admin-products-controls input[type="search"] {
+                grid-column: auto;
+            }
+
+
+            .admin-page-heading h1 {
+                font-size: 40px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin-shell">
+
+
+    <!-- ========================================================
+         SIDEBAR
+    ========================================================= -->
+
+    <aside class="admin-sidebar">
+
+
+        <div class="admin-sidebar-brand">
+
+            <span class="logo-main">
+                Digital World
+            </span>
+
+
+            <span class="logo-sub">
+                ADMIN PANEL
+            </span>
+
+        </div>
+
+
+
+        <nav
+            class="admin-navigation"
+            aria-label="Admin navigation"
+        >
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+
+            <a
+                href="products.html"
+                class="admin-nav-active"
+            >
+                Products
+            </a>
+
+
+            <a href="categories.html">
+                Categories
+            </a>
+
+
+            <a href="orders.html">
+                Orders
+            </a>
+
+
+            <a href="#">
+                Homepage
+            </a>
+
+
+            <a href="#">
+                Settings
+            </a>
+
+        </nav>
+
+
+
+        <button
+            id="logoutButton"
+            class="admin-logout-button"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </aside>
+
+
+
+    <!-- ========================================================
+         MAIN
+    ========================================================= -->
+
+    <main class="admin-main">
+
+
+        <!-- PAGE HEADING -->
+
+        <div class="admin-page-heading">
+
+            <p class="section-label">
+                CATALOG
+            </p>
+
+
+            <h1>
+                Products
+            </h1>
+
+
+            <p>
+                Manage every wedding invitation design,
+                including pricing, imagery, publishing and details.
+            </p>
+
+        </div>
+
+
+
+        <!-- ====================================================
+             PRODUCTS
+        ===================================================== -->
+
+        <section class="admin-section">
+
+
+            <!-- TOOLBAR -->
+
+            <div class="admin-products-toolbar">
+
+
+                <div>
+
+                    <strong id="productCount">
+                        0 products
+                    </strong>
+
+                </div>
+
+
+
+                <div class="admin-products-controls">
+
+
+                    <!-- SEARCH -->
+
+                    <input
+                        type="search"
+                        id="productSearch"
+                        placeholder="Search products..."
+                        aria-label="Search products"
+                    >
+
+
+
+                    <!-- STATUS -->
+
+                    <select
+                        id="productStatusFilter"
+                        aria-label="Filter products by status"
+                    >
+
+                        <option value="all">
+                            All Statuses
+                        </option>
+
+
+                        <option value="published">
+                            Published
+                        </option>
+
+
+                        <option value="draft">
+                            Draft
+                        </option>
+
+
+                        <option value="archived">
+                            Archived
+                        </option>
+
+                    </select>
+
+
+
+                    <!-- CATEGORY -->
+
+                    <select
+                        id="productCategoryFilter"
+                        aria-label="Filter products by category"
+                    >
+
+                        <option value="all">
+                            All Categories
+                        </option>
+
+                    </select>
+
+
+
+                    <!-- ADD PRODUCT -->
+
+                    <a
+                        href="product-edit.html"
+                        class="button button-primary"
+                    >
+                        + Add Product
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TABLE -->
+
+            <div
+                class="admin-table-wrapper"
+                id="productsTable"
+            >
+
+                Loading...
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- ============================================================
+     SUPABASE
+============================================================ -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+
+<!-- ============================================================
+     PRODUCTS LOGIC
+============================================================ -->
+
+<script
+    type="module"
+    src="../js/admin/products.js"
+></script>
+
+
+</body>
+
+</html>
