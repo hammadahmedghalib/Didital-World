@@ -107,14 +107,14 @@ function injectStyles() {
             }
         }
 
-        /* FORCE 2 COLUMNS ON MOBILE */
+        /* MOBILE LIST LAYOUT - 1 COLUMN, VERTICAL CARDS */
         @media (max-width: 700px) {
             .catalog-section #categoryProducts,
             #categoryProducts.product-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                gap: 10px !important;
-                padding: 0 8px !important;
-                margin-bottom: 55px;
+                grid-template-columns: 1fr !important; /* 1 column */
+                gap: 14px !important;
+                padding: 0 10px !important;
+                margin-bottom: 40px !important;
             }
         }
 
@@ -267,31 +267,57 @@ function injectStyles() {
         }
 
         @media (max-width: 700px) {
-            .dw-product-card { border-radius: 12px; }
-            
-            /* Make image square on mobile to save vertical space */
-            .dw-product-media { aspect-ratio: 1 / 1; }
-            
-            .dw-product-badge {
-                top: 8px; left: 8px;
-                min-height: 20px; padding: 0 6px;
-                font-size: 7px; letter-spacing: 0.8px;
+            .dw-product-card {
+                display: flex !important;
+                flex-direction: column !important;
+                height: 420px !important;
+                border-radius: 12px;
             }
-            .dw-product-body { padding: 12px 10px 14px; }
-            .dw-product-cat { font-size: 7px; letter-spacing: 1px; margin-bottom: 4px; }
-            .dw-product-name { font-size: 13px; margin-bottom: 8px; line-height: 1.15; }
+
+            .dw-product-media {
+                width: 100% !important;
+                height: 320px !important; /* Increased image height to remove white gap */
+                aspect-ratio: auto !important;
+                flex-shrink: 0 !important;
+            }
+
+            .dw-product-media img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+
+            .dw-product-body {
+                width: 100% !important;
+                padding: 10px 12px !important; /* Reduced padding */
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                flex-grow: 1 !important;
+            }
+
+            .dw-product-cat { font-size: 8px !important; letter-spacing: 1px !important; margin-bottom: 2px !important; }
+            .dw-product-name { font-size: 15px !important; margin-bottom: 4px !important; line-height: 1.2 !important; }
             
-            .dw-product-footer { padding-top: 8px; gap: 6px; }
-            .dw-product-price { font-size: 11px; }
-            .dw-product-cta { min-height: 26px; font-size: 7px; padding: 0 8px; letter-spacing: 0.5px; gap: 4px; }
-            .dw-product-cta svg { width: 10px; height: 10px; }
+            .dw-product-footer { padding-top: 6px !important; gap: 8px !important; }
+            .dw-product-price { font-size: 13px !important; }
+            .dw-product-cta { min-height: 26px !important; font-size: 8px !important; padding: 0 10px !important; letter-spacing: 0.5px !important; }
+            .dw-product-cta svg { width: 10px !important; height: 10px !important; }
+
+            .dw-product-badge {
+                top: 8px !important; left: 8px !important;
+                min-height: 20px !important; padding: 0 6px !important;
+                font-size: 7px !important; letter-spacing: 0.5px !important;
+            }
         }
 
         @media (max-width: 380px) {
-            .dw-product-list { padding: 0 6px !important; gap: 8px !important; }
-            .dw-product-name { font-size: 12px; }
-            .dw-product-price { font-size: 10px; }
-            .dw-product-cta { font-size: 6px; padding: 0 6px; }
+            .dw-product-card { height: 380px !important; }
+            .dw-product-media { height: 280px !important; }
+            .dw-product-body { padding: 8px 10px !important; }
+            .dw-product-name { font-size: 14px !important; margin-bottom: 2px !important; }
+            .dw-product-price { font-size: 12px !important; }
+            .dw-product-cta { font-size: 7px !important; padding: 0 8px !important; min-height: 24px !important; }
         }
 
     `;
