@@ -270,13 +270,13 @@ function injectStyles() {
             .dw-product-card {
                 display: flex !important;
                 flex-direction: column !important;
-                height: 420px !important;
+                height: 380px !important; /* Increased height for perfect fit */
                 border-radius: 12px;
             }
 
             .dw-product-media {
                 width: 100% !important;
-                height: 320px !important; /* Increased image height to remove white gap */
+                height: 240px !important; /* Increased image height */
                 aspect-ratio: auto !important;
                 flex-shrink: 0 !important;
             }
@@ -289,35 +289,35 @@ function injectStyles() {
 
             .dw-product-body {
                 width: 100% !important;
-                padding: 10px 12px !important; /* Reduced padding */
+                padding: 14px 16px !important;
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: space-between !important;
                 flex-grow: 1 !important;
             }
 
-            .dw-product-cat { font-size: 8px !important; letter-spacing: 1px !important; margin-bottom: 2px !important; }
-            .dw-product-name { font-size: 15px !important; margin-bottom: 4px !important; line-height: 1.2 !important; }
+            .dw-product-cat { font-size: 9px !important; letter-spacing: 1px !important; margin-bottom: 4px !important; }
+            .dw-product-name { font-size: 17px !important; margin-bottom: 8px !important; line-height: 1.2 !important; }
             
-            .dw-product-footer { padding-top: 6px !important; gap: 8px !important; }
-            .dw-product-price { font-size: 13px !important; }
-            .dw-product-cta { min-height: 26px !important; font-size: 8px !important; padding: 0 10px !important; letter-spacing: 0.5px !important; }
-            .dw-product-cta svg { width: 10px !important; height: 10px !important; }
+            .dw-product-footer { padding-top: 8px !important; gap: 8px !important; }
+            .dw-product-price { font-size: 16px !important; }
+            .dw-product-cta { min-height: 32px !important; font-size: 9px !important; padding: 0 14px !important; letter-spacing: 0.5px !important; }
+            .dw-product-cta svg { width: 12px !important; height: 12px !important; }
 
             .dw-product-badge {
-                top: 8px !important; left: 8px !important;
-                min-height: 20px !important; padding: 0 6px !important;
-                font-size: 7px !important; letter-spacing: 0.5px !important;
+                top: 10px !important; left: 10px !important;
+                min-height: 24px !important; padding: 0 10px !important;
+                font-size: 8px !important; letter-spacing: 0.5px !important;
             }
         }
 
         @media (max-width: 380px) {
-            .dw-product-card { height: 380px !important; }
-            .dw-product-media { height: 280px !important; }
-            .dw-product-body { padding: 8px 10px !important; }
-            .dw-product-name { font-size: 14px !important; margin-bottom: 2px !important; }
-            .dw-product-price { font-size: 12px !important; }
-            .dw-product-cta { font-size: 7px !important; padding: 0 8px !important; min-height: 24px !important; }
+            .dw-product-card { height: 360px !important; }
+            .dw-product-media { height: 220px !important; }
+            .dw-product-body { padding: 12px 14px !important; }
+            .dw-product-name { font-size: 15px !important; margin-bottom: 4px !important; }
+            .dw-product-price { font-size: 14px !important; }
+            .dw-product-cta { font-size: 8px !important; padding: 0 10px !important; min-height: 28px !important; }
         }
 
     `;
