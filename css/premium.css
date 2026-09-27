@@ -5611,3 +5611,212 @@ footer a[href*="category.html?category="]:not(:has(img)),
     }
 
 }
+
+
+
+/* =========================================================
+   MOBILE — 2-COLUMN PREMIUM CATEGORY CARDS
+   Compact side-by-side cards (2 per row) on phones
+========================================================= */
+
+@media (max-width: 700px) {
+
+    /* ---------- 2-COLUMN GRID ---------- */
+
+    .everafter-homepage-catalog .everafter-home-category-grid,
+    .everafter-home-category-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        padding: 0 12px !important;
+    }
+
+
+    /* ---------- COMPACT CARD SHELL ---------- */
+
+    .everafter-homepage-catalog .everafter-home-category-card,
+    .everafter-home-category-card,
+    a[href*="category.html?category=luxury"]:has(img),
+    a[href*="category.html?category=affordable"]:has(img),
+    a[href*="category.html?category=traditional"]:has(img),
+    a[href*="category.html?category=modern"]:has(img) {
+        min-height: 0 !important;
+        height: auto !important;
+        overflow: hidden !important;
+    }
+
+
+    /* ---------- IMAGE HEIGHT ---------- */
+
+    .everafter-homepage-catalog .everafter-home-category-card-image {
+        height: 180px !important;
+    }
+
+
+    /* ---------- GOLD INNER FRAME (tighter) ---------- */
+
+    .everafter-homepage-catalog .everafter-home-category-card::after {
+        inset: 7px !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-category-card:hover::after {
+        inset: 4px !important;
+    }
+
+
+    /* ---------- CATEGORY NAME ON IMAGE ---------- */
+
+    .everafter-homepage-catalog .everafter-home-category-card-title {
+        top: 180px !important;
+        left: 13px !important;
+        right: 13px !important;
+        font-size: 19px !important;
+        font-weight: 400 !important;
+        letter-spacing: -.3px !important;
+        line-height: 1 !important;
+        transform: translateY(calc(-100% - 11px)) !important;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, .55) !important;
+    }
+
+
+    /* ---------- WHITE PANEL BELOW IMAGE ---------- */
+
+    .everafter-homepage-catalog .everafter-home-category-card-content {
+        padding: 13px 13px 15px !important;
+    }
+
+
+    /* ---------- NUMBER "01 / 02 …" ---------- */
+
+    .everafter-homepage-catalog .everafter-home-category-number {
+        font-size: 8px !important;
+        letter-spacing: 1.6px !important;
+        margin: 0 !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-category-number::after {
+        width: 10px !important;
+        margin: 0 5px !important;
+    }
+
+
+    /* ---------- "HANDPICKED" LABEL ---------- */
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-label::before {
+        font-size: 7px !important;
+        letter-spacing: 1.6px !important;
+    }
+
+
+    /* ---------- DESCRIPTION (2 lines max) ---------- */
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-description {
+        font-size: 10px !important;
+        line-height: 1.45 !important;
+        margin: 8px 0 12px !important;
+        -webkit-line-clamp: 2 !important;
+    }
+
+
+    /* ---------- "DISCOVER COLLECTION →" ---------- */
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-button {
+        gap: 7px !important;
+        padding: 0 0 5px 0 !important;
+        letter-spacing: 1.6px !important;
+    }
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-button::before {
+        content: "Discover" !important;
+        font-size: 8px !important;
+        letter-spacing: 1.6px !important;
+    }
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-button::after {
+        font-size: 10px !important;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES (≤ 380px) — slightly shorter
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .everafter-homepage-catalog .everafter-home-category-card-image {
+        height: 160px !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-category-card-title {
+        top: 160px !important;
+        font-size: 17px !important;
+        left: 11px !important;
+        right: 11px !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-category-card-content {
+        padding: 11px 11px 13px !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-category-card-description {
+        font-size: 9.5px !important;
+        -webkit-line-clamp: 2 !important;
+    }
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-button::before {
+        font-size: 7px !important;
+        letter-spacing: 1.4px !important;
+    }
+
+}
+
+
+/* =========================================================
+   TIGHTEN SECTION HEADING FOR MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .everafter-homepage-catalog .everafter-home-section-heading {
+        margin-bottom: 26px !important;
+        padding: 0 14px !important;
+        text-align: left !important;
+        align-items: flex-start !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-section-title {
+        font-size: 30px !important;
+        letter-spacing: -.6px !important;
+        line-height: 1.05 !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-section-description {
+        font-size: 12px !important;
+        line-height: 1.7 !important;
+        margin-top: 8px !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-section-label {
+        font-size: 9px !important;
+        letter-spacing: 2.6px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-section-link {
+        min-height: 38px !important;
+        padding: 0 16px !important;
+        font-size: 9px !important;
+        letter-spacing: 1.2px !important;
+    }
+
+}
