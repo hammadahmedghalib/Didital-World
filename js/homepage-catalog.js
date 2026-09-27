@@ -525,19 +525,22 @@ function injectStyles() {
             text-decoration: none;
         }
 
-        .dw-product-price-row {
+        /* FOOTER LAYOUT (Price Left, Button Right) */
+        .dw-product-footer {
             display: flex;
+            flex-direction: row;
+            justify-content: space-between; /* Pushes price to left, button to right */
             align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-            margin: 0 0 20px;
-            padding-bottom: 18px;
-            border-bottom: 1px dashed rgba(184, 154, 103, .35);
+            margin-top: auto;
+            gap: 10px;
+            width: 100%;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(184, 154, 103, .35);
         }
 
         .dw-product-price {
             color: var(--ea-charcoal, #1d1c1a);
-            font: 600 clamp(22px, 2.4vw, 26px) / 1 Georgia, "Times New Roman", serif;
+            font: 600 18px/1 Georgia, "Times New Roman", serif;
             letter-spacing: -.3px;
         }
 
@@ -545,20 +548,19 @@ function injectStyles() {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            min-height: 54px;
-            padding: 0 22px;
-            width: 100%;
+            gap: 8px;
+            min-height: 42px;
+            padding: 0 20px;
+            width: auto;
             border-radius: 999px;
             border: 1px solid transparent;
             background: linear-gradient(135deg, #b59155 0%, #8a6d3f 100%);
             color: #fffaf2;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             letter-spacing: 1.2px;
             text-transform: uppercase;
-            margin-top: auto;
             transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
         }
 
@@ -608,7 +610,6 @@ function injectStyles() {
         }
 
         /* MOBILE */
-
         @media (max-width: 700px) {
 
             .everafter-home-section { padding: 52px 0; }
@@ -658,23 +659,11 @@ function injectStyles() {
 
             .everafter-home-category-card::after { inset: 8px; }
             .everafter-home-category-card-content { padding: 18px 14px 16px; }
-            .everafter-home-category-number {
-                margin: 0 0 10px; font-size: 9px; letter-spacing: 1.6px;
-            }
-            .everafter-home-category-card-label {
-                margin: 0 0 6px; font-size: 7px; letter-spacing: 2px;
-            }
-            .everafter-home-category-card-title {
-                font-size: 19px; letter-spacing: -.3px; line-height: 1.05;
-            }
-            .everafter-home-category-card-description {
-                margin: 8px 0 12px; font-size: 10px; line-height: 1.5;
-                -webkit-line-clamp: 2;
-            }
-            .everafter-home-category-card-button {
-                min-height: 32px; padding: 0 12px;
-                font-size: 7px; letter-spacing: .6px;
-            }
+            .everafter-home-category-number { margin: 0 0 10px; font-size: 9px; letter-spacing: 1.6px; }
+            .everafter-home-category-card-label { margin: 0 0 6px; font-size: 7px; letter-spacing: 2px; }
+            .everafter-home-category-card-title { font-size: 19px; letter-spacing: -.3px; line-height: 1.05; }
+            .everafter-home-category-card-description { margin: 8px 0 12px; font-size: 10px; line-height: 1.5; -webkit-line-clamp: 2; }
+            .everafter-home-category-card-button { min-height: 32px; padding: 0 12px; font-size: 7px; letter-spacing: .6px; }
 
             .dw-shop-bar {
                 grid-template-columns: 1fr;
@@ -693,33 +682,43 @@ function injectStyles() {
                 font-size: 12px;
             }
 
+            /* FORCE 2 COLUMNS ON MOBILE */
             .dw-product-list {
-                grid-template-columns: 1fr;
-                gap: 18px;
-                padding: 0 14px;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 10px !important;
+                padding: 0 8px !important;
             }
 
-            .dw-product-card { border-radius: 20px; }
-            .dw-product-media { aspect-ratio: 4 / 3; }
+            .dw-product-card { border-radius: 12px; }
+            
+            /* Make image square on mobile to save vertical space */
+            .dw-product-media { aspect-ratio: 1 / 1; }
 
             .dw-product-badge {
-                top: 12px; left: 12px;
-                min-height: 26px; padding: 0 10px;
-                font-size: 8.5px; letter-spacing: 1.2px;
+                top: 8px; left: 8px;
+                min-height: 20px; padding: 0 6px;
+                font-size: 7px; letter-spacing: 0.8px;
             }
 
-            .dw-product-body { padding: 18px 18px 20px; }
+            .dw-product-body { padding: 12px 10px 14px; }
 
             .dw-product-cat {
-                font-size: 9px; letter-spacing: 2.2px; margin-bottom: 6px;
+                font-size: 7px; letter-spacing: 1px; margin-bottom: 4px;
             }
-            .dw-product-name { font-size: 22px; margin-bottom: 14px; }
-            .dw-product-price-row {
-                gap: 10px; margin-bottom: 16px; padding-bottom: 14px;
+            .dw-product-name { font-size: 13px; margin-bottom: 8px; line-height: 1.15; }
+            
+            .dw-product-footer {
+                padding-top: 8px;
+                gap: 6px;
             }
-            .dw-product-price { font-size: 22px; }
+            .dw-product-price {
+                font-size: 11px;
+            }
             .dw-product-cta {
-                min-height: 50px; font-size: 11px; letter-spacing: 1px;
+                min-height: 26px; font-size: 7px; padding: 0 8px; letter-spacing: 0.5px; gap: 4px;
+            }
+            .dw-product-cta svg {
+                width: 10px; height: 10px;
             }
         }
 
@@ -730,9 +729,10 @@ function injectStyles() {
             .everafter-home-category-card-title { font-size: 17px; }
             .everafter-home-category-card-description { font-size: 9.5px; }
 
-            .dw-product-list { padding: 0 10px; }
-            .dw-product-name { font-size: 20px; }
-            .dw-product-price { font-size: 20px; }
+            .dw-product-list { padding: 0 6px !important; gap: 8px !important; }
+            .dw-product-name { font-size: 12px; }
+            .dw-product-price { font-size: 10px; }
+            .dw-product-cta { font-size: 6px; padding: 0 6px; }
         }
 
     `;
@@ -816,8 +816,7 @@ function createCategoryCard(category, index = 0) {
 
 
 /* =============================================================
-   PRODUCT CARD — clean: no description, pager, features, custom
-   tag, or favourite heart
+   PRODUCT CARD
 ============================================================= */
 
 function createProductCard(product, category) {
@@ -856,17 +855,16 @@ function createProductCard(product, category) {
                 <a href="${href}">${escapeHtml(name)}</a>
             </h3>
 
-            <div class="dw-product-price-row">
+            <div class="dw-product-footer">
                 <span class="dw-product-price">${formatPrice(product.price)}</span>
+                <a href="${href}" class="dw-product-cta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14"/>
+                        <path d="M13 5l7 7-7 7"/>
+                    </svg>
+                    View Design
+                </a>
             </div>
-
-            <a href="${href}" class="dw-product-cta">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14"/>
-                    <path d="M13 5l7 7-7 7"/>
-                </svg>
-                View Design
-            </a>
 
         </div>
     `;
