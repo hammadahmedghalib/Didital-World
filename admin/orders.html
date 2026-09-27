@@ -11,8 +11,9 @@
     >
 
     <title>
-        Orders | EverAfter Admin
+        Orders | Digital World Admin
     </title>
+
 
     <style>
 
@@ -183,7 +184,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1100px;
+            min-width: 900px;
         }
 
 
@@ -239,10 +240,9 @@
         }
 
 
-        .view-btn,
-        .reference-button {
+        .view-btn {
             display: inline-block;
-            padding: 7px 10px;
+            padding: 7px 12px;
             background: #211a16;
             color: white;
             text-decoration: none;
@@ -250,29 +250,12 @@
             font-size: 12px;
             border: none;
             cursor: pointer;
+            white-space: nowrap;
         }
 
 
-        .view-btn:hover,
-        .reference-button:hover {
+        .view-btn:hover {
             opacity: 0.9;
-        }
-
-
-        .reference-name {
-            display: block;
-            margin-top: 5px;
-            max-width: 150px;
-            overflow-wrap: anywhere;
-            word-break: break-word;
-            color: #777;
-            font-size: 12px;
-        }
-
-
-        .no-reference {
-            color: #999;
-            font-size: 12px;
         }
 
 
@@ -288,6 +271,12 @@
             padding: 15px;
             border-radius: 6px;
             white-space: pre-wrap;
+        }
+
+
+        .qty-cell {
+            white-space: nowrap;
+            font-weight: 600;
         }
 
 
@@ -329,8 +318,6 @@
 <body>
 
 
-<!-- ================= HEADER ================= -->
-
 <header>
 
     <strong>
@@ -343,8 +330,6 @@
 
 </header>
 
-
-<!-- ================= NAVIGATION ================= -->
 
 <nav>
 
@@ -377,8 +362,6 @@
 </nav>
 
 
-<!-- ================= MAIN ================= -->
-
 <main>
 
     <h1>
@@ -390,8 +373,6 @@
         View and manage all wedding invitation orders.
     </p>
 
-
-    <!-- ================= FILTERS ================= -->
 
     <div class="toolbar">
 
@@ -436,8 +417,6 @@
 
     </div>
 
-
-    <!-- ================= STATS ================= -->
 
     <div class="stats">
 
@@ -495,8 +474,6 @@
     </div>
 
 
-    <!-- ================= ORDERS ================= -->
-
     <div class="panel">
 
         <div class="panel-header">
@@ -533,11 +510,7 @@
                         </th>
 
                         <th>
-                            Wedding
-                        </th>
-
-                        <th>
-                            Price
+                            Qty
                         </th>
 
                         <th>
@@ -549,11 +522,7 @@
                         </th>
 
                         <th>
-                            Reference
-                        </th>
-
-                        <th>
-                            Action
+                            View
                         </th>
 
                     </tr>
@@ -566,7 +535,7 @@
                     <tr>
 
                         <td
-                            colspan="9"
+                            colspan="7"
                             class="message"
                         >
                             Loading...
@@ -576,7 +545,6 @@
                     </tr>
 
                 </tbody>
-
             </table>
 
         </div>
@@ -585,8 +553,6 @@
 
 </main>
 
-
-<!-- ================= JAVASCRIPT ================= -->
 
 <script
     type="module"

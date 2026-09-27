@@ -1,7 +1,8 @@
 import { supabaseClient } from "../supabase.js";
 
+
 // ======================================================
-// ELEMENTS
+// ELEMENTS — only what still exists in order-detail.html
 // ======================================================
 
 const loadingBox =
@@ -28,6 +29,12 @@ const statusSelect =
 const orderPrice =
     document.getElementById("orderPrice");
 
+const orderQuantity =
+    document.getElementById("orderQuantity");
+
+const orderTotal =
+    document.getElementById("orderTotal");
+
 const orderCreated =
     document.getElementById("orderCreated");
 
@@ -37,14 +44,8 @@ const customerName =
 const customerWhatsapp =
     document.getElementById("customerWhatsapp");
 
-const customerEmail =
-    document.getElementById("customerEmail");
-
 const customerCity =
     document.getElementById("customerCity");
-
-const customerCountry =
-    document.getElementById("customerCountry");
 
 const productImage =
     document.getElementById("productImage");
@@ -58,47 +59,11 @@ const productSlug =
 const productPrice =
     document.getElementById("productPrice");
 
-const brideName =
-    document.getElementById("brideName");
-
-const groomName =
-    document.getElementById("groomName");
-
-const weddingDate =
-    document.getElementById("weddingDate");
-
-const weddingTime =
-    document.getElementById("weddingTime");
-
-const eventType =
-    document.getElementById("eventType");
-
-const venue =
-    document.getElementById("venue");
-
-const customText =
-    document.getElementById("customText");
-
-const specialRequirements =
-    document.getElementById("specialRequirements");
-
-const notes =
-    document.getElementById("notes");
-
 const whatsappButton =
     document.getElementById("whatsappButton");
 
 const logoutButton =
     document.getElementById("logoutButton");
-
-const referenceSection =
-    document.getElementById("referenceFilesSection");
-
-const referenceList =
-    document.getElementById("referenceFilesList");
-
-const referenceUploadMessage =
-    document.getElementById("referenceUploadMessage");
 
 
 // ======================================================
@@ -115,9 +80,7 @@ let currentOrder = null;
 function getOrderId() {
 
     const params =
-        new URLSearchParams(
-            window.location.search
-        );
+        new URLSearchParams(window.location.search);
 
     return params.get("id");
 }
@@ -130,9 +93,7 @@ function getOrderId() {
 async function checkAdmin() {
 
     const {
-        data: {
-            session
-        },
+        data: { session },
         error
     } = await supabaseClient.auth.getSession();
 
@@ -141,20 +102,14 @@ async function checkAdmin() {
     }
 
     if (!session) {
-
-        window.location.href =
-            "login.html";
-
+        window.location.href = "login.html";
         return false;
     }
-
 
     const {
         data: isAdmin,
         error: adminError
-    } = await supabaseClient.rpc(
-        "is_admin"
-    );
+    } = await supabaseClient.rpc("is_admin");
 
     if (adminError) {
         throw adminError;
@@ -164,8 +119,7 @@ async function checkAdmin() {
 
         await supabaseClient.auth.signOut();
 
-        window.location.href =
-            "login.html";
+        window.location.href = "login.html";
 
         return false;
     }
@@ -180,20 +134,16 @@ async function checkAdmin() {
 
 async function loadOrder() {
 
-    const orderId =
-        getOrderId();
+    const orderId = getOrderId();
 
     if (!orderId) {
-
-        throw new Error(
-            "No order ID was provided."
-        );
+        throw new Error("No order ID was provided.");
     }
 
 
-    // ==================================================
+    // --------------------------------------------------
     // ORDER
-    // ==================================================
+    // --------------------------------------------------
 
     const {
         data: order,
@@ -206,14 +156,13 @@ async function loadOrder() {
             customer_id,
             product_id,
             price_at_order_time,
+            quantity,
+            total_price,
             status,
             notes,
             created_at
         `)
-        .eq(
-            "id",
-            orderId
-        )
+        .eq("id", orderId)
         .single();
 
 
@@ -221,190 +170,82 @@ async function loadOrder() {
         throw orderError;
     }
 
-
     if (!order) {
-
-        throw new Error(
-            "Order not found."
-        );
+        throw new Error("Order not found.");
     }
 
 
-    // ==================================================
+    // --------------------------------------------------
     // CUSTOMER
-    // ==================================================
+    // --------------------------------------------------
 
-    const {
-        data: customer,
-        error: customerError
-    } = await supabaseClient
-        .from("customers")
-        .select(`
-            id,
-            full_name,
-            whatsapp,
-            email,
-            city,
-            country
-        `)
-        .eq(
-            "id",
-            order.customer_id
-        )
-        .maybeSingle();
+    let customer = {};
 
-
-    if (customerError) {
-        throw customerError;
-    }
-
-
-    // ==================================================
-    // PRODUCT
-    // ==================================================
-
-    const {
-        data: product,
-        error: productError
-    } = await supabaseClient
-        .from("products")
-        .select(`
-            id,
-            name,
-            slug,
-            price,
-            main_image_url
-        `)
-        .eq(
-            "id",
-            order.product_id
-        )
-        .maybeSingle();
-
-
-    if (productError) {
-        throw productError;
-    }
-
-
-    // ==================================================
-    // WEDDING
-    // ==================================================
-
-    const {
-        data: wedding,
-        error: weddingError
-    } = await supabaseClient
-        .from("wedding_details")
-        .select(`
-            order_id,
-            bride_name,
-            groom_name,
-            wedding_date,
-            wedding_time,
-            venue,
-            event_type,
-            custom_text,
-            special_requirements,
-            notes
-        `)
-        .eq(
-            "order_id",
-            orderId
-        )
-        .maybeSingle();
-
-
-    if (weddingError) {
-        throw weddingError;
-    }
-
-
-    // ==================================================
-    // REFERENCE FILES
-    // ==================================================
-
-    let files = [];
-
-
-    try {
+    if (order.customer_id) {
 
         const {
             data,
             error
         } = await supabaseClient
-            .from("order_files")
+            .from("customers")
             .select(`
                 id,
-                order_id,
-                file_url,
-                file_name,
-                file_type,
-                file_size,
-                created_at
+                full_name,
+                whatsapp,
+                city
             `)
-            .eq(
-                "order_id",
-                orderId
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
-
+            .eq("id", order.customer_id)
+            .maybeSingle();
 
         if (error) {
-
-            console.warn(
-                "Reference files could not be loaded:",
-                error
-            );
-
+            console.warn("Customer load error:", error);
         } else {
-
-            files =
-                data || [];
-
+            customer = data || {};
         }
 
-    } catch (error) {
+    }
 
-        console.warn(
-            "Reference files query failed:",
+
+    // --------------------------------------------------
+    // PRODUCT
+    // --------------------------------------------------
+
+    let product = {};
+
+    if (order.product_id) {
+
+        const {
+            data,
             error
-        );
+        } = await supabaseClient
+            .from("products")
+            .select(`
+                id,
+                name,
+                slug,
+                price,
+                main_image_url
+            `)
+            .eq("id", order.product_id)
+            .maybeSingle();
+
+        if (error) {
+            console.warn("Product load error:", error);
+        } else {
+            product = data || {};
+        }
+
     }
 
 
     currentOrder = {
-
         ...order,
-
-        customer:
-            customer || {},
-
-        product:
-            product || {},
-
-        wedding:
-            wedding || {},
-
-        files
-
+        customer,
+        product
     };
 
 
-    console.log(
-        "Complete admin order:",
-        currentOrder
-    );
-
-
-    renderOrder(
-        currentOrder
-    );
+    renderOrder(currentOrder);
 }
 
 
@@ -414,485 +255,202 @@ async function loadOrder() {
 
 function renderOrder(order) {
 
-    const customer =
-        order.customer || {};
-
-    const product =
-        order.product || {};
-
-    const wedding =
-        order.wedding || {};
-
-    const files =
-        order.files || [];
+    const customer = order.customer || {};
+    const product = order.product || {};
 
 
-    // ==================================================
-    // HEADER
-    // ==================================================
+    /* HEADER */
 
-    pageTitle.textContent =
-        order.order_number ||
-        "Order Details";
+    if (pageTitle)
+        pageTitle.textContent =
+            order.order_number || "Order Details";
 
-
-    orderSubtitle.textContent =
-        `Created ${formatDate(
-            order.created_at
-        )}`;
+    if (orderSubtitle)
+        orderSubtitle.textContent =
+            `Created ${formatDate(order.created_at)}`;
 
 
-    // ==================================================
-    // ORDER
-    // ==================================================
+    /* ORDER CARD */
 
-    orderNumber.textContent =
-        order.order_number ||
-        "Not provided";
+    if (orderNumber)
+        orderNumber.textContent =
+            order.order_number || "Not provided";
 
+    if (statusSelect)
+        statusSelect.value =
+            order.status || "new";
 
-    statusSelect.value =
-        order.status ||
-        "new";
+    if (orderPrice)
+        orderPrice.textContent =
+            formatPrice(order.price_at_order_time);
 
+    if (orderQuantity)
+        orderQuantity.textContent =
+            order.quantity
+                ? `${Number(order.quantity).toLocaleString("en-PK")} cards`
+                : "—";
 
-    orderPrice.textContent =
-        formatPrice(
-            order.price_at_order_time
-        );
+    if (orderTotal)
+        orderTotal.textContent =
+            order.total_price !== null &&
+            order.total_price !== undefined &&
+            order.total_price !== ""
+                ? formatPrice(order.total_price)
+                : "—";
 
-
-    orderCreated.textContent =
-        formatDate(
-            order.created_at
-        );
-
-
-    // ==================================================
-    // CUSTOMER
-    // ==================================================
-
-    customerName.textContent =
-        customer.full_name ||
-        "Not provided";
+    if (orderCreated)
+        orderCreated.textContent =
+            formatDate(order.created_at);
 
 
-    customerWhatsapp.textContent =
-        customer.whatsapp ||
-        "Not provided";
+    /* CUSTOMER CARD */
+
+    if (customerName)
+        customerName.textContent =
+            customer.full_name || "Not provided";
+
+    if (customerWhatsapp)
+        customerWhatsapp.textContent =
+            customer.whatsapp || "Not provided";
+
+    if (customerCity)
+        customerCity.textContent =
+            customer.city || "Not provided";
 
 
-    customerEmail.textContent =
-        customer.email ||
-        "Not provided";
+    /* WHATSAPP BUTTON */
 
+    if (whatsappButton) {
 
-    customerCity.textContent =
-        customer.city ||
-        "Not provided";
+        if (customer.whatsapp) {
 
+            const phone =
+                customer.whatsapp.replace(/\D/g, "");
 
-    customerCountry.textContent =
-        customer.country ||
-        "Not provided";
+            whatsappButton.href =
+                `https://wa.me/${phone}`;
 
+            whatsappButton.style.display =
+                "inline-block";
 
-    // ==================================================
-    // WHATSAPP
-    // ==================================================
+        } else {
 
-    if (customer.whatsapp) {
+            whatsappButton.style.display =
+                "none";
 
-        const phone =
-            customer.whatsapp.replace(
-                /\D/g,
-                ""
-            );
+        }
 
-
-        whatsappButton.href =
-            `https://wa.me/${phone}`;
-
-
-        whatsappButton.style.display =
-            "inline-block";
-
-    } else {
-
-        whatsappButton.style.display =
-            "none";
     }
 
 
-    // ==================================================
-    // PRODUCT
-    // ==================================================
+    /* PRODUCT CARD */
 
-    productName.textContent =
-        product.name ||
-        "Not provided";
+    if (productName)
+        productName.textContent =
+            product.name || "Not provided";
 
+    if (productSlug)
+        productSlug.textContent =
+            product.slug || "Not provided";
 
-    productSlug.textContent =
-        product.slug ||
-        "Not provided";
+    if (productPrice)
+        productPrice.textContent =
+            formatPrice(
+                order.price_at_order_time ||
+                product.price
+            );
 
-
-    productPrice.textContent =
-        formatPrice(
-            order.price_at_order_time ||
-            product.price
-        );
-
-
-    if (product.main_image_url) {
+    if (productImage) {
 
         productImage.style.backgroundImage =
-            `url("${product.main_image_url}")`;
+            product.main_image_url
+                ? `url("${product.main_image_url}")`
+                : "none";
 
-    } else {
-
-        productImage.style.backgroundImage =
-            "none";
     }
 
 
-    // ==================================================
-    // WEDDING
-    // ==================================================
+    /* SHOW PAGE */
 
-    brideName.textContent =
-        wedding.bride_name ||
-        "Not provided";
+    if (loadingBox)
+        loadingBox.style.display = "none";
 
+    if (errorBox)
+        errorBox.style.display = "none";
 
-    groomName.textContent =
-        wedding.groom_name ||
-        "Not provided";
-
-
-    weddingDate.textContent =
-        wedding.wedding_date ||
-        "Not provided";
-
-
-    weddingTime.textContent =
-        wedding.wedding_time ||
-        "Not provided";
-
-
-    eventType.textContent =
-        wedding.event_type ||
-        "Not provided";
-
-
-    venue.textContent =
-        wedding.venue ||
-        "Not provided";
-
-
-    // ==================================================
-    // ADDITIONAL
-    // ==================================================
-
-    customText.textContent =
-        wedding.custom_text ||
-        "Not provided";
-
-
-    specialRequirements.textContent =
-        wedding.special_requirements ||
-        "Not provided";
-
-
-    const weddingNotes =
-        String(
-            wedding.notes || ""
-        ).trim();
-
-
-    const orderNotes =
-        String(
-            order.notes || ""
-        ).trim();
-
-
-    notes.textContent =
-        weddingNotes ||
-        orderNotes ||
-        "Not provided";
-
-
-    // ==================================================
-    // REFERENCE FILES
-    // ==================================================
-
-    renderReferenceFiles(
-        files
-    );
-
-
-    // ==================================================
-    // SHOW PAGE
-    // ==================================================
-
-    loadingBox.style.display =
-        "none";
-
-    errorBox.style.display =
-        "none";
-
-    orderContent.style.display =
-        "grid";
+    if (orderContent)
+        orderContent.style.display = "grid";
 }
 
 
 // ======================================================
-// RENDER REFERENCE FILES
+// STATUS UPDATE
 // ======================================================
 
-function renderReferenceFiles(files) {
+if (statusSelect) {
 
-    if (!referenceSection ||
-        !referenceList) {
+    statusSelect.addEventListener(
+        "change",
+        async () => {
 
-        return;
-    }
+            if (!currentOrder) return;
 
+            const oldStatus = currentOrder.status;
+            const newStatus = statusSelect.value;
 
-    referenceSection.style.display =
-        "block";
+            statusSelect.disabled = true;
 
+            try {
 
-    if (!files.length) {
+                const { error } = await supabaseClient
+                    .from("orders")
+                    .update({ status: newStatus })
+                    .eq("id", currentOrder.id);
 
-        referenceList.innerHTML = `
-            <p class="empty-file">
-                No reference file was uploaded with this order.
-            </p>
-        `;
+                if (error) throw error;
 
-        return;
-    }
+                currentOrder.status = newStatus;
 
+            }
+            catch (error) {
 
-    referenceList.innerHTML =
-        files
-            .map(file => {
+                statusSelect.value = oldStatus;
 
-                return `
-
-                    <div class="reference-file">
-
-                        <div
-                            class="reference-file-name"
-                        >
-                            ${escapeHtml(
-                                file.file_name
-                            )}
-                        </div>
-
-
-                        <div
-                            class="reference-file-meta"
-                        >
-                            ${escapeHtml(
-                                formatFileSize(
-                                    file.file_size
-                                )
-                            )}
-
-                            •
-
-                            ${escapeHtml(
-                                file.file_type ||
-                                "Unknown type"
-                            )}
-                        </div>
-
-
-                        <button
-                            type="button"
-                            class="button primary reference-file-button"
-                            data-file-path="${escapeHtml(
-                                file.file_url
-                            )}"
-                        >
-                            View / Download
-                        </button>
-
-                    </div>
-
-                `;
-
-            })
-            .join("");
-
-
-    referenceList
-        .querySelectorAll(
-            ".reference-file-button"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    openReferenceFile(
-                        button.dataset.filePath
-                    );
-
-                }
-            );
-
-        });
-}
-
-
-// ======================================================
-// OPEN PRIVATE FILE
-// ======================================================
-
-async function openReferenceFile(
-    storagePath
-) {
-
-    try {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .storage
-            .from("order-files")
-            .createSignedUrl(
-                storagePath,
-                300
-            );
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        if (!data?.signedUrl) {
-
-            throw new Error(
-                "Could not create secure file link."
-            );
-        }
-
-
-        window.open(
-            data.signedUrl,
-            "_blank"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Reference file error:",
-            error
-        );
-
-
-        alert(
-            error.message ||
-            "Unable to open reference file."
-        );
-    }
-}
-
-
-// ======================================================
-// UPDATE STATUS
-// ======================================================
-
-statusSelect.addEventListener(
-    "change",
-    async () => {
-
-        if (!currentOrder) {
-            return;
-        }
-
-
-        const oldStatus =
-            currentOrder.status;
-
-
-        const newStatus =
-            statusSelect.value;
-
-
-        statusSelect.disabled =
-            true;
-
-
-        try {
-
-            const {
-                error
-            } = await supabaseClient
-                .from("orders")
-                .update({
-                    status:
-                        newStatus
-                })
-                .eq(
-                    "id",
-                    currentOrder.id
+                alert(
+                    error.message ||
+                    "Unable to update order status."
                 );
 
-
-            if (error) {
-                throw error;
             }
 
-
-            currentOrder.status =
-                newStatus;
-
-
-        } catch (error) {
-
-            statusSelect.value =
-                oldStatus;
-
-
-            alert(
-                error.message ||
-                "Unable to update order status."
-            );
+            statusSelect.disabled = false;
 
         }
+    );
 
-
-        statusSelect.disabled =
-            false;
-    }
-);
+}
 
 
 // ======================================================
 // LOGOUT
 // ======================================================
 
-logoutButton.addEventListener(
-    "click",
-    async event => {
+if (logoutButton) {
 
-        event.preventDefault();
+    logoutButton.addEventListener(
+        "click",
+        async (event) => {
 
-        await supabaseClient.auth.signOut();
+            event.preventDefault();
 
-        window.location.href =
-            "login.html";
+            await supabaseClient.auth.signOut();
 
-    }
-);
+            window.location.href = "login.html";
+
+        }
+    );
+
+}
 
 
 // ======================================================
@@ -901,11 +459,16 @@ logoutButton.addEventListener(
 
 function formatPrice(value) {
 
-    return `PKR ${Number(
-        value || 0
-    ).toLocaleString(
-        "en-PK"
-    )}`;
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+        return "—";
+    }
+
+    return `PKR ${Number(value).toLocaleString("en-PK")}`;
+
 }
 
 
@@ -915,76 +478,15 @@ function formatDate(value) {
         return "Not available";
     }
 
-
     return new Date(value)
-        .toLocaleString(
-            "en-PK",
-            {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
-}
+        .toLocaleString("en-PK", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
 
-
-function formatFileSize(bytes) {
-
-    if (!bytes) {
-        return "Unknown size";
-    }
-
-
-    if (bytes < 1024) {
-
-        return `${bytes} B`;
-
-    }
-
-
-    if (bytes < 1024 * 1024) {
-
-        return `${(
-            bytes / 1024
-        ).toFixed(1)} KB`;
-
-    }
-
-
-    return `${(
-        bytes /
-        (1024 * 1024)
-    ).toFixed(1)} MB`;
-}
-
-
-function escapeHtml(value) {
-
-    return String(
-        value ?? ""
-    )
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
 }
 
 
@@ -994,27 +496,23 @@ function escapeHtml(value) {
 
 function showError(error) {
 
-    console.error(
-        "Order detail error:",
-        error
-    );
+    console.error("Order detail error:", error);
 
+    if (loadingBox)
+        loadingBox.style.display = "none";
 
-    loadingBox.style.display =
-        "none";
+    if (orderContent)
+        orderContent.style.display = "none";
 
+    if (errorBox) {
 
-    orderContent.style.display =
-        "none";
+        errorBox.style.display = "block";
 
+        errorBox.textContent =
+            error?.message || "Unable to load order.";
 
-    errorBox.style.display =
-        "block";
+    }
 
-
-    errorBox.textContent =
-        error?.message ||
-        "Unable to load order.";
 }
 
 
@@ -1026,22 +524,16 @@ function showError(error) {
 
     try {
 
-        const isAdmin =
-            await checkAdmin();
+        const isAdmin = await checkAdmin();
 
-
-        if (!isAdmin) {
-            return;
-        }
-
+        if (!isAdmin) return;
 
         await loadOrder();
 
-    } catch (error) {
+    }
+    catch (error) {
 
-        showError(
-            error
-        );
+        showError(error);
 
     }
 

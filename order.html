@@ -15,9 +15,9 @@
 
     <title>Place Your Order | Digital World</title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/premium.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/style.css?v=21">
+    <link rel="stylesheet" href="css/premium.css?v=21">
+    <link rel="stylesheet" href="css/responsive.css?v=21">
 
     <style>
 
@@ -41,9 +41,7 @@
         }
 
 
-        /* =====================================================
-           HEADER (identical to homepage)
-        ===================================================== */
+        /* HEADER */
 
         .site-header {
             position: sticky;
@@ -129,8 +127,6 @@
             align-items: center;
             gap: 10px;
         }
-
-        /* ——— EXACT homepage button styles ——— */
 
         .premium-header-button {
             display: inline-flex;
@@ -223,9 +219,7 @@
         .mobile-nav a:hover { color: var(--dw-gold-dark); }
 
 
-        /* =====================================================
-           ORDER PAGE
-        ===================================================== */
+        /* ORDER PAGE */
 
         .order-page {
             padding: clamp(50px, 7vw, 90px) 0 clamp(70px, 8vw, 120px);
@@ -286,11 +280,11 @@
         }
 
 
-        /* PROGRESS */
+        /* PROGRESS — 2 steps */
 
         .order-progress {
             display: grid;
-            grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+            grid-template-columns: auto 1fr auto;
             align-items: center;
             gap: 10px;
             padding: 22px 24px;
@@ -412,14 +406,11 @@
         }
 
         .form-group input[type="text"],
-        .form-group input[type="tel"],
-        .form-group input[type="email"],
-        .form-group input[type="date"],
-        .form-group input[type="time"],
-        .form-group select,
-        .form-group textarea {
+        .form-group input[type="tel"] {
             width: 100%;
             box-sizing: border-box;
+            min-height: 52px;
+            padding: 0 15px;
             border: 1px solid var(--dw-border);
             border-radius: 12px;
             background: #fcfaf7;
@@ -430,54 +421,12 @@
             transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
         }
 
-        .form-group input[type="text"],
-        .form-group input[type="tel"],
-        .form-group input[type="email"],
-        .form-group input[type="date"],
-        .form-group input[type="time"],
-        .form-group select {
-            min-height: 52px;
-            padding: 0 15px;
-        }
+        .form-group input::placeholder { color: #a8a196; }
 
-        .form-group textarea {
-            min-height: 130px;
-            padding: 14px;
-            resize: vertical;
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder { color: #a8a196; }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
+        .form-group input:focus {
             border-color: rgba(184,154,103,.75);
             box-shadow: 0 0 0 4px rgba(184,154,103,.10);
             background: #fff;
-        }
-
-        .form-group select {
-            appearance: none;
-            -webkit-appearance: none;
-            padding-right: 42px;
-            background-image:
-                linear-gradient(45deg, transparent 50%, var(--dw-gold-dark) 50%),
-                linear-gradient(135deg, var(--dw-gold-dark) 50%, transparent 50%);
-            background-position:
-                calc(100% - 20px) 50%,
-                calc(100% - 15px) 50%;
-            background-size: 5px 5px, 5px 5px;
-            background-repeat: no-repeat;
-            cursor: pointer;
-        }
-
-        .file-help {
-            display: block;
-            margin-top: 8px;
-            color: var(--dw-muted);
-            font-size: 11px;
-            letter-spacing: .3px;
         }
 
         .field-error {
@@ -487,82 +436,6 @@
             color: #a42318;
             font-size: 11px;
             line-height: 1.5;
-        }
-
-
-        /* UPLOAD */
-
-        .premium-upload { position: relative; }
-
-        .premium-upload-input {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        .premium-upload-label {
-            display: block;
-            padding: 30px 24px;
-            text-align: center;
-            border: 2px dashed var(--dw-border);
-            border-radius: 16px;
-            background: #fcfaf7;
-            cursor: pointer;
-            transition:
-                border-color .3s ease,
-                background .3s ease,
-                transform .25s ease;
-        }
-
-        .premium-upload-label:hover {
-            border-color: rgba(184,154,103,.65);
-            background: var(--dw-cream);
-            transform: translateY(-1px);
-        }
-
-        .premium-upload-input:focus-visible + .premium-upload-label {
-            border-color: var(--dw-gold-dark);
-            box-shadow: 0 0 0 4px rgba(184,154,103,.14);
-        }
-
-        .premium-upload-title {
-            display: block;
-            margin-bottom: 12px;
-            color: var(--dw-gold-dark);
-            font-family: Georgia, serif;
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: .3px;
-        }
-
-        .premium-upload-headline {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--dw-charcoal);
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: .2px;
-        }
-
-        .premium-upload-sub {
-            display: block;
-            color: var(--dw-muted);
-            font-size: 12px;
-            line-height: 1.7;
-        }
-
-        .selected-file {
-            margin-top: 12px;
-            color: var(--dw-gold-dark);
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
         }
 
 
@@ -631,25 +504,46 @@
             border: 1px solid var(--dw-border);
         }
 
-        .order-review-item {
-            padding-bottom: 14px;
+        .review-section {
+            grid-column: 1 / -1;
+            padding-bottom: 16px;
             border-bottom: 1px dashed var(--dw-border);
         }
 
-        .order-review-item strong {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--dw-gold-dark);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 2.4px;
-            text-transform: uppercase;
+        .review-section:last-child {
+            padding-bottom: 0;
+            border-bottom: 0;
         }
 
-        .order-review-item span {
+        .review-section h3 {
+            margin: 0 0 14px;
+            color: var(--dw-gold-dark);
+            font-family: Georgia, serif;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: .3px;
+        }
+
+        .review-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 6px 0;
+        }
+
+        .review-row span {
+            color: var(--dw-muted);
+            font-size: 12px;
+            letter-spacing: .3px;
+        }
+
+        .review-row strong {
             color: var(--dw-charcoal);
+            font-family: Georgia, serif;
             font-size: 14px;
-            line-height: 1.6;
+            font-weight: 500;
+            text-align: right;
             word-break: break-word;
         }
 
@@ -694,6 +588,7 @@
             background: #fff;
             border: 1px solid var(--dw-border);
             box-shadow: 0 24px 60px rgba(31,25,19,.06);
+            overflow: hidden;
         }
 
         .order-product-summary .section-label {
@@ -708,21 +603,13 @@
 
         .order-product-image {
             position: relative;
+            margin: 0 -26px 20px;
             aspect-ratio: 4 / 5;
-            margin-bottom: 20px;
             overflow: hidden;
             background: var(--dw-cream);
-            border: 1px solid var(--dw-border);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-        }
-
-        .order-product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
         }
 
         .order-product-category {
@@ -814,11 +701,6 @@
         .order-quantity-stepper button:hover {
             background: var(--dw-cream);
             color: var(--dw-gold-dark);
-        }
-
-        .order-quantity-stepper button:disabled {
-            opacity: .35;
-            cursor: not-allowed;
         }
 
         .order-quantity-stepper input {
@@ -1118,11 +1000,9 @@
             .order-introduction h1 { font-size: clamp(30px, 9vw, 42px); }
 
             .order-progress {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-                gap: 6px;
                 padding: 18px 12px;
+                grid-template-columns: auto 1fr auto;
             }
-            .progress-line { display: none; }
             .progress-step small { font-size: 9px; letter-spacing: 1.2px; }
             .progress-step span { width: 30px; height: 30px; font-size: 11px; }
 
@@ -1131,6 +1011,7 @@
             .form-navigation { flex-direction: column-reverse; align-items: stretch; }
             .form-navigation .button { width: 100%; }
             .order-review { grid-template-columns: 1fr; padding: 20px; }
+            .order-product-image { margin: 0 -20px 20px; }
             .footer-grid { grid-template-columns: 1fr; gap: 34px; }
             .footer-bottom { flex-direction: column; align-items: flex-start; }
         }
@@ -1258,6 +1139,8 @@
                 </div>
 
 
+                <!-- PROGRESS — 2 steps -->
+
                 <div class="order-progress">
 
                     <div class="progress-step active" data-step="1">
@@ -1269,20 +1152,6 @@
 
                     <div class="progress-step" data-step="2">
                         <span>2</span>
-                        <small>Wedding</small>
-                    </div>
-
-                    <div class="progress-line"></div>
-
-                    <div class="progress-step" data-step="3">
-                        <span>3</span>
-                        <small>Details</small>
-                    </div>
-
-                    <div class="progress-line"></div>
-
-                    <div class="progress-step" data-step="4">
-                        <span>4</span>
                         <small>Review</small>
                     </div>
 
@@ -1297,7 +1166,7 @@
                     <input type="hidden" id="selectedVariantPrice" name="selectedVariantPrice" value="">
 
 
-                    <!-- STEP 1 -->
+                    <!-- STEP 1 — CUSTOMER -->
 
                     <section class="order-step active" data-step-content="1">
 
@@ -1336,19 +1205,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="email">Email Address *</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder="you@example.com"
-                                    autocomplete="email"
-                                    required
-                                >
-                                <small class="field-error" id="emailError"></small>
-                            </div>
-
-                            <div class="form-group">
                                 <label for="city">City *</label>
                                 <input
                                     type="text"
@@ -1361,19 +1217,6 @@
                                 <small class="field-error" id="cityError"></small>
                             </div>
 
-                            <div class="form-group">
-                                <label for="country">Country *</label>
-                                <input
-                                    type="text"
-                                    id="country"
-                                    name="country"
-                                    value="Pakistan"
-                                    autocomplete="country-name"
-                                    required
-                                >
-                                <small class="field-error" id="countryError"></small>
-                            </div>
-
                         </div>
 
                         <div class="form-navigation">
@@ -1386,204 +1229,12 @@
 
 
 
-                    <!-- STEP 2 -->
+                    <!-- STEP 2 — REVIEW + SUBMIT -->
 
                     <section class="order-step" data-step-content="2">
 
                         <div class="form-section-heading">
                             <p class="section-label">Step 02</p>
-                            <h2>Wedding Details</h2>
-                            <p>Give us the details that should appear in your invitation.</p>
-                        </div>
-
-                        <div class="form-grid">
-
-                            <div class="form-group">
-                                <label for="brideName">Bride Name *</label>
-                                <input
-                                    type="text"
-                                    id="brideName"
-                                    name="brideName"
-                                    placeholder="Bride's name"
-                                    required
-                                >
-                                <small class="field-error" id="brideNameError"></small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="groomName">Groom Name *</label>
-                                <input
-                                    type="text"
-                                    id="groomName"
-                                    name="groomName"
-                                    placeholder="Groom's name"
-                                    required
-                                >
-                                <small class="field-error" id="groomNameError"></small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="weddingDate">Wedding Date *</label>
-                                <input
-                                    type="date"
-                                    id="weddingDate"
-                                    name="weddingDate"
-                                    required
-                                >
-                                <small class="field-error" id="weddingDateError"></small>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="weddingTime">Wedding Time</label>
-                                <input
-                                    type="time"
-                                    id="weddingTime"
-                                    name="weddingTime"
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label for="eventType">Event Type *</label>
-                                <select id="eventType" name="eventType" required>
-                                    <option value="">Select event type</option>
-                                    <option value="Wedding">Wedding</option>
-                                    <option value="Nikah">Nikah</option>
-                                    <option value="Walima">Walima</option>
-                                    <option value="Engagement">Engagement</option>
-                                    <option value="Mehndi">Mehndi</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <small class="field-error" id="eventTypeError"></small>
-                            </div>
-
-                            <div class="form-group full">
-                                <label for="venue">Venue *</label>
-                                <input
-                                    type="text"
-                                    id="venue"
-                                    name="venue"
-                                    placeholder="Wedding venue"
-                                    required
-                                >
-                                <small class="field-error" id="venueError"></small>
-                            </div>
-
-                        </div>
-
-                        <div class="form-navigation">
-                            <button type="button" class="button previous-step">
-                                Back
-                            </button>
-                            <button type="button" class="button button-primary next-step">
-                                Continue
-                            </button>
-                        </div>
-
-                    </section>
-
-
-
-                    <!-- STEP 3 -->
-
-                    <section class="order-step" data-step-content="3">
-
-                        <div class="form-section-heading">
-                            <p class="section-label">Step 03</p>
-                            <h2>Additional Details</h2>
-                            <p>Add anything else you want our team to know about your invitation.</p>
-                        </div>
-
-                        <div class="form-grid">
-
-                            <div class="form-group full">
-                                <label for="customText">Custom Text</label>
-                                <textarea
-                                    id="customText"
-                                    name="customText"
-                                    rows="5"
-                                    placeholder="Enter any special wording or text you want on the invitation..."
-                                ></textarea>
-                            </div>
-
-                            <div class="form-group full">
-                                <label for="specialRequirements">Special Requirements</label>
-                                <textarea
-                                    id="specialRequirements"
-                                    name="specialRequirements"
-                                    rows="5"
-                                    placeholder="Colors, language, special styling, family names, etc."
-                                ></textarea>
-                            </div>
-
-                            <div class="form-group full">
-                                <label for="orderNotes">Additional Notes</label>
-                                <textarea
-                                    id="orderNotes"
-                                    name="orderNotes"
-                                    rows="5"
-                                    placeholder="Anything else you would like us to know..."
-                                ></textarea>
-                            </div>
-
-                            <div class="form-group full">
-
-                                <label>Upload Your Design</label>
-
-                                <div class="premium-upload">
-
-                                    <input
-                                        type="file"
-                                        id="referenceFile"
-                                        name="referenceFile"
-                                        accept=".jpg,.jpeg,.png,.webp,.pdf"
-                                        class="premium-upload-input"
-                                    >
-
-                                    <label
-                                        for="referenceFile"
-                                        class="premium-upload-label"
-                                    >
-                                        <span class="premium-upload-title">
-                                            Upload Your Design
-                                        </span>
-
-                                        <span class="premium-upload-headline">
-                                            Add your image or file here
-                                        </span>
-
-                                        <span class="premium-upload-sub">
-                                            Upload a clear image or file.
-                                            JPG, PNG, or PDF up to 10 MB.
-                                        </span>
-                                    </label>
-
-                                    <div class="selected-file" id="selectedFile"></div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="form-navigation">
-                            <button type="button" class="button previous-step">
-                                Back
-                            </button>
-                            <button type="button" class="button button-primary next-step">
-                                Review Order
-                            </button>
-                        </div>
-
-                    </section>
-
-
-
-                    <!-- STEP 4 -->
-
-                    <section class="order-step" data-step-content="4">
-
-                        <div class="form-section-heading">
-                            <p class="section-label">Step 04</p>
                             <h2>Review Your Order</h2>
                             <p>Check everything carefully before submitting.</p>
                         </div>
@@ -1653,7 +1304,7 @@
                         </span>
 
                         <span class="order-quantity-hint">
-                            Minimum order: 100 cards
+                            Minimum order: 100 cards (in steps of 25)
                         </span>
 
                         <div class="order-quantity-stepper">
@@ -1672,7 +1323,7 @@
                                 name="orderQuantity"
                                 value="100"
                                 min="100"
-                                step="1"
+                                step="25"
                                 inputmode="numeric"
                                 aria-label="Order quantity"
                             >
@@ -1834,7 +1485,7 @@
 
 
 
-<!-- VARIATION LOADER (unchanged) -->
+<!-- VARIATION LOADER -->
 
 <script>
 
@@ -1907,9 +1558,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <!-- SCRIPTS -->
 
-<script type="module" src="js/order.js"></script>
-<script type="module" src="js/site-search.js"></script>
-<script type="module" src="js/auth-nav.js"></script>
+<script type="module" src="js/order.js?v=21"></script>
+<script type="module" src="js/site-search.js?v=21"></script>
+<script type="module" src="js/auth-nav.js?v=21"></script>
 
 </body>
 

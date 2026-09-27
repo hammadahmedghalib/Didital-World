@@ -25,9 +25,9 @@
     </title>
 
 
-    <link rel="stylesheet" href="css/style.css?v=8">
-    <link rel="stylesheet" href="css/premium.css?v=8">
-    <link rel="stylesheet" href="css/responsive.css?v=8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium.css">
+    <link rel="stylesheet" href="css/responsive.css">
 
 
     <style>
@@ -52,6 +52,11 @@
             min-height: 100vh;
         }
 
+
+        /* =====================================================
+           AUTH PAGE LAYOUT — split screen
+        ===================================================== */
+
         .auth-page {
             min-height: 100vh;
             display: grid;
@@ -59,33 +64,53 @@
             background: var(--dw-ivory);
         }
 
+
+        /* =====================================================
+           LEFT — EDITORIAL PANEL
+        ===================================================== */
+
         .auth-panel {
             position: relative;
             overflow: hidden;
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
             padding: clamp(36px, 4vw, 64px);
+
             background:
                 radial-gradient(circle at 20% 15%, rgba(184,154,103,.22), transparent 42%),
                 radial-gradient(circle at 80% 90%, rgba(184,154,103,.14), transparent 40%),
                 linear-gradient(155deg, #1a1613 0%, #0f0d0b 100%);
+
             color: rgba(247,242,232,.72);
         }
+
+
+        /* Subtle grid pattern */
 
         .auth-panel::before {
             content: "";
             position: absolute;
             inset: 0;
+
             background-image:
                 linear-gradient(rgba(215,188,134,.06) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(215,188,134,.06) 1px, transparent 1px);
+
             background-size: 62px 62px;
+
             mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
             -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+
             opacity: .6;
+
             pointer-events: none;
         }
+
+
+        /* Decorative inner frame */
 
         .auth-panel::after {
             content: "";
@@ -95,10 +120,14 @@
             pointer-events: none;
         }
 
+
         .auth-panel > * {
             position: relative;
             z-index: 2;
         }
+
+
+        /* Top — brand */
 
         .auth-panel-top {
             display: flex;
@@ -107,12 +136,14 @@
             gap: 20px;
         }
 
+
         .auth-panel-logo {
             display: flex;
             flex-direction: column;
             text-decoration: none;
             line-height: 1;
         }
+
 
         .auth-panel-logo .logo-main {
             color: #fbf6ec;
@@ -122,6 +153,7 @@
             letter-spacing: -.3px;
         }
 
+
         .auth-panel-logo .logo-sub {
             margin-top: 6px;
             color: var(--dw-gold-light);
@@ -130,6 +162,7 @@
             letter-spacing: 3.6px;
             text-transform: uppercase;
         }
+
 
         .auth-panel-tag {
             display: inline-flex;
@@ -143,6 +176,7 @@
             white-space: nowrap;
         }
 
+
         .auth-panel-tag::before {
             content: "✦";
             color: var(--dw-gold);
@@ -150,10 +184,14 @@
             letter-spacing: 0;
         }
 
+
+        /* Middle — editorial content */
+
         .auth-panel-body {
             max-width: 520px;
             padding: 40px 0;
         }
+
 
         .auth-panel-kicker {
             display: inline-flex;
@@ -167,12 +205,14 @@
             text-transform: uppercase;
         }
 
+
         .auth-panel-kicker::before {
             content: "";
             width: 42px;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--dw-gold), transparent);
         }
+
 
         .auth-panel-title {
             margin: 0;
@@ -184,12 +224,14 @@
             letter-spacing: -1.4px;
         }
 
+
         .auth-panel-title em {
             display: block;
             color: var(--dw-gold-light);
             font-style: italic;
             font-weight: 400;
         }
+
 
         .auth-panel-description {
             max-width: 420px;
@@ -199,6 +241,9 @@
             line-height: 1.9;
         }
 
+
+        /* Bottom — feature list */
+
         .auth-panel-features {
             display: flex;
             flex-wrap: wrap;
@@ -206,6 +251,7 @@
             padding-top: 30px;
             border-top: 1px solid rgba(215,188,134,.22);
         }
+
 
         .auth-panel-features span {
             display: inline-flex;
@@ -218,6 +264,7 @@
             text-transform: uppercase;
         }
 
+
         .auth-panel-features span::before {
             content: "✦";
             color: var(--dw-gold);
@@ -225,27 +272,43 @@
             letter-spacing: 0;
         }
 
+
+        /* =====================================================
+           RIGHT — AUTH CARD
+        ===================================================== */
+
         .auth-side {
             display: flex;
             align-items: center;
             justify-content: center;
+
             padding: clamp(30px, 5vw, 60px);
+
             background:
                 radial-gradient(circle at 100% 0%, rgba(184,154,103,.10), transparent 42%),
                 linear-gradient(180deg, var(--dw-cream), var(--dw-ivory));
         }
 
+
         .auth-card {
             width: 100%;
             max-width: 460px;
+
             padding: clamp(34px, 4vw, 54px);
+
             background: #fff;
+
             border: 1px solid var(--dw-border);
+
             box-shadow:
                 0 1px 2px rgba(31,25,19,.04),
                 0 30px 70px rgba(31,25,19,.08);
+
             position: relative;
         }
+
+
+        /* Gold hairline accent at the top */
 
         .auth-card::before {
             content: "";
@@ -257,11 +320,15 @@
             background: linear-gradient(90deg, transparent, var(--dw-gold), transparent);
         }
 
+
+        /* Brand in card (mobile fallback — hidden on desktop) */
+
         .auth-brand {
             display: none;
             text-align: center;
             margin-bottom: 26px;
         }
+
 
         .auth-brand .premium-auth-logo {
             display: block;
@@ -273,6 +340,7 @@
             letter-spacing: -.2px;
         }
 
+
         .auth-brand p {
             margin: 6px 0 0;
             color: var(--dw-gold-dark);
@@ -282,9 +350,13 @@
             text-transform: uppercase;
         }
 
+
+        /* Heading */
+
         .auth-heading {
             margin-bottom: 30px;
         }
+
 
         .auth-heading .premium-auth-kicker {
             display: inline-flex;
@@ -298,12 +370,14 @@
             text-transform: uppercase;
         }
 
+
         .auth-heading .premium-auth-kicker::before {
             content: "";
             width: 26px;
             height: 1px;
             background: var(--dw-gold);
         }
+
 
         .auth-heading h1 {
             margin: 0;
@@ -315,6 +389,7 @@
             letter-spacing: -.8px;
         }
 
+
         .auth-heading p {
             max-width: 400px;
             margin: 12px 0 0;
@@ -323,24 +398,34 @@
             line-height: 1.75;
         }
 
+
+        /* Buttons */
+
         .auth-button {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
+
             width: 100%;
             min-height: 54px;
+
             padding: 0 24px;
+
             border: 1px solid var(--dw-border);
             border-radius: 999px;
+
             background: #fff;
             color: var(--dw-charcoal);
+
             font: inherit;
             font-size: 12px;
             font-weight: 800;
             letter-spacing: 1.4px;
             text-transform: uppercase;
+
             cursor: pointer;
+
             transition:
                 background .25s ease,
                 border-color .25s ease,
@@ -348,10 +433,12 @@
                 transform .25s ease;
         }
 
+
         .auth-button:hover {
             transform: translateY(-2px);
             border-color: var(--dw-charcoal);
         }
+
 
         .auth-button:disabled {
             opacity: .6;
@@ -359,11 +446,15 @@
             transform: none;
         }
 
+
+        /* Google button */
+
         .premium-google-button {
             background: var(--dw-charcoal);
             border-color: var(--dw-charcoal);
             color: #fff;
         }
+
 
         .premium-google-button:hover {
             background: var(--dw-gold-dark);
@@ -371,20 +462,28 @@
             color: #fff;
         }
 
+
         .google-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
+
             width: 22px;
             height: 22px;
+
             border-radius: 50%;
+
             background: #fff;
             color: var(--dw-charcoal);
+
             font-family: Georgia, serif;
             font-size: 13px;
             font-weight: 700;
             line-height: 1;
         }
+
+
+        /* Divider */
 
         .auth-divider {
             display: flex;
@@ -398,6 +497,7 @@
             text-transform: uppercase;
         }
 
+
         .auth-divider::before,
         .auth-divider::after {
             content: "";
@@ -406,9 +506,13 @@
             background: linear-gradient(90deg, transparent, var(--dw-border), transparent);
         }
 
+
+        /* Field */
+
         .premium-auth-field {
             margin-bottom: 16px;
         }
+
 
         .premium-auth-field label {
             display: block;
@@ -420,27 +524,36 @@
             text-transform: uppercase;
         }
 
+
         .premium-auth-field input {
             width: 100%;
             box-sizing: border-box;
+
             min-height: 54px;
             padding: 0 18px;
+
             border: 1px solid var(--dw-border);
             border-radius: 12px;
+
             background: #fcfaf7;
             color: var(--dw-charcoal);
+
             font: inherit;
             font-size: 14px;
+
             outline: none;
+
             transition:
                 border-color .2s ease,
                 box-shadow .2s ease,
                 background .2s ease;
         }
 
+
         .premium-auth-field input::placeholder {
             color: #a8a196;
         }
+
 
         .premium-auth-field input:focus {
             border-color: rgba(184,154,103,.75);
@@ -448,11 +561,15 @@
             background: #fff;
         }
 
+
+        /* Phone (primary) button */
+
         .premium-phone-button {
             background: var(--dw-charcoal);
             border-color: var(--dw-charcoal);
             color: #fff;
         }
+
 
         .premium-phone-button:hover {
             background: var(--dw-gold-dark);
@@ -460,11 +577,17 @@
             color: #fff;
         }
 
+
+        /* OTP section */
+
         .premium-otp-section {
             margin-top: 22px;
             padding-top: 22px;
             border-top: 1px dashed var(--dw-border);
         }
+
+
+        /* Message */
 
         .auth-message {
             min-height: 20px;
@@ -475,29 +598,40 @@
             text-align: center;
         }
 
+
         .auth-message.error {
             color: #a42318;
         }
+
 
         .auth-message.success {
             color: #4f7359;
         }
 
+
+        /* Back link */
+
         .auth-back {
             display: inline-flex;
             align-items: center;
             justify-content: center;
+
             width: 100%;
             min-height: 44px;
+
             margin-top: 12px;
+
             color: var(--dw-muted);
+
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 2px;
             text-transform: uppercase;
             text-decoration: none;
+
             transition: color .2s ease;
         }
+
 
         .auth-back::before {
             content: "←";
@@ -507,9 +641,13 @@
             letter-spacing: 0;
         }
 
+
         .auth-back:hover {
             color: var(--dw-gold-dark);
         }
+
+
+        /* Bottom note */
 
         .auth-note {
             margin: 22px 0 0;
@@ -520,37 +658,118 @@
             line-height: 1.7;
         }
 
+
         .auth-note a {
             color: var(--dw-gold-dark);
             text-decoration: none;
             font-weight: 800;
         }
 
+
         .auth-note a:hover {
             text-decoration: underline;
         }
 
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
         @media (max-width: 980px) {
-            .auth-page { grid-template-columns: 1fr; }
-            .auth-panel { padding: 34px 26px; min-height: auto; }
-            .auth-panel-body { padding: 34px 0 0; }
-            .auth-panel-features { padding-top: 26px; }
-            .auth-panel-title { font-size: clamp(32px, 8vw, 46px); }
-            .auth-brand { display: block; }
+
+            .auth-page {
+                grid-template-columns: 1fr;
+            }
+
+
+            .auth-panel {
+                padding: 34px 26px;
+                min-height: auto;
+            }
+
+
+            .auth-panel-body {
+                padding: 34px 0 0;
+            }
+
+
+            .auth-panel-features {
+                padding-top: 26px;
+            }
+
+
+            .auth-panel-title {
+                font-size: clamp(32px, 8vw, 46px);
+            }
+
+
+            /* Hide the mobile brand inside the card on desktop only */
+            .auth-brand {
+                display: block;
+            }
+
         }
 
+
         @media (max-width: 640px) {
-            .auth-panel { padding: 28px 20px; }
-            .auth-panel::after { inset: 14px; }
-            .auth-panel-title { letter-spacing: -1px; }
-            .auth-panel-description { font-size: 13px; }
-            .auth-panel-features { gap: 10px 20px; }
-            .auth-panel-features span { font-size: 9px; letter-spacing: 2.2px; }
-            .auth-side { padding: 26px 20px 44px; }
-            .auth-card { padding: 28px 24px 32px; }
-            .auth-heading h1 { font-size: clamp(26px, 8vw, 34px); }
-            .auth-button { min-height: 50px; font-size: 11px; letter-spacing: 1.1px; }
-            .premium-auth-field input { min-height: 50px; }
+
+            .auth-panel {
+                padding: 28px 20px;
+            }
+
+
+            .auth-panel::after {
+                inset: 14px;
+            }
+
+
+            .auth-panel-title {
+                letter-spacing: -1px;
+            }
+
+
+            .auth-panel-description {
+                font-size: 13px;
+            }
+
+
+            .auth-panel-features {
+                gap: 10px 20px;
+            }
+
+
+            .auth-panel-features span {
+                font-size: 9px;
+                letter-spacing: 2.2px;
+            }
+
+
+            .auth-side {
+                padding: 26px 20px 44px;
+            }
+
+
+            .auth-card {
+                padding: 28px 24px 32px;
+            }
+
+
+            .auth-heading h1 {
+                font-size: clamp(26px, 8vw, 34px);
+            }
+
+
+            .auth-button {
+                min-height: 50px;
+                font-size: 11px;
+                letter-spacing: 1.1px;
+            }
+
+
+            .premium-auth-field input {
+                min-height: 50px;
+            }
+
         }
 
     </style>
@@ -564,6 +783,10 @@
 <main class="auth-page">
 
 
+    <!-- =====================================================
+         LEFT — EDITORIAL PANEL
+    ===================================================== -->
+
     <aside class="auth-panel">
 
         <div class="auth-panel-top">
@@ -572,6 +795,7 @@
                 <span class="logo-main">Digital World</span>
                 <span class="logo-sub">Printing Press</span>
             </a>
+
 
             <span class="auth-panel-tag">
                 Since 2014
@@ -586,10 +810,12 @@
                 Your Journey Begins Here
             </span>
 
+
             <h2 class="auth-panel-title">
                 Elegant invitations,
                 <em>beautiful beginnings.</em>
             </h2>
+
 
             <p class="auth-panel-description">
                 Sign in to manage your designs,
@@ -612,14 +838,23 @@
 
 
 
+    <!-- =====================================================
+         RIGHT — AUTH CARD
+    ===================================================== -->
+
     <section class="auth-side">
 
         <div class="auth-card premium-auth-card">
 
 
+            <!-- Mobile-only brand inside card -->
+
             <div class="auth-brand premium-auth-brand">
 
-                <a href="index.html" class="premium-auth-logo">
+                <a
+                    href="index.html"
+                    class="premium-auth-logo"
+                >
                     Digital World
                 </a>
 
@@ -630,6 +865,8 @@
             </div>
 
 
+
+            <!-- Heading -->
 
             <div class="auth-heading">
 
@@ -650,6 +887,8 @@
 
 
 
+            <!-- Google -->
+
             <button
                 type="button"
                 id="googleButton"
@@ -668,11 +907,15 @@
 
 
 
+            <!-- Divider -->
+
             <div class="auth-divider premium-auth-divider">
                 <span>OR</span>
             </div>
 
 
+
+            <!-- Phone -->
 
             <div class="premium-auth-field">
 
@@ -700,6 +943,8 @@
             </button>
 
 
+
+            <!-- OTP -->
 
             <div
                 id="otpSection"
@@ -737,6 +982,8 @@
 
 
 
+            <!-- Message -->
+
             <p
                 id="authMessage"
                 class="auth-message premium-auth-message"
@@ -744,6 +991,8 @@
             ></p>
 
 
+
+            <!-- Back -->
 
             <a
                 href="index.html"
@@ -767,7 +1016,7 @@
 
 
 
-<script type="module" src="js/auth.js?v=8"></script>
+<script type="module" src="js/auth.js"></script>
 
 <script type="module">
 
@@ -776,76 +1025,27 @@
     } from "./js/supabase.js";
 
 
-    const ACCOUNT_URL = "account.html";
-
-    let redirected = false;
-
-
-    function goToAccount() {
-
-        if (redirected) return;
-        redirected = true;
-
-        window.location.replace(ACCOUNT_URL);
-
-    }
-
-
-    /* 1. Live listener — fires the moment OAuth
-          returns with a session in the URL hash. */
-
-    supabaseClient.auth.onAuthStateChange(
-        (event, session) => {
-
-            console.log(
-                "Auth event:",
-                event,
-                session ? "session set" : "no session"
-            );
-
-            if (session) {
-                goToAccount();
-            }
-
-        }
-    );
-
-
-    /* 2. Immediate check — covers users who are
-          already signed in and reach login.html
-          without going through the OAuth flow. */
-
     async function checkExistingSession() {
 
-        try {
-
-            const {
-                data: { session },
-                error
-            } = await supabaseClient.auth.getSession();
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.getUser();
 
 
-            if (error) {
-
-                console.error(
-                    "Session check error:",
-                    error
-                );
-
-                return;
-
-            }
-
-
-            if (session) {
-                goToAccount();
-            }
-
-        } catch (err) {
-
+        if (error) {
             console.error(
-                "Session check exception:",
-                err
+                "Session check error:",
+                error
+            );
+            return;
+        }
+
+
+        if (data?.user) {
+
+            window.location.replace(
+                "account.html"
             );
 
         }

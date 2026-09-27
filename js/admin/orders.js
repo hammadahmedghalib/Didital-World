@@ -45,9 +45,7 @@ let orders = [];
 async function checkAdmin() {
 
     const {
-        data: {
-            session
-        },
+        data: { session },
         error
     } = await supabaseClient.auth.getSession();
 
@@ -73,8 +71,7 @@ async function checkAdmin() {
 
         await supabaseClient.auth.signOut();
 
-        window.location.href =
-            "login.html";
+        window.location.href = "login.html";
 
         return false;
     }
@@ -90,19 +87,9 @@ async function checkAdmin() {
 async function loadOrders() {
 
     if (message) {
-        message.textContent =
-            "Loading orders...";
+        message.textContent = "Loading orders...";
     }
 
-
-    console.log(
-        "=== LOADING ORDERS ==="
-    );
-
-
-    // ==================================================
-    // 1. LOAD ORDERS
-    // ==================================================
 
     const {
         data: orderRows,
@@ -115,67 +102,38 @@ async function loadOrders() {
             customer_id,
             product_id,
             price_at_order_time,
+            quantity,
+            total_price,
             status,
             notes,
             created_at
         `)
-        .order(
-            "created_at",
-            {
-                ascending: false
-            }
-        );
+        .order("created_at", { ascending: false });
 
 
     if (orderError) {
-
-        console.error(
-            "ORDERS ERROR:",
-            orderError
-        );
-
         throw orderError;
     }
 
 
-    orders =
-        orderRows || [];
+    orders = orderRows || [];
 
-
-    console.log(
-        "ORDERS:",
-        orders
-    );
-
-
-    // ==================================================
-    // NO ORDERS
-    // ==================================================
 
     if (!orders.length) {
 
         updateStats();
-
         renderOrders();
 
-        message.textContent =
-            "0 order(s) found.";
+        message.textContent = "0 order(s) found.";
 
         return;
     }
 
 
-    // ==================================================
-    // IDS
-    // ==================================================
-
     const customerIds = [
         ...new Set(
             orders
-                .map(
-                    order =>
-                        order.customer_id
-                )
+                .map(order => order.customer_id)
                 .filter(Boolean)
         )
     ];
@@ -184,35 +142,18 @@ async function loadOrders() {
     const productIds = [
         ...new Set(
             orders
-                .map(
-                    order =>
-                        order.product_id
-                )
+                .map(order => order.product_id)
                 .filter(Boolean)
         )
     ];
 
-
-    const orderIds =
-        orders.map(
-            order =>
-                order.id
-        );
-
-
-    // ==================================================
-    // 2. LOAD CUSTOMERS
-    // ==================================================
 
     let customers = [];
 
 
     if (customerIds.length) {
 
-        const {
-            data,
-            error
-        } = await supabaseClient
+        const { data, error } = await supabaseClient
             .from("customers")
             .select(`
                 id,
@@ -222,41 +163,21 @@ async function loadOrders() {
                 city,
                 country
             `)
-            .in(
-                "id",
-                customerIds
-            );
+            .in("id", customerIds);
 
 
-        if (error) {
+        if (error) throw error;
 
-            console.error(
-                "CUSTOMERS ERROR:",
-                error
-            );
-
-            throw error;
-        }
-
-
-        customers =
-            data || [];
+        customers = data || [];
     }
 
-
-    // ==================================================
-    // 3. LOAD PRODUCTS
-    // ==================================================
 
     let products = [];
 
 
     if (productIds.length) {
 
-        const {
-            data,
-            error
-        } = await supabaseClient
+        const { data, error } = await supabaseClient
             .from("products")
             .select(`
                 id,
@@ -264,244 +185,48 @@ async function loadOrders() {
                 slug,
                 main_image_url
             `)
-            .in(
-                "id",
-                productIds
-            );
+            .in("id", productIds);
 
 
-        if (error) {
+        if (error) throw error;
 
-            console.error(
-                "PRODUCTS ERROR:",
-                error
-            );
-
-            throw error;
-        }
-
-
-        products =
-            data || [];
+        products = data || [];
     }
 
-
-    // ==================================================
-    // 4. LOAD WEDDING DETAILS
-    // ==================================================
-
-    let weddingDetails = [];
-
-
-    if (orderIds.length) {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("wedding_details")
-            .select(`
-                order_id,
-                bride_name,
-                groom_name,
-                wedding_date,
-                wedding_time,
-                venue,
-                event_type
-            `)
-            .in(
-                "order_id",
-                orderIds
-            );
-
-
-        if (error) {
-
-            console.error(
-                "WEDDING DETAILS ERROR:",
-                error
-            );
-
-            throw error;
-        }
-
-
-        weddingDetails =
-            data || [];
-    }
-
-
-    // ==================================================
-    // 5. LOAD REFERENCE FILES
-    //
-    // OPTIONAL:
-    // If this fails, do NOT stop the Orders page.
-    // ==================================================
-
-    let referenceFiles = [];
-
-
-    if (orderIds.length) {
-
-        try {
-
-            const {
-                data,
-                error
-            } = await supabaseClient
-                .from("order_files")
-                .select(`
-                    id,
-                    order_id,
-                    file_url,
-                    file_name,
-                    file_type,
-                    file_size,
-                    created_at
-                `)
-                .in(
-                    "order_id",
-                    orderIds
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                );
-
-
-            if (error) {
-
-                console.warn(
-                    "REFERENCE FILES COULD NOT BE LOADED:",
-                    error
-                );
-
-            } else {
-
-                referenceFiles =
-                    data || [];
-
-            }
-
-        } catch (error) {
-
-            console.warn(
-                "REFERENCE FILE QUERY FAILED:",
-                error
-            );
-
-        }
-    }
-
-
-    // ==================================================
-    // 6. CREATE MAPS
-    // ==================================================
 
     const customerMap =
         new Map(
-            customers.map(
-                customer => [
-                    customer.id,
-                    customer
-                ]
-            )
+            customers.map(customer => [
+                customer.id,
+                customer
+            ])
         );
 
 
     const productMap =
         new Map(
-            products.map(
-                product => [
-                    product.id,
-                    product
-                ]
-            )
+            products.map(product => [
+                product.id,
+                product
+            ])
         );
 
 
-    const weddingMap =
-        new Map(
-            weddingDetails.map(
-                wedding => [
-                    wedding.order_id,
-                    wedding
-                ]
-            )
-        );
+    orders = orders.map(order => ({
 
+        ...order,
 
-    const fileMap =
-        new Map();
+        customers:
+            customerMap.get(order.customer_id) || {},
 
+        products:
+            productMap.get(order.product_id) || {}
 
-    referenceFiles.forEach(file => {
+    }));
 
-        if (!fileMap.has(file.order_id)) {
-
-            fileMap.set(
-                file.order_id,
-                []
-            );
-
-        }
-
-
-        fileMap
-            .get(file.order_id)
-            .push(file);
-
-    });
-
-
-    // ==================================================
-    // 7. COMBINE
-    // ==================================================
-
-    orders =
-        orders.map(order => ({
-
-            ...order,
-
-            customers:
-                customerMap.get(
-                    order.customer_id
-                ) || {},
-
-            products:
-                productMap.get(
-                    order.product_id
-                ) || {},
-
-            wedding_details:
-                weddingMap.get(
-                    order.id
-                ) || {},
-
-            order_files:
-                fileMap.get(
-                    order.id
-                ) || []
-
-        }));
-
-
-    console.log(
-        "FINAL ORDERS:",
-        orders
-    );
-
-
-    // ==================================================
-    // 8. RENDER
-    // ==================================================
 
     updateStats();
-
     renderOrders();
-
 
     message.textContent =
         `${orders.length} order(s) found.`;
@@ -520,22 +245,19 @@ function updateStats() {
 
     newOrders.textContent =
         orders.filter(
-            order =>
-                order.status === "new"
+            order => order.status === "new"
         ).length;
 
 
     progressOrders.textContent =
         orders.filter(
-            order =>
-                order.status === "in_progress"
+            order => order.status === "in_progress"
         ).length;
 
 
     completedOrders.textContent =
         orders.filter(
-            order =>
-                order.status === "completed"
+            order => order.status === "completed"
         ).length;
 }
 
@@ -566,17 +288,11 @@ function filteredOrders() {
 
 
         const searchableText = [
-
             order.order_number,
-
             customer.full_name,
-
             customer.whatsapp,
-
             customer.email,
-
             product.name
-
         ]
             .filter(Boolean)
             .join(" ")
@@ -585,9 +301,7 @@ function filteredOrders() {
 
         const matchesSearch =
             !search ||
-            searchableText.includes(
-                search
-            );
+            searchableText.includes(search);
 
 
         const matchesStatus =
@@ -595,10 +309,7 @@ function filteredOrders() {
             order.status === selectedStatus;
 
 
-        return (
-            matchesSearch &&
-            matchesStatus
-        );
+        return matchesSearch && matchesStatus;
 
     });
 }
@@ -615,8 +326,7 @@ function renderOrders() {
     }
 
 
-    const list =
-        filteredOrders();
+    const list = filteredOrders();
 
 
     if (!list.length) {
@@ -624,7 +334,7 @@ function renderOrders() {
         tableBody.innerHTML = `
             <tr>
                 <td
-                    colspan="9"
+                    colspan="7"
                     class="message"
                 >
                     No orders found.
@@ -642,12 +352,8 @@ function renderOrders() {
             .join("");
 
 
-    // STATUS EVENTS
-
     tableBody
-        .querySelectorAll(
-            ".order-status"
-        )
+        .querySelectorAll(".order-status")
         .forEach(select => {
 
             select.addEventListener(
@@ -664,33 +370,13 @@ function renderOrders() {
             );
 
         });
-
-
-    // REFERENCE EVENTS
-
-    tableBody
-        .querySelectorAll(
-            ".reference-button"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                async () => {
-
-                    await openReferenceFile(
-                        button.dataset.filePath
-                    );
-
-                }
-            );
-
-        });
 }
 
 
 // ======================================================
-// CREATE ROW
+// CREATE ROW — 7 cells
+//   Order · Customer · Invitation · Qty ·
+//   Status · Date · View
 // ======================================================
 
 function createRow(order) {
@@ -701,70 +387,15 @@ function createRow(order) {
     const product =
         order.products || {};
 
-    const wedding =
-        order.wedding_details || {};
-
-    const files =
-        order.order_files || [];
-
-
-    const weddingNames =
-        `${wedding.bride_name || "—"} & ${wedding.groom_name || "—"}`;
-
-
     const created =
         order.created_at
-            ? formatDate(
-                order.created_at
-            )
+            ? formatDate(order.created_at)
             : "—";
 
-
-    const weddingDate =
-        wedding.wedding_date ||
-        "—";
-
-
-    // --------------------------------------------------
-    // REFERENCE
-    // --------------------------------------------------
-
-    let referenceHtml = `
-        <span class="no-reference">
-            None
-        </span>
-    `;
-
-
-    if (files.length) {
-
-        const file =
-            files[0];
-
-
-        referenceHtml = `
-
-            <button
-                type="button"
-                class="reference-button"
-                data-file-path="${escapeHtml(
-                    file.file_url
-                )}"
-            >
-                View File
-            </button>
-
-
-            <span class="reference-name">
-
-                ${escapeHtml(
-                    file.file_name
-                )}
-
-            </span>
-
-        `;
-    }
+    const qty =
+        order.quantity
+            ? `${Number(order.quantity).toLocaleString("en-PK")} cards`
+            : "—";
 
 
     return `
@@ -775,8 +406,7 @@ function createRow(order) {
 
                 <strong>
                     ${escapeHtml(
-                        order.order_number ||
-                        "—"
+                        order.order_number || "—"
                     )}
                 </strong>
 
@@ -787,15 +417,13 @@ function createRow(order) {
 
                 <strong>
                     ${escapeHtml(
-                        customer.full_name ||
-                        "—"
+                        customer.full_name || "—"
                     )}
                 </strong>
 
                 <small>
                     ${escapeHtml(
-                        customer.whatsapp ||
-                        ""
+                        customer.whatsapp || ""
                     )}
                 </small>
 
@@ -805,39 +433,22 @@ function createRow(order) {
             <td>
 
                 ${escapeHtml(
-                    product.name ||
-                    "—"
+                    product.name || "—"
                 )}
+
+                ${
+                    product.slug
+                        ? `<small>/${escapeHtml(
+                            product.slug
+                        )}</small>`
+                        : ""
+                }
 
             </td>
 
 
-            <td>
-
-                <strong>
-                    ${escapeHtml(
-                        weddingNames
-                    )}
-                </strong>
-
-                <small>
-                    ${escapeHtml(
-                        weddingDate
-                    )}
-                </small>
-
-            </td>
-
-
-            <td>
-
-                PKR
-                ${Number(
-                    order.price_at_order_time || 0
-                ).toLocaleString(
-                    "en-PK"
-                )}
-
+            <td class="qty-cell">
+                ${escapeHtml(qty)}
             </td>
 
 
@@ -905,18 +516,7 @@ function createRow(order) {
 
 
             <td>
-
-                ${escapeHtml(
-                    created
-                )}
-
-            </td>
-
-
-            <td>
-
-                ${referenceHtml}
-
+                ${escapeHtml(created)}
             </td>
 
 
@@ -940,63 +540,6 @@ function createRow(order) {
 
 
 // ======================================================
-// OPEN PRIVATE FILE
-// ======================================================
-
-async function openReferenceFile(
-    storagePath
-) {
-
-    try {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .storage
-            .from("order-files")
-            .createSignedUrl(
-                storagePath,
-                300
-            );
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        if (!data?.signedUrl) {
-
-            throw new Error(
-                "Could not create secure file link."
-            );
-        }
-
-
-        window.open(
-            data.signedUrl,
-            "_blank"
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Reference file error:",
-            error
-        );
-
-
-        alert(
-            error.message ||
-            "Unable to open reference file."
-        );
-    }
-}
-
-
-// ======================================================
 // CHANGE STATUS
 // ======================================================
 
@@ -1007,36 +550,24 @@ async function changeStatus(
 ) {
 
     const order =
-        orders.find(
-            item =>
-                item.id === orderId
-        );
+        orders.find(item => item.id === orderId);
 
 
     const previousStatus =
-        order?.status ||
-        "new";
+        order?.status || "new";
 
 
     try {
 
         if (selectElement) {
-            selectElement.disabled =
-                true;
+            selectElement.disabled = true;
         }
 
 
-        const {
-            error
-        } = await supabaseClient
+        const { error } = await supabaseClient
             .from("orders")
-            .update({
-                status: newStatus
-            })
-            .eq(
-                "id",
-                orderId
-            );
+            .update({ status: newStatus })
+            .eq("id", orderId);
 
 
         if (error) {
@@ -1045,27 +576,18 @@ async function changeStatus(
 
 
         if (order) {
-            order.status =
-                newStatus;
+            order.status = newStatus;
         }
 
 
         updateStats();
-
         renderOrders();
 
-
-        message.textContent =
-            "Order status updated.";
-
+        message.textContent = "Order status updated.";
 
     } catch (error) {
 
-        console.error(
-            "Status update error:",
-            error
-        );
-
+        console.error("Status update error:", error);
 
         alert(
             error.message ||
@@ -1074,10 +596,8 @@ async function changeStatus(
 
 
         if (order) {
-            order.status =
-                previousStatus;
+            order.status = previousStatus;
         }
-
 
         renderOrders();
     }
@@ -1089,12 +609,7 @@ async function changeStatus(
 // ======================================================
 
 if (searchInput) {
-
-    searchInput.addEventListener(
-        "input",
-        renderOrders
-    );
-
+    searchInput.addEventListener("input", renderOrders);
 }
 
 
@@ -1103,12 +618,7 @@ if (searchInput) {
 // ======================================================
 
 if (statusFilter) {
-
-    statusFilter.addEventListener(
-        "change",
-        renderOrders
-    );
-
+    statusFilter.addEventListener("change", renderOrders);
 }
 
 
@@ -1117,24 +627,15 @@ if (statusFilter) {
 // ======================================================
 
 if (refreshButton) {
+    refreshButton.addEventListener("click", async () => {
 
-    refreshButton.addEventListener(
-        "click",
-        async () => {
-
-            try {
-
-                await loadOrders();
-
-            } catch (error) {
-
-                showError(error);
-
-            }
-
+        try {
+            await loadOrders();
+        } catch (error) {
+            showError(error);
         }
-    );
 
+    });
 }
 
 
@@ -1143,21 +644,15 @@ if (refreshButton) {
 // ======================================================
 
 if (logoutButton) {
+    logoutButton.addEventListener("click", async event => {
 
-    logoutButton.addEventListener(
-        "click",
-        async event => {
+        event.preventDefault();
 
-            event.preventDefault();
+        await supabaseClient.auth.signOut();
 
-            await supabaseClient.auth.signOut();
+        window.location.href = "login.html";
 
-            window.location.href =
-                "login.html";
-
-        }
-    );
-
+    });
 }
 
 
@@ -1173,16 +668,13 @@ function formatDate(value) {
 
 
     return new Date(value)
-        .toLocaleString(
-            "en-PK",
-            {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
+        .toLocaleString("en-PK", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
 }
 
 
@@ -1207,17 +699,11 @@ function escapeHtml(value) {
 
 function showError(error) {
 
-    console.error(
-        "Orders page error:",
-        error
-    );
+    console.error("Orders page error:", error);
 
 
     if (message) {
-
-        message.textContent =
-            "Error loading orders.";
-
+        message.textContent = "Error loading orders.";
     }
 
 
@@ -1226,17 +712,15 @@ function showError(error) {
         tableBody.innerHTML = `
             <tr>
                 <td
-                    colspan="9"
+                    colspan="7"
                     class="error"
                 >
                     ${escapeHtml(
-                        error?.message ||
-                        "Unknown error"
+                        error?.message || "Unknown error"
                     )}
                 </td>
             </tr>
         `;
-
     }
 }
 
@@ -1249,27 +733,11 @@ function showError(error) {
 
     try {
 
-        console.log(
-            "=== ORDERS PAGE INITIALIZING ==="
-        );
+        const isAdmin = await checkAdmin();
 
-
-        const isAdmin =
-            await checkAdmin();
-
-
-        if (!isAdmin) {
-            return;
-        }
-
-
-        console.log(
-            "Admin verified."
-        );
-
+        if (!isAdmin) return;
 
         await loadOrders();
-
 
     } catch (error) {
 

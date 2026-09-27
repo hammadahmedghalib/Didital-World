@@ -7,7 +7,7 @@ import { getProductBySlug } from "./catalog.js";
 ====================================================== */
 
 const MIN_QUANTITY = 100;
-const QUANTITY_STEP = 1;             /* ← was 50, now 1 */
+const QUANTITY_STEP = 25;
 const DEFAULT_QUANTITY = 100;
 
 
@@ -23,23 +23,7 @@ const previousButtons = document.querySelectorAll(".previous-step");
 
 const fullNameInput = document.getElementById("fullName");
 const whatsappInput = document.getElementById("whatsapp");
-const emailInput = document.getElementById("email");
 const cityInput = document.getElementById("city");
-const countryInput = document.getElementById("country");
-
-const brideNameInput = document.getElementById("brideName");
-const groomNameInput = document.getElementById("groomName");
-const weddingDateInput = document.getElementById("weddingDate");
-const weddingTimeInput = document.getElementById("weddingTime");
-const eventTypeInput = document.getElementById("eventType");
-const venueInput = document.getElementById("venue");
-
-const customTextInput = document.getElementById("customText");
-const specialRequirementsInput = document.getElementById("specialRequirements");
-const orderNotesInput = document.getElementById("orderNotes");
-
-const referenceFileInput = document.getElementById("referenceFile");
-const selectedFileEl = document.getElementById("selectedFile");
 
 const confirmationInput = document.getElementById("informationConfirmed");
 const confirmationError = document.getElementById("confirmationError");
@@ -70,6 +54,17 @@ let selectedProduct = null;
    HELPERS
 ====================================================== */
 
+function safeValue(el) {
+    return el ? el.value.trim() : "";
+}
+
+/* Converts "" to null — needed for DATE / TIME columns */
+
+function orNull(value) {
+    const v = String(value ?? "").trim();
+    return v === "" ? null : v;
+}
+
 function getProductSlug() {
     const params = new URLSearchParams(window.location.search);
 
@@ -80,23 +75,17 @@ function getProductSlug() {
     );
 }
 
-
 function formatPrice(price) {
     return `PKR ${Number(price || 0).toLocaleString("en-PK")}`;
 }
 
-
 function getQuantity() {
     const raw = Number(quantityInput?.value);
-    if (!Number.isFinite(raw) || raw < MIN_QUANTITY) {
-        return MIN_QUANTITY;
-    }
+    if (!Number.isFinite(raw) || raw < MIN_QUANTITY) return MIN_QUANTITY;
     return Math.floor(raw);
 }
 
-
 function updateTotalPrice() {
-
     if (!orderTotalPrice) return;
 
     const unitPrice = Number(selectedProduct?.price) || 0;
@@ -107,7 +96,7 @@ function updateTotalPrice() {
 
 
 /* ======================================================
-   QUANTITY STEPPER — MIN 100, + / − BY 1
+   QUANTITY STEPPER — min 100, steps of 25
 ====================================================== */
 
 function setupQuantityStepper() {
@@ -121,42 +110,29 @@ function setupQuantityStepper() {
     }
 
 
-    /* MINUS — subtract by 1, never below 100 */
-
     quantityMinusBtn?.addEventListener("click", () => {
 
         const current = getQuantity();
-
-        const next = Math.max(
-            MIN_QUANTITY,
-            current - QUANTITY_STEP
-        );
+        const next = Math.max(MIN_QUANTITY, current - QUANTITY_STEP);
 
         quantityInput.value = next;
 
         if (quantityError) quantityError.textContent = "";
 
         updateTotalPrice();
-
     });
 
-
-    /* PLUS — add by 1 */
 
     quantityPlusBtn?.addEventListener("click", () => {
 
         const current = getQuantity();
-
         quantityInput.value = current + QUANTITY_STEP;
 
         if (quantityError) quantityError.textContent = "";
 
         updateTotalPrice();
-
     });
 
-
-    /* MANUAL INPUT — snap to 100 if typed below */
 
     quantityInput.addEventListener("input", () => {
 
@@ -167,26 +143,19 @@ function setupQuantityStepper() {
             value < MIN_QUANTITY &&
             value !== 0
         ) {
-
             quantityInput.value = MIN_QUANTITY;
 
             if (quantityError) {
                 quantityError.textContent =
                     `Minimum order is ${MIN_QUANTITY} cards.`;
             }
-
         } else {
-
             if (quantityError) quantityError.textContent = "";
-
         }
 
         updateTotalPrice();
-
     });
 
-
-    /* BLUR — final clamp */
 
     quantityInput.addEventListener("blur", () => {
 
@@ -197,18 +166,15 @@ function setupQuantityStepper() {
         }
 
         value = Math.round(value);
-
         quantityInput.value = value;
 
         if (quantityError) quantityError.textContent = "";
 
         updateTotalPrice();
-
     });
 
 
     updateTotalPrice();
-
 }
 
 
@@ -232,7 +198,6 @@ function showStep(stepNumber) {
     });
 
     window.scrollTo({ top: 0, behavior: "smooth" });
-
 }
 
 
@@ -256,21 +221,9 @@ function validateStep(stepNumber) {
             return false;
         }
 
-        if (!emailInput.value.trim()) {
-            alert("Please enter your email address.");
-            emailInput.focus();
-            return false;
-        }
-
         if (!cityInput.value.trim()) {
             alert("Please enter your city.");
             cityInput.focus();
-            return false;
-        }
-
-        if (!countryInput.value.trim()) {
-            alert("Please enter your country.");
-            countryInput.focus();
             return false;
         }
 
@@ -284,72 +237,27 @@ function validateStep(stepNumber) {
             }
 
             quantityInput?.focus();
-
             alert(`Minimum order is ${MIN_QUANTITY} cards.`);
-
             return false;
-
         }
 
         if (quantityError) quantityError.textContent = "";
-
     }
 
 
     if (stepNumber === 2) {
 
-        if (!brideNameInput.value.trim()) {
-            alert("Please enter the bride's name.");
-            brideNameInput.focus();
-            return false;
-        }
-
-        if (!groomNameInput.value.trim()) {
-            alert("Please enter the groom's name.");
-            groomNameInput.focus();
-            return false;
-        }
-
-        if (!weddingDateInput.value) {
-            alert("Please select the wedding date.");
-            weddingDateInput.focus();
-            return false;
-        }
-
-        if (!eventTypeInput.value) {
-            alert("Please select the event type.");
-            eventTypeInput.focus();
-            return false;
-        }
-
-        if (!venueInput.value.trim()) {
-            alert("Please enter the wedding venue.");
-            venueInput.focus();
-            return false;
-        }
-
-    }
-
-
-    if (stepNumber === 4) {
-
         if (!confirmationInput.checked) {
-
             confirmationError.textContent =
                 "Please confirm that the information above is correct.";
-
             confirmationInput.focus();
-
             return false;
-
         }
 
         confirmationError.textContent = "";
-
     }
 
     return true;
-
 }
 
 
@@ -363,61 +271,45 @@ async function loadProduct() {
 
         const slug = getProductSlug();
 
-        if (!slug) {
-            throw new Error("No invitation was selected.");
-        }
-
-        console.log("Loading product:", slug);
+        if (!slug) throw new Error("No invitation was selected.");
 
         selectedProduct = await getProductBySlug(slug);
 
-        if (!selectedProduct) {
-            throw new Error("Invitation not found.");
-        }
-
-        console.log("Loaded product:", selectedProduct);
+        if (!selectedProduct) throw new Error("Invitation not found.");
 
 
-        orderProductName.textContent = selectedProduct.name;
+        if (orderProductName)
+            orderProductName.textContent = selectedProduct.name;
 
-        orderProductPrice.textContent =
-            formatPrice(selectedProduct.price);
+        if (orderProductPrice)
+            orderProductPrice.textContent = formatPrice(selectedProduct.price);
 
-        if (selectedProduct.categories) {
+        if (selectedProduct.categories && orderProductCategory) {
             orderProductCategory.textContent =
                 selectedProduct.categories.name || "";
         }
 
-        if (selectedProduct.main_image_url) {
-
+        if (selectedProduct.main_image_url && orderProductImage) {
             orderProductImage.style.backgroundImage =
                 `url("${selectedProduct.main_image_url}")`;
-
-            orderProductImage.style.backgroundSize = "cover";
-            orderProductImage.style.backgroundPosition = "center";
-            orderProductImage.style.backgroundRepeat = "no-repeat";
-
-        } else {
-
+        } else if (orderProductImage) {
             orderProductImage.style.backgroundImage = "none";
-
         }
 
         updateTotalPrice();
-
     }
-
     catch (error) {
 
         console.error("Product loading failed:", error);
 
-        orderProductName.textContent = "Invitation unavailable";
-        orderProductPrice.textContent = "PKR 0";
+        if (orderProductName)
+            orderProductName.textContent = "Invitation unavailable";
+
+        if (orderProductPrice)
+            orderProductPrice.textContent = "PKR 0";
 
         alert(error.message || "Unable to load this invitation.");
-
     }
-
 }
 
 
@@ -426,72 +318,24 @@ async function loadProduct() {
 ====================================================== */
 
 nextButtons.forEach((button) => {
-
     button.addEventListener("click", () => {
 
         if (!validateStep(currentStep)) return;
 
         const nextStep = currentStep + 1;
 
-        if (nextStep === 4) {
-            buildReview();
-        }
+        if (nextStep === 2) buildReview();
 
         showStep(nextStep);
-
     });
-
 });
-
 
 previousButtons.forEach((button) => {
-
     button.addEventListener("click", () => {
-
         const previousStep = currentStep - 1;
-
-        if (previousStep >= 1) {
-            showStep(previousStep);
-        }
-
+        if (previousStep >= 1) showStep(previousStep);
     });
-
 });
-
-
-/* ======================================================
-   REFERENCE FILE
-====================================================== */
-
-if (referenceFileInput) {
-
-    referenceFileInput.addEventListener("change", () => {
-
-        const file = referenceFileInput.files?.[0];
-
-        if (!file) {
-            selectedFileEl.textContent = "";
-            return;
-        }
-
-        const sizeMB = file.size / (1024 * 1024);
-
-        if (sizeMB > 10) {
-
-            alert("Reference file must be smaller than 10MB.");
-
-            referenceFileInput.value = "";
-            selectedFileEl.textContent = "";
-
-            return;
-
-        }
-
-        selectedFileEl.textContent = `Selected: ${file.name}`;
-
-    });
-
-}
 
 
 /* ======================================================
@@ -501,32 +345,12 @@ if (referenceFileInput) {
 function collectFormData() {
 
     return {
-
         customer: {
-            fullName: fullNameInput.value.trim(),
-            whatsapp: whatsappInput.value.trim(),
-            email: emailInput.value.trim(),
-            city: cityInput.value.trim(),
-            country: countryInput.value.trim()
-        },
-
-        wedding: {
-            brideName: brideNameInput.value.trim(),
-            groomName: groomNameInput.value.trim(),
-            weddingDate: weddingDateInput.value,
-            weddingTime: weddingTimeInput.value,
-            venue: venueInput.value.trim(),
-            eventType: eventTypeInput.value
-        },
-
-        additional: {
-            customText: customTextInput.value.trim(),
-            specialRequirements: specialRequirementsInput.value.trim(),
-            notes: orderNotesInput.value.trim()
+            fullName: safeValue(fullNameInput),
+            whatsapp: safeValue(whatsappInput),
+            city: safeValue(cityInput)
         }
-
     };
-
 }
 
 
@@ -542,7 +366,6 @@ function escapeHtml(value) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
-
 }
 
 
@@ -553,12 +376,12 @@ function escapeHtml(value) {
 function buildReview() {
 
     const data = collectFormData();
-    const referenceFile = referenceFileInput?.files?.[0];
 
     const quantity = getQuantity();
     const unitPrice = Number(selectedProduct?.price) || 0;
     const totalPrice = unitPrice * quantity;
 
+    if (!orderReview) return;
 
     orderReview.innerHTML = `
 
@@ -601,95 +424,22 @@ function buildReview() {
             </div>
 
             <div class="review-row">
-                <span>Email</span>
-                <strong>${escapeHtml(data.customer.email)}</strong>
-            </div>
-
-            <div class="review-row">
                 <span>City</span>
                 <strong>${escapeHtml(data.customer.city)}</strong>
-            </div>
-
-            <div class="review-row">
-                <span>Country</span>
-                <strong>${escapeHtml(data.customer.country)}</strong>
-            </div>
-        </div>
-
-
-        <div class="review-section">
-            <h3>Wedding Details</h3>
-
-            <div class="review-row">
-                <span>Bride</span>
-                <strong>${escapeHtml(data.wedding.brideName)}</strong>
-            </div>
-
-            <div class="review-row">
-                <span>Groom</span>
-                <strong>${escapeHtml(data.wedding.groomName)}</strong>
-            </div>
-
-            <div class="review-row">
-                <span>Date</span>
-                <strong>${escapeHtml(data.wedding.weddingDate)}</strong>
-            </div>
-
-            <div class="review-row">
-                <span>Time</span>
-                <strong>${escapeHtml(data.wedding.weddingTime || "Not provided")}</strong>
-            </div>
-
-            <div class="review-row">
-                <span>Event</span>
-                <strong>${escapeHtml(data.wedding.eventType)}</strong>
-            </div>
-
-            <div class="review-row">
-                <span>Venue</span>
-                <strong>${escapeHtml(data.wedding.venue)}</strong>
-            </div>
-        </div>
-
-
-        <div class="review-section">
-            <h3>Additional Details</h3>
-
-            <div class="review-row review-row-block">
-                <span>Custom Text</span>
-                <strong>${escapeHtml(data.additional.customText || "Not provided")}</strong>
-            </div>
-
-            <div class="review-row review-row-block">
-                <span>Special Requirements</span>
-                <strong>${escapeHtml(data.additional.specialRequirements || "Not provided")}</strong>
-            </div>
-
-            <div class="review-row review-row-block">
-                <span>Additional Notes</span>
-                <strong>${escapeHtml(data.additional.notes || "Not provided")}</strong>
-            </div>
-
-            <div class="review-row">
-                <span>Reference File</span>
-                <strong>${referenceFile ? escapeHtml(referenceFile.name) : "Not provided"}</strong>
             </div>
         </div>
 
     `;
-
 }
 
 
 /* ======================================================
-   SUBMIT ORDER
+   SUBMIT ORDER — sends null (not "") for empty values
 ====================================================== */
 
 async function submitOrder() {
 
-    if (!selectedProduct) {
-        throw new Error("No invitation selected.");
-    }
+    if (!selectedProduct) throw new Error("No invitation selected.");
 
     const formData = collectFormData();
 
@@ -713,30 +463,27 @@ async function submitOrder() {
         customer: {
             fullName: formData.customer.fullName,
             whatsapp: formData.customer.whatsapp,
-            email: formData.customer.email,
+            email: null,                                  /* ← null, not "" */
             city: formData.customer.city,
-            country: formData.customer.country
+            country: null                                 /* ← null, not "" */
         },
 
         wedding: {
-            brideName: formData.wedding.brideName,
-            groomName: formData.wedding.groomName,
-            weddingDate: formData.wedding.weddingDate,
-            weddingTime: formData.wedding.weddingTime,
-            venue: formData.wedding.venue,
-            eventType: formData.wedding.eventType
+            brideName: null,
+            groomName: null,
+            weddingDate: null,                            /* ← critical: date */
+            weddingTime: null,                            /* ← critical: time */
+            venue: null,
+            eventType: null
         },
 
         additional: {
-            customText: formData.additional.customText,
-            specialRequirements: formData.additional.specialRequirements,
-            notes: formData.additional.notes
+            customText: null,
+            specialRequirements: null,
+            notes: null
         }
 
     };
-
-
-    console.log("Submitting payload:", payload);
 
 
     const { data, error } =
@@ -744,23 +491,13 @@ async function submitOrder() {
 
 
     if (error) {
-
         console.error("Order submission error:", error);
-
-        throw new Error(
-            error.message || "Unable to submit your order."
-        );
-
+        throw new Error(error.message || "Unable to submit your order.");
     }
 
-
-    if (!data?.success) {
-        throw new Error("Order could not be created.");
-    }
-
+    if (!data?.success) throw new Error("Order could not be created.");
 
     return data;
-
 }
 
 
@@ -772,17 +509,15 @@ form.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
-    if (!validateStep(4)) return;
+    if (!validateStep(2)) return;
 
     if (!selectedProduct) {
         alert("Please select an invitation first.");
         return;
     }
 
-
     const submitButton = form.querySelector('button[type="submit"]');
     const originalText = submitButton.textContent;
-
 
     try {
 
@@ -794,8 +529,6 @@ form.addEventListener("submit", async (event) => {
 
 
         const formData = collectFormData();
-        const referenceFile = referenceFileInput?.files?.[0];
-
         const quantity = getQuantity();
         const unitPrice = Number(selectedProduct.price) || 0;
 
@@ -821,11 +554,13 @@ form.addEventListener("submit", async (event) => {
                     image: selectedProduct.main_image_url
                 },
 
-                customer: formData.customer,
-                wedding: formData.wedding,
-                additional: formData.additional,
-
-                referenceFile: referenceFile ? referenceFile.name : null
+                customer: {
+                    fullName: formData.customer.fullName,
+                    whatsapp: formData.customer.whatsapp,
+                    email: null,
+                    city: formData.customer.city,
+                    country: null
+                }
 
             })
 
@@ -834,9 +569,7 @@ form.addEventListener("submit", async (event) => {
 
         window.location.href =
             `success.html?order=${encodeURIComponent(result.order_number)}`;
-
     }
-
     catch (error) {
 
         console.error(error);
@@ -848,9 +581,7 @@ form.addEventListener("submit", async (event) => {
 
         submitButton.disabled = false;
         submitButton.textContent = originalText;
-
     }
-
 });
 
 
@@ -864,7 +595,6 @@ async function init() {
     showStep(1);
 
     await loadProduct();
-
 }
 
 

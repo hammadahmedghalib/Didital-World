@@ -6299,3 +6299,110 @@ footer a[href*="category.html?category="]:not(:has(img)),
         aspect-ratio: 4 / 5 !important;
     }
 }
+
+
+
+/* =========================================================
+   PRODUCT GRID — SMALLER CARDS ON DESKTOP
+   Homepage · Category · Related
+========================================================= */
+
+/* Base — 4 columns on wide desktops */
+.dw-product-list,
+.catalog-section #categoryProducts,
+#categoryProducts.product-grid,
+#relatedProducts.product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    max-width: 1240px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Laptops — 3 columns */
+@media (max-width: 1400px) {
+    .dw-product-list,
+    .catalog-section #categoryProducts,
+    #categoryProducts.product-grid,
+    #relatedProducts.product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 18px !important;
+    }
+}
+
+/* Small laptops / tablets — 2 columns */
+@media (max-width: 1050px) {
+    .dw-product-list,
+    .catalog-section #categoryProducts,
+    #categoryProducts.product-grid,
+    #relatedProducts.product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 16px !important;
+    }
+}
+
+/* Phones — 1 column */
+@media (max-width: 700px) {
+    .dw-product-list,
+    .catalog-section #categoryProducts,
+    #categoryProducts.product-grid,
+    #relatedProducts.product-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        padding: 0 14px !important;
+    }
+}
+
+/* Reduce paddings so cards look tighter on desktop */
+.dw-product-body {
+    padding: 18px 20px 20px !important;
+}
+
+.dw-product-name {
+    font-size: clamp(18px, 1.6vw, 22px) !important;
+    margin-bottom: 12px !important;
+}
+
+.dw-product-price {
+    font-size: clamp(18px, 1.8vw, 22px) !important;
+}
+
+.dw-product-price-row {
+    margin-bottom: 14px !important;
+    padding-bottom: 14px !important;
+}
+
+.dw-product-cta {
+    min-height: 46px !important;
+    font-size: 11px !important;
+    letter-spacing: 1.1px !important;
+}
+
+.dw-product-media {
+    aspect-ratio: 4 / 5 !important;   /* keep the taller crop */
+}
+
+        /* =====================================================
+           FULL-WIDTH PRODUCT IMAGE IN SIDEBAR
+           (breaks out of the summary card padding)
+        ===================================================== */
+
+        .order-product-image {
+            margin-left: -26px !important;
+            margin-right: -26px !important;
+            width: calc(100% + 52px) !important;
+            aspect-ratio: 4 / 5 !important;
+            border-left: 0 !important;
+            border-right: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        /* Slightly wider ratio on mobile so the image stays tall */
+        @media (max-width: 640px) {
+            .order-product-image {
+                margin-left: -20px !important;
+                margin-right: -20px !important;
+                width: calc(100% + 40px) !important;
+                aspect-ratio: 4 / 5 !important;
+            }
+        }

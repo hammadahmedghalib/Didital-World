@@ -11,7 +11,7 @@
     >
 
     <title>
-        Order Details | EverAfter Admin
+        Order Details | Digital World Admin
     </title>
 
 
@@ -195,6 +195,12 @@
         }
 
 
+        .value.total-highlight {
+            color: #8a6d3f;
+            font-size: 17px;
+        }
+
+
         .product {
             display: flex;
             gap: 20px;
@@ -247,40 +253,6 @@
             padding: 18px;
             border-radius: 8px;
             white-space: pre-wrap;
-        }
-
-
-        #referenceFilesList {
-            margin-top: 15px;
-        }
-
-
-        .reference-file {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 12px;
-            background: #fafafa;
-        }
-
-
-        .reference-file-name {
-            font-weight: 700;
-            overflow-wrap: anywhere;
-            word-break: break-word;
-        }
-
-
-        .reference-file-meta {
-            margin: 6px 0 12px;
-            color: #777;
-            font-size: 13px;
-        }
-
-
-        .empty-file {
-            color: #777;
-            margin: 0;
         }
 
 
@@ -346,8 +318,6 @@
 <body>
 
 
-<!-- ================= HEADER ================= -->
-
 <header>
 
     <strong>
@@ -360,8 +330,6 @@
 
 </header>
 
-
-<!-- ================= NAV ================= -->
 
 <nav>
 
@@ -390,8 +358,6 @@
 
 </nav>
 
-
-<!-- ================= MAIN ================= -->
 
 <main>
 
@@ -441,8 +407,6 @@
     </div>
 
 
-    <!-- ================= LOADING ================= -->
-
     <div
         id="loadingBox"
         class="loading"
@@ -451,16 +415,12 @@
     </div>
 
 
-    <!-- ================= ERROR ================= -->
-
     <div
         id="errorBox"
         class="error"
         style="display:none;"
     ></div>
 
-
-    <!-- ================= ORDER CONTENT ================= -->
 
     <div
         id="orderContent"
@@ -484,7 +444,6 @@
                     Order Number
                 </span>
 
-
                 <span
                     class="value"
                     id="orderNumber"
@@ -500,7 +459,6 @@
                 <span class="label">
                     Status
                 </span>
-
 
                 <span class="value">
 
@@ -534,9 +492,8 @@
             <div class="row">
 
                 <span class="label">
-                    Price
+                    Price per Card
                 </span>
-
 
                 <span
                     class="value"
@@ -551,9 +508,40 @@
             <div class="row">
 
                 <span class="label">
-                    Created
+                    Quantity
                 </span>
 
+                <span
+                    class="value"
+                    id="orderQuantity"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Total Price
+                </span>
+
+                <span
+                    class="value total-highlight"
+                    id="orderTotal"
+                >
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="row">
+
+                <span class="label">
+                    Created
+                </span>
 
                 <span
                     class="value"
@@ -582,7 +570,6 @@
                     Name
                 </span>
 
-
                 <span
                     class="value"
                     id="customerName"
@@ -599,7 +586,6 @@
                     WhatsApp
                 </span>
 
-
                 <span
                     class="value"
                     id="customerWhatsapp"
@@ -613,47 +599,12 @@
             <div class="row">
 
                 <span class="label">
-                    Email
-                </span>
-
-
-                <span
-                    class="value"
-                    id="customerEmail"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
                     City
                 </span>
-
 
                 <span
                     class="value"
                     id="customerCity"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Country
-                </span>
-
-
-                <span
-                    class="value"
-                    id="customerCountry"
                 >
                     —
                 </span>
@@ -708,206 +659,6 @@
             </div>
 
         </section>
-
-
-        <!-- WEDDING -->
-
-        <section class="card">
-
-            <h2>
-                Wedding Details
-            </h2>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Bride
-                </span>
-
-
-                <span
-                    class="value"
-                    id="brideName"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Groom
-                </span>
-
-
-                <span
-                    class="value"
-                    id="groomName"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Date
-                </span>
-
-
-                <span
-                    class="value"
-                    id="weddingDate"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Time
-                </span>
-
-
-                <span
-                    class="value"
-                    id="weddingTime"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Event
-                </span>
-
-
-                <span
-                    class="value"
-                    id="eventType"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Venue
-                </span>
-
-
-                <span
-                    class="value"
-                    id="venue"
-                >
-                    —
-                </span>
-
-            </div>
-
-        </section>
-
-
-        <!-- ADDITIONAL -->
-
-        <section class="card">
-
-            <h2>
-                Additional Requirements
-            </h2>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Custom Text
-                </span>
-
-
-                <span
-                    class="value"
-                    id="customText"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Special Requirements
-                </span>
-
-
-                <span
-                    class="value"
-                    id="specialRequirements"
-                >
-                    —
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span class="label">
-                    Notes
-                </span>
-
-
-                <span
-                    class="value"
-                    id="notes"
-                >
-                    —
-                </span>
-
-            </div>
-
-        </section>
-
-
-        <!-- REFERENCE FILE -->
-
-        <section
-            class="card full"
-            id="referenceFilesSection"
-            style="display:block;"
-        >
-
-            <h2>
-                Reference / Inspiration
-            </h2>
-
-
-            <div
-                id="referenceFilesList"
-            >
-                <p class="empty-file">
-                    Checking for reference files...
-                </p>
-            </div>
-
-        </section>
-
 
     </div>
 
