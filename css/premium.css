@@ -5820,3 +5820,127 @@ footer a[href*="category.html?category="]:not(:has(img)),
     }
 
 }
+
+
+
+/* =========================================================
+   FORCE 2-COLUMN GRID ON MOBILE
+   Overrides the JS-injected flex carousel from
+   homepage-catalog.js (which uses display:flex at ≤700px)
+========================================================= */
+
+@media (max-width: 700px) {
+
+    /* 1. Force GRID (overrides display:flex) */
+
+    .everafter-homepage-catalog .everafter-home-category-grid,
+    .everafter-home-category-grid {
+        display: grid !important;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+        scroll-snap-type: none !important;
+        padding: 0 12px !important;
+    }
+
+
+    /* 2. Reset each card — undo the flex-item rules */
+
+    .everafter-homepage-catalog .everafter-home-category-card,
+    .everafter-home-category-card {
+        flex: none !important;
+        flex-grow: 0 !important;
+        flex-shrink: 0 !important;
+        flex-basis: auto !important;
+        width: auto !important;
+        max-width: none !important;
+        min-height: 0 !important;
+        scroll-snap-align: none !important;
+        position: relative !important;
+    }
+
+
+    /* 3. Compact image */
+
+    .everafter-homepage-catalog .everafter-home-category-card-image {
+        height: 180px !important;
+    }
+
+
+    /* 4. Inner frame tightened */
+
+    .everafter-homepage-catalog .everafter-home-category-card::after {
+        inset: 7px !important;
+    }
+
+
+    /* 5. Category name on image — scaled for half-width */
+
+    .everafter-homepage-catalog .everafter-home-category-card-title {
+        top: 180px !important;
+        left: 13px !important;
+        right: 13px !important;
+        font-size: 19px !important;
+        letter-spacing: -.3px !important;
+        line-height: 1 !important;
+        transform: translateY(calc(-100% - 11px)) !important;
+    }
+
+
+    /* 6. Content panel */
+
+    .everafter-homepage-catalog .everafter-home-category-card-content {
+        padding: 13px 13px 15px !important;
+    }
+
+
+    /* 7. Number "01 / 02 …" */
+
+    .everafter-homepage-catalog .everafter-home-category-number {
+        font-size: 8px !important;
+        letter-spacing: 1.6px !important;
+    }
+
+    .everafter-homepage-catalog .everafter-home-category-number::after {
+        width: 10px !important;
+        margin: 0 5px !important;
+    }
+
+
+    /* 8. "HANDPICKED" label */
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-label::before {
+        font-size: 7px !important;
+        letter-spacing: 1.6px !important;
+    }
+
+
+    /* 9. Description — 2 lines max */
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-description {
+        font-size: 10px !important;
+        line-height: 1.45 !important;
+        margin: 8px 0 12px !important;
+        -webkit-line-clamp: 2 !important;
+    }
+
+
+    /* 10. Discover link */
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-button::before {
+        content: "Discover" !important;
+        font-size: 8px !important;
+        letter-spacing: 1.6px !important;
+    }
+
+    .everafter-homepage-catalog
+    .everafter-home-category-card-button::after {
+        font-size: 10px !important;
+    }
+
+}
