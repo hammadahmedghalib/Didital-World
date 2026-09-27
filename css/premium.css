@@ -6201,3 +6201,101 @@ footer a[href*="category.html?category="]:not(:has(img)),
 .dw-product-fav {
     display: none !important;
 }
+
+
+/* =========================================================
+   MOBILE — FIXED BOTTOM "ORDER NOW" BAR
+   Makes the Order Now button stick to the bottom of the
+   screen on phones (like an e-commerce add-to-cart bar)
+========================================================= */
+
+@media (max-width: 700px) {
+
+    /* Reserve space so the About This Design section
+       isn't hidden behind the fixed bar */
+    body {
+        padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    /* The Order Now button becomes a fixed bottom bar */
+    #orderButton {
+        position: fixed !important;
+
+        left: 14px !important;
+        right: 14px !important;
+        bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+
+        z-index: 9999 !important;
+
+        width: auto !important;
+        max-width: none !important;
+        min-width: 0 !important;
+
+        min-height: 56px !important;
+
+        margin: 0 !important;
+
+        border-radius: 999px !important;
+
+        box-shadow:
+            0 12px 30px rgba(138, 109, 63, .40),
+            0 4px 12px rgba(0, 0, 0, .18) !important;
+
+        transition: transform .25s ease, box-shadow .25s ease !important;
+    }
+
+    #orderButton:active {
+        transform: translateY(-1px) scale(.99) !important;
+    }
+
+    /* Collapse the empty product-actions grid row
+       (heart is hidden, Order Now is fixed) */
+    .product-actions {
+        min-height: 0 !important;
+        margin-bottom: 0 !important;
+    }
+}
+
+
+/* =========================================================
+   HIDE PRODUCT SHORT DESCRIPTION ON CARDS
+   (removes the paragraph between the title and price)
+========================================================= */
+
+.dw-product-desc {
+    display: none !important;
+}
+
+
+/* =========================================================
+   PRODUCT CARD IMAGES — FULL BLEED, NO SPACING
+   Applies to homepage, category page, related products
+========================================================= */
+
+.dw-product-media {
+    aspect-ratio: 4 / 5 !important;   /* taller, fills the card */
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+    background: #f0e8d8 !important;   /* fallback while loading */
+}
+
+.dw-product-media img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;      /* fills, crops overflow */
+    object-position: center !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Mobile — keep the same tall ratio */
+@media (max-width: 700px) {
+    .dw-product-media {
+        aspect-ratio: 4 / 5 !important;
+    }
+}

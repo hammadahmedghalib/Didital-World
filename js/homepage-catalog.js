@@ -5,15 +5,8 @@ import {
 
 /* =============================================================
    DIGITAL WORLD — HOMEPAGE CATALOG
-   - Category cards (unchanged)
-   - Featured products (redesigned to rich shop-style cards
-     with filter bar, image carousel, features, CTA, favourite)
 ============================================================= */
 
-
-/* =============================================================
-   HELPERS
-============================================================= */
 
 function escapeHtml(value) {
     return String(value ?? "")
@@ -102,16 +95,6 @@ function getProductTags(product) {
         .filter(Boolean);
 }
 
-function getProductGallery(product) {
-    const raw = product.product_images || product.gallery_images || product.gallery || [];
-    return normalizeArray(raw).map(getImageUrl).filter(Boolean);
-}
-
-
-/* =============================================================
-   VISIBILITY
-============================================================= */
-
 function isCategoryVisible(category) {
     if (
         category.active === false ||
@@ -134,11 +117,6 @@ function isProductVisible(product) {
     if (product.status && String(product.status).toLowerCase() !== "published") return false;
     return true;
 }
-
-
-/* =============================================================
-   HOMEPAGE BADGE
-============================================================= */
 
 function getBadge(product) {
     const customBadge = String(product.homepage_badge || "").trim();
@@ -172,10 +150,6 @@ function injectStyles() {
     style.id = "everafter-home-catalog-styles";
 
     style.textContent = `
-
-        /* =====================================================
-           HOMEPAGE BASE
-        ===================================================== */
 
         .everafter-homepage-catalog {
             background: var(--ea-ivory, #f8f5ef);
@@ -245,10 +219,7 @@ function injectStyles() {
             color: #fff;
         }
 
-
-        /* =====================================================
-           CATEGORY GRID (unchanged)
-        ===================================================== */
+        /* CATEGORY GRID */
 
         .everafter-home-category-grid {
             display: grid;
@@ -382,10 +353,7 @@ function injectStyles() {
             color: #1d1c1a;
         }
 
-
-        /* =====================================================
-           SHOP FILTER BAR (top of featured section)
-        ===================================================== */
+        /* SHOP FILTER BAR */
 
         .dw-shop-bar {
             display: grid;
@@ -408,9 +376,7 @@ function injectStyles() {
             transition: border-color .25s ease, box-shadow .25s ease;
         }
 
-        .dw-shop-filter:hover {
-            border-color: rgba(184, 154, 103, .65);
-        }
+        .dw-shop-filter:hover { border-color: rgba(184, 154, 103, .65); }
 
         .dw-shop-filter:focus-within {
             border-color: var(--ea-gold, #b89a67);
@@ -454,10 +420,7 @@ function injectStyles() {
             line-height: 1;
         }
 
-
-        /* =====================================================
-           PRODUCT CARDS — RICH SHOP-STYLE
-        ===================================================== */
+        /* PRODUCT CARDS */
 
         .dw-product-list {
             display: grid;
@@ -487,39 +450,25 @@ function injectStyles() {
                 0 30px 65px rgba(31, 25, 19, .12);
         }
 
-
-        /* ---------- MEDIA / IMAGE AREA ---------- */
-
         .dw-product-media {
             position: relative;
             width: 100%;
             aspect-ratio: 4 / 3;
             overflow: hidden;
-            background:
-                radial-gradient(circle at 30% 20%, #fbf5e8, #f0e8d8);
+            background: radial-gradient(circle at 30% 20%, #fbf5e8, #f0e8d8);
         }
 
         .dw-product-media img {
-            position: absolute;
-            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            opacity: 0;
-            transition: opacity .35s ease, transform .8s cubic-bezier(.2, .7, .2, 1);
+            transition: transform .8s cubic-bezier(.2, .7, .2, 1);
         }
 
-        .dw-product-media img.is-active {
-            opacity: 1;
-        }
-
-        .dw-product-card:hover .dw-product-media img.is-active {
+        .dw-product-card:hover .dw-product-media img {
             transform: scale(1.03);
         }
-
-
-        /* ---------- FEATURED BADGE ---------- */
 
         .dw-product-badge {
             position: absolute;
@@ -548,61 +497,6 @@ function injectStyles() {
             color: #fdf1cf;
         }
 
-
-        /* ---------- IMAGE PAGER ---------- */
-
-        .dw-product-pager {
-            position: absolute;
-            right: 14px;
-            bottom: 14px;
-            z-index: 3;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 6px;
-            border-radius: 999px;
-            background: rgba(29, 28, 26, .78);
-            backdrop-filter: blur(8px);
-            color: #fffaf2;
-            font-size: 10.5px;
-            font-weight: 700;
-            letter-spacing: .5px;
-        }
-
-        .dw-product-pager-count {
-            padding: 0 8px 0 6px;
-        }
-
-        .dw-product-pager-btn {
-            width: 26px;
-            height: 26px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .12);
-            color: #fffaf2;
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 1;
-            cursor: pointer;
-            transition: background .2s ease, color .2s ease;
-        }
-
-        .dw-product-pager-btn:hover {
-            background: #fffaf2;
-            color: #1d1c1a;
-        }
-
-        .dw-product-pager-btn:disabled {
-            opacity: .35;
-            cursor: not-allowed;
-        }
-
-
-        /* ---------- BODY ---------- */
-
         .dw-product-body {
             display: flex;
             flex-direction: column;
@@ -620,32 +514,23 @@ function injectStyles() {
         }
 
         .dw-product-name {
-            margin: 0 0 8px;
+            margin: 0 0 18px;
             color: var(--ea-charcoal, #1d1c1a);
             font: 500 clamp(22px, 2.2vw, 28px) / 1.15 Georgia, "Times New Roman", serif;
             letter-spacing: -.4px;
         }
 
-        .dw-product-desc {
-            margin: 0 0 14px;
-            color: var(--ea-muted, #756f67);
-            font-size: 12.5px;
-            line-height: 1.7;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        .dw-product-name a {
+            color: inherit;
+            text-decoration: none;
         }
-
-
-        /* ---------- PRICE + CUSTOM TAG ---------- */
 
         .dw-product-price-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 14px;
-            margin: 0 0 18px;
+            margin: 0 0 20px;
             padding-bottom: 18px;
             border-bottom: 1px dashed rgba(184, 154, 103, .35);
         }
@@ -656,80 +541,6 @@ function injectStyles() {
             letter-spacing: -.3px;
         }
 
-        .dw-product-custom {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            min-height: 30px;
-            padding: 0 12px;
-            border-radius: 999px;
-            background: #f5efe2;
-            color: #8a6d3f;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: .2px;
-            white-space: nowrap;
-        }
-
-        .dw-product-custom svg {
-            width: 13px;
-            height: 13px;
-            flex: 0 0 auto;
-        }
-
-
-        /* ---------- FEATURES ROW ---------- */
-
-        .dw-product-features {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-            margin: 0 0 22px;
-        }
-
-        .dw-product-feature {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            min-width: 0;
-        }
-
-        .dw-product-feature-icon {
-            flex: 0 0 auto;
-            width: 30px;
-            height: 30px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #fdf4e2, #f0e2c4);
-            color: #8a6d3f;
-        }
-
-        .dw-product-feature-icon svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .dw-product-feature-text {
-            min-width: 0;
-            color: #4e4941;
-            font-size: 10.5px;
-            font-weight: 600;
-            line-height: 1.35;
-            letter-spacing: .1px;
-        }
-
-
-        /* ---------- CTA ROW ---------- */
-
-        .dw-product-cta-row {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 10px;
-            margin-top: auto;
-        }
-
         .dw-product-cta {
             display: inline-flex;
             align-items: center;
@@ -737,6 +548,7 @@ function injectStyles() {
             gap: 10px;
             min-height: 54px;
             padding: 0 22px;
+            width: 100%;
             border-radius: 999px;
             border: 1px solid transparent;
             background: linear-gradient(135deg, #b59155 0%, #8a6d3f 100%);
@@ -746,6 +558,7 @@ function injectStyles() {
             font-weight: 800;
             letter-spacing: 1.2px;
             text-transform: uppercase;
+            margin-top: auto;
             transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
         }
 
@@ -761,55 +574,40 @@ function injectStyles() {
             flex: 0 0 auto;
         }
 
-        .dw-product-fav {
-            width: 54px;
-            height: 54px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--ea-border, #e6ded1);
-            border-radius: 999px;
+        .everafter-home-notice {
+            margin-top: 20px;
+            padding: 14px 16px;
+            border: 1px dashed var(--ea-border, #e6ded1);
+            background: rgba(255, 255, 255, .5);
+            color: var(--ea-muted, #756f67);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .everafter-home-empty {
+            padding: 55px 20px;
+            border: 1px dashed var(--ea-border, #e6ded1);
             background: #fff;
-            color: #a89070;
-            cursor: pointer;
-            transition: border-color .25s ease, color .25s ease, background .25s ease, transform .25s ease;
+            color: var(--ea-muted, #756f67);
+            text-align: center;
         }
 
-        .dw-product-fav:hover {
-            border-color: rgba(184, 154, 103, .7);
-            color: #b59155;
-            transform: translateY(-2px);
+        .everafter-home-empty strong {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--ea-charcoal, #1d1c1a);
+            font: 500 21px Georgia, "Times New Roman", serif;
         }
 
-        .dw-product-fav.is-active {
-            background: #f8efdd;
-            border-color: rgba(184, 154, 103, .8);
-            color: #b59155;
-        }
-
-        .dw-product-fav svg {
-            width: 20px;
-            height: 20px;
-        }
-
-
-        /* =====================================================
-           TABLET
-        ===================================================== */
+        /* TABLET */
 
         @media (max-width: 1050px) {
             .everafter-home-category-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
-            .dw-product-list {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
         }
 
-
-        /* =====================================================
-           MOBILE — 2-col categories, 1-col rich cards
-        ===================================================== */
+        /* MOBILE */
 
         @media (max-width: 700px) {
 
@@ -841,9 +639,6 @@ function injectStyles() {
                 letter-spacing: 1.2px;
             }
 
-
-            /* Category grid — 2 compact columns */
-
             .everafter-home-category-grid {
                 display: grid !important;
                 grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -864,35 +659,22 @@ function injectStyles() {
             .everafter-home-category-card::after { inset: 8px; }
             .everafter-home-category-card-content { padding: 18px 14px 16px; }
             .everafter-home-category-number {
-                margin: 0 0 10px;
-                font-size: 9px;
-                letter-spacing: 1.6px;
+                margin: 0 0 10px; font-size: 9px; letter-spacing: 1.6px;
             }
             .everafter-home-category-card-label {
-                margin: 0 0 6px;
-                font-size: 7px;
-                letter-spacing: 2px;
+                margin: 0 0 6px; font-size: 7px; letter-spacing: 2px;
             }
             .everafter-home-category-card-title {
-                font-size: 19px;
-                letter-spacing: -.3px;
-                line-height: 1.05;
+                font-size: 19px; letter-spacing: -.3px; line-height: 1.05;
             }
             .everafter-home-category-card-description {
-                margin: 8px 0 12px;
-                font-size: 10px;
-                line-height: 1.5;
+                margin: 8px 0 12px; font-size: 10px; line-height: 1.5;
                 -webkit-line-clamp: 2;
             }
             .everafter-home-category-card-button {
-                min-height: 32px;
-                padding: 0 12px;
-                font-size: 7px;
-                letter-spacing: .6px;
+                min-height: 32px; padding: 0 12px;
+                font-size: 7px; letter-spacing: .6px;
             }
-
-
-            /* Shop filter bar — full width, stacked */
 
             .dw-shop-bar {
                 grid-template-columns: 1fr;
@@ -911,9 +693,6 @@ function injectStyles() {
                 font-size: 12px;
             }
 
-
-            /* Product list — single column rich cards */
-
             .dw-product-list {
                 grid-template-columns: 1fr;
                 gap: 18px;
@@ -921,131 +700,39 @@ function injectStyles() {
             }
 
             .dw-product-card { border-radius: 20px; }
-
             .dw-product-media { aspect-ratio: 4 / 3; }
 
             .dw-product-badge {
-                top: 12px;
-                left: 12px;
-                min-height: 26px;
-                padding: 0 10px;
-                font-size: 8.5px;
-                letter-spacing: 1.2px;
+                top: 12px; left: 12px;
+                min-height: 26px; padding: 0 10px;
+                font-size: 8.5px; letter-spacing: 1.2px;
             }
 
-            .dw-product-pager {
-                right: 12px;
-                bottom: 12px;
-                font-size: 10px;
-            }
-
-            .dw-product-pager-btn {
-                width: 24px;
-                height: 24px;
-                font-size: 12px;
-            }
-
-            .dw-product-body {
-                padding: 18px 18px 20px;
-            }
+            .dw-product-body { padding: 18px 18px 20px; }
 
             .dw-product-cat {
-                font-size: 9px;
-                letter-spacing: 2.2px;
-                margin-bottom: 6px;
+                font-size: 9px; letter-spacing: 2.2px; margin-bottom: 6px;
             }
-
-            .dw-product-name {
-                font-size: 22px;
-                margin-bottom: 6px;
-            }
-
-            .dw-product-desc {
-                font-size: 12px;
-                margin-bottom: 12px;
-            }
-
+            .dw-product-name { font-size: 22px; margin-bottom: 14px; }
             .dw-product-price-row {
-                gap: 10px;
-                margin-bottom: 14px;
-                padding-bottom: 14px;
+                gap: 10px; margin-bottom: 16px; padding-bottom: 14px;
             }
-
             .dw-product-price { font-size: 22px; }
-
-            .dw-product-custom {
-                padding: 0 10px;
-                font-size: 9.5px;
-                min-height: 28px;
-            }
-
-            .dw-product-features {
-                gap: 8px;
-                margin-bottom: 18px;
-            }
-
-            .dw-product-feature-icon {
-                width: 26px;
-                height: 26px;
-            }
-
-            .dw-product-feature-icon svg {
-                width: 12px;
-                height: 12px;
-            }
-
-            .dw-product-feature-text {
-                font-size: 9.5px;
-            }
-
-            .dw-product-cta-row { gap: 8px; }
-
             .dw-product-cta {
-                min-height: 50px;
-                font-size: 11px;
-                letter-spacing: 1px;
-            }
-
-            .dw-product-fav {
-                width: 50px;
-                height: 50px;
-            }
-
-            .dw-product-fav svg {
-                width: 18px;
-                height: 18px;
+                min-height: 50px; font-size: 11px; letter-spacing: 1px;
             }
         }
 
-
-        /* =====================================================
-           VERY SMALL PHONES
-        ===================================================== */
-
         @media (max-width: 380px) {
-
             .everafter-home-category-grid {
-                gap: 10px !important;
-                padding: 0 10px !important;
+                gap: 10px !important; padding: 0 10px !important;
             }
-
             .everafter-home-category-card-title { font-size: 17px; }
             .everafter-home-category-card-description { font-size: 9.5px; }
 
-            .dw-product-list {
-                padding: 0 10px;
-            }
-
+            .dw-product-list { padding: 0 10px; }
             .dw-product-name { font-size: 20px; }
             .dw-product-price { font-size: 20px; }
-
-            .dw-product-features {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .dw-product-feature:last-child {
-                display: none;
-            }
         }
 
     `;
@@ -1055,7 +742,7 @@ function injectStyles() {
 
 
 /* =============================================================
-   LOAD CATEGORIES
+   LOAD DATA
 ============================================================= */
 
 async function loadCategories() {
@@ -1070,22 +757,10 @@ async function loadCategories() {
         .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0));
 }
 
-
-/* =============================================================
-   LOAD PRODUCTS — includes gallery images for the pager
-============================================================= */
-
 async function loadProducts() {
     const { data, error } = await supabaseClient
         .from("products")
-        .select(`
-            *,
-            product_images (
-                image_url,
-                storage_path,
-                sort_order
-            )
-        `)
+        .select("*")
         .eq("archived", false);
 
     if (error) throw error;
@@ -1141,192 +816,60 @@ function createCategoryCard(category, index = 0) {
 
 
 /* =============================================================
-   RICH PRODUCT CARD — matches screenshot
+   PRODUCT CARD — clean: no description, pager, features, custom
+   tag, or favourite heart
 ============================================================= */
 
 function createProductCard(product, category) {
 
     const name = getProductName(product);
     const slug = product.slug || slugify(name);
-    const description =
-        product.short_description ||
-        product.description ||
-        "A perfect blend of tradition and elegance.";
-
     const badge = getBadge(product);
     const categoryName = getCategoryName(category);
+    const image = getProductImage(product);
 
-    /* Build image list: main first, then gallery */
-
-    const mainImage = getProductImage(product);
-
-    const galleryImages = (product.product_images || [])
-        .slice()
-        .sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0))
-        .map(img => getImageUrl(img.image_url))
-        .filter(Boolean);
-
-    const images = [mainImage, ...galleryImages]
-        .filter(Boolean)
-        .filter((v, i, arr) => arr.indexOf(v) === i);
-
-    const imageCount = images.length || 1;
-
-    /* Feature trio — hard-coded premium features */
-
-    const features = [
-        {
-            label: "Premium Quality Card",
-            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 7v10l8 5 8-5V7z"/><path d="M4 7l8 5 8-5"/><path d="M12 12v10"/></svg>`
-        },
-        {
-            label: "Elegant Designs",
-            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M3 12h18"/></svg>`
-        },
-        {
-            label: "Secure Packaging",
-            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 3v6c0 5-3 8-7 11-4-3-7-6-7-11V5z"/><path d="M9 12l2 2 4-4"/></svg>`
-        }
-    ];
-
-    /* Card element */
+    const href = `invitation.html?slug=${encodeURIComponent(slug)}`;
 
     const card = document.createElement("article");
     card.className = "dw-product-card";
 
-    const href = `invitation.html?slug=${encodeURIComponent(slug)}`;
-
-    /* Media area */
-
-    const imageMarkup = images.length
-        ? images.map((src, i) =>
-            `<img src="${escapeHtml(src)}" alt="${escapeHtml(name)} — view ${i + 1}" loading="${i === 0 ? "eager" : "lazy"}" class="${i === 0 ? "is-active" : ""}">`
-        ).join("")
-        : `<div class="dw-product-media-fallback" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a6d3f;font-family:Georgia,serif;font-size:20px;padding:20px;text-align:center;">${escapeHtml(name)}</div>`;
-
-    /* Badge markup */
+    const imageMarkup = image
+        ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(name)}" loading="lazy">`
+        : `<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a6d3f;font-family:Georgia,serif;font-size:20px;padding:20px;text-align:center;">${escapeHtml(name)}</div>`;
 
     const badgeMarkup = badge
         ? `<span class="dw-product-badge">${escapeHtml(badge)}</span>`
         : "";
 
-    /* Pager markup */
-
-    const pagerMarkup = imageCount > 1
-        ? `
-            <div class="dw-product-pager">
-                <button type="button" class="dw-product-pager-btn" data-pager="prev" aria-label="Previous image">‹</button>
-                <span class="dw-product-pager-count"><span data-pager-current>1</span>/${imageCount}</span>
-                <button type="button" class="dw-product-pager-btn" data-pager="next" aria-label="Next image">›</button>
-            </div>
-        `
-        : "";
-
-    /* Feature markup */
-
-    const featureMarkup = features.map(f => `
-        <div class="dw-product-feature">
-            <span class="dw-product-feature-icon">${f.icon}</span>
-            <span class="dw-product-feature-text">${f.label}</span>
-        </div>
-    `).join("");
-
     card.innerHTML = `
 
-        <div class="dw-product-media" data-media>
+        <div class="dw-product-media">
             ${imageMarkup}
             ${badgeMarkup}
-            ${pagerMarkup}
         </div>
 
         <div class="dw-product-body">
 
-            <p class="dw-product-cat">${escapeHtml(categoryName || "Invitation")}</p>
+            <p class="dw-product-cat">${escapeHtml(categoryName)}</p>
 
             <h3 class="dw-product-name">
-                <a href="${href}" style="color:inherit;text-decoration:none;">${escapeHtml(name)}</a>
+                <a href="${href}">${escapeHtml(name)}</a>
             </h3>
-
-            <p class="dw-product-desc">${escapeHtml(description)}</p>
 
             <div class="dw-product-price-row">
                 <span class="dw-product-price">${formatPrice(product.price)}</span>
-
-                <span class="dw-product-custom">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 20h9"/>
-                        <path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4z"/>
-                    </svg>
-                    Custom Designs Available
-                </span>
             </div>
 
-            <div class="dw-product-features">
-                ${featureMarkup}
-            </div>
-
-            <div class="dw-product-cta-row">
-
-                <a href="${href}" class="dw-product-cta">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14"/>
-                        <path d="M13 5l7 7-7 7"/>
-                    </svg>
-                    View Design
-                </a>
-
-                <button type="button" class="dw-product-fav" aria-label="Add to favourites">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
-                </button>
-
-            </div>
+            <a href="${href}" class="dw-product-cta">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14"/>
+                    <path d="M13 5l7 7-7 7"/>
+                </svg>
+                View Design
+            </a>
 
         </div>
     `;
-
-    /* ---------- Pager logic ---------- */
-
-    if (imageCount > 1) {
-
-        const mediaEl = card.querySelector("[data-media]");
-        const imgEls = mediaEl.querySelectorAll("img");
-        const currentEl = mediaEl.querySelector("[data-pager-current]");
-
-        let current = 0;
-
-        const update = (next) => {
-            current = (next + imageCount) % imageCount;
-
-            imgEls.forEach((el, i) => {
-                el.classList.toggle("is-active", i === current);
-            });
-
-            if (currentEl) currentEl.textContent = String(current + 1);
-        };
-
-        mediaEl.querySelector('[data-pager="prev"]')?.addEventListener("click", (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            update(current - 1);
-        });
-
-        mediaEl.querySelector('[data-pager="next"]')?.addEventListener("click", (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            update(current + 1);
-        });
-    }
-
-    /* ---------- Favourite toggle ---------- */
-
-    const favBtn = card.querySelector(".dw-product-fav");
-
-    favBtn?.addEventListener("click", (e) => {
-        e.preventDefault();
-        favBtn.classList.toggle("is-active");
-    });
 
     return card;
 }
@@ -1370,7 +913,7 @@ function renderCategories(wrapper, categories) {
 
 
 /* =============================================================
-   GET HOMEPAGE PRODUCTS
+   HOMEPAGE PRODUCTS SELECTOR
 ============================================================= */
 
 function getSelectedHomepageProducts(categories, products) {
@@ -1405,10 +948,9 @@ function getSelectedHomepageProducts(categories, products) {
 
 
 /* =============================================================
-   FILTER / SORT STATE
+   FEATURED SECTION
 ============================================================= */
 
-let currentFeaturedProducts = [];
 let currentStyleFilter = "all";
 let currentSortFilter = "featured";
 
@@ -1422,16 +964,11 @@ function getStyleOptions(products) {
 }
 
 function filterAndSort(products) {
-
     let result = [...products];
-
-    /* Style filter */
 
     if (currentStyleFilter !== "all") {
         result = result.filter(p => String(p.style || "") === currentStyleFilter);
     }
-
-    /* Sort */
 
     if (currentSortFilter === "price-low") {
         result.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
@@ -1440,8 +977,6 @@ function filterAndSort(products) {
     } else if (currentSortFilter === "newest") {
         result.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
     } else {
-        /* "featured" — sort by featured flag, then by sort_order */
-
         result.sort((a, b) => {
             const af = a.featured ? 1 : 0;
             const bf = b.featured ? 1 : 0;
@@ -1454,21 +989,12 @@ function filterAndSort(products) {
 }
 
 
-/* =============================================================
-   RENDER FEATURED SECTION — with filter bar + rich cards
-============================================================= */
-
 function renderFeaturedProducts(wrapper, selectedProducts) {
 
     const section = document.createElement("section");
     section.className = "everafter-home-section";
 
-    /* Flatten selectedProducts → array of products only */
-
     const allProducts = selectedProducts.map(x => x.product);
-
-    /* Style options for the filter dropdown */
-
     const styleOptions = getStyleOptions(allProducts);
 
     section.innerHTML = `
@@ -1529,13 +1055,8 @@ function renderFeaturedProducts(wrapper, selectedProducts) {
     const styleSelect = section.querySelector("#dwStyleFilter");
     const sortSelect = section.querySelector("#dwSortFilter");
 
-    /* Save the master list */
-
-    currentFeaturedProducts = selectedProducts;
     currentStyleFilter = "all";
     currentSortFilter = "featured";
-
-    /* Render function */
 
     const render = () => {
 
@@ -1553,8 +1074,6 @@ function renderFeaturedProducts(wrapper, selectedProducts) {
             return;
         }
 
-        /* Build a lookup so we can pass the category for each product */
-
         const productLookup = new Map();
         selectedProducts.forEach(({ product, category }) => {
             productLookup.set(String(product.id), category);
@@ -1566,8 +1085,6 @@ function renderFeaturedProducts(wrapper, selectedProducts) {
         });
     };
 
-    /* Wire up the filters */
-
     styleSelect?.addEventListener("change", () => {
         currentStyleFilter = styleSelect.value;
         render();
@@ -1578,11 +1095,7 @@ function renderFeaturedProducts(wrapper, selectedProducts) {
         render();
     });
 
-    /* Initial render */
-
     render();
-
-    /* Missing-items notice (unchanged behaviour) */
 
     if (allProducts.length < 12) {
         notice.hidden = false;
@@ -1595,8 +1108,7 @@ function renderFeaturedProducts(wrapper, selectedProducts) {
     if (allProducts.length === 0) {
         notice.hidden = false;
         notice.textContent =
-            "No homepage products are configured yet. Open a product in the admin panel, " +
-            "turn on Show on Homepage, and select Position 1, 2 or 3.";
+            "No homepage products are configured yet.";
     }
 
     wrapper.appendChild(section);
@@ -1608,7 +1120,6 @@ function renderFeaturedProducts(wrapper, selectedProducts) {
 ============================================================= */
 
 function createEmptyState(message) {
-
     const section = document.createElement("section");
     section.className = "everafter-home-section";
 
@@ -1673,10 +1184,6 @@ async function loadHomepageCatalog() {
     }
 }
 
-
-/* =============================================================
-   START
-============================================================= */
 
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", loadHomepageCatalog);
