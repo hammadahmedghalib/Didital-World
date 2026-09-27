@@ -18,9 +18,9 @@
         Wedding Invitation | Digital World
     </title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/premium.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/style.css?v=7">
+    <link rel="stylesheet" href="css/premium.css?v=7">
+    <link rel="stylesheet" href="css/responsive.css?v=7">
 
     <style>
 
@@ -45,7 +45,7 @@
 
 
         /* =====================================================
-           HEADER (identical to homepage / order)
+           HEADER
         ===================================================== */
 
         .site-header {
@@ -149,11 +149,7 @@
             letter-spacing: .5px;
             text-decoration: none;
             cursor: pointer;
-            transition:
-                background .25s ease,
-                border-color .25s ease,
-                color .25s ease,
-                transform .25s ease;
+            transition: background .25s ease, border-color .25s ease, color .25s ease, transform .25s ease;
         }
 
         .premium-header-button:hover {
@@ -178,12 +174,6 @@
             border-color: transparent;
             padding-left: 4px;
             padding-right: 4px;
-        }
-
-        .premium-signin-button:hover {
-            color: var(--dw-gold-dark);
-            border-color: transparent;
-            transform: translateY(-1px);
         }
 
         .mobile-menu-button {
@@ -239,6 +229,9 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 26px;
             color: var(--dw-muted);
             font-size: 11px;
             font-weight: 700;
@@ -299,7 +292,10 @@
             overflow: hidden;
             background: #fff;
             border: 1px solid var(--dw-border);
-            box-shadow: 0 24px 60px rgba(31,25,19,.06);
+            border-radius: 22px;
+            box-shadow:
+                0 1px 2px rgba(31,25,19,.04),
+                0 24px 60px rgba(31,25,19,.06);
         }
 
         .product-main-image img {
@@ -320,10 +316,11 @@
             aspect-ratio: 1 / 1;
             padding: 0;
             border: 1px solid var(--dw-border);
+            border-radius: 14px;
             background: #fff;
             cursor: pointer;
             overflow: hidden;
-            transition: border-color .25s ease, transform .25s ease;
+            transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
         }
 
         .product-thumbnail img {
@@ -377,14 +374,48 @@
             letter-spacing: -1.2px;
         }
 
+
+        /* ---------- PRICE ROW ---------- */
+
+        .product-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin: 0 0 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px dashed rgba(184,154,103,.35);
+        }
+
         .product-price-large {
-            color: var(--dw-gold-dark);
+            color: var(--dw-charcoal);
             font-family: Georgia, serif;
             font-size: clamp(24px, 2.6vw, 32px);
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: -.3px;
-            margin-bottom: 22px;
         }
+
+        .product-custom-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 32px;
+            padding: 0 13px;
+            border-radius: 999px;
+            background: #f5efe2;
+            color: #8a6d3f;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: .2px;
+            white-space: nowrap;
+        }
+
+        .product-custom-tag svg {
+            width: 13px;
+            height: 13px;
+            flex: 0 0 auto;
+        }
+
 
         .product-short-description {
             max-width: 620px;
@@ -394,17 +425,19 @@
             line-height: 1.9;
         }
 
-        .product-divider {
-            height: 1px;
-            margin: 26px 0;
-            background: var(--dw-border);
+
+        /* ---------- FEATURES BLOCK ---------- */
+
+        .product-features {
+            margin: 0 0 28px;
+            padding: 22px 24px;
+            border: 1px solid var(--dw-border);
+            border-radius: 20px;
+            background: #fff;
         }
 
-
-        /* FEATURES */
-
         .product-features h3 {
-            margin: 0 0 14px;
+            margin: 0 0 16px;
             color: var(--dw-charcoal);
             font-family: Georgia, serif;
             font-size: 16px;
@@ -414,46 +447,101 @@
 
         .product-features ul {
             list-style: none;
-            margin: 0 0 28px;
+            margin: 0;
             padding: 0;
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px 18px;
+            gap: 14px 20px;
         }
 
         .product-features li {
-            position: relative;
-            padding-left: 22px;
-            color: var(--dw-muted);
-            font-size: 13px;
-            line-height: 1.75;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #4e4941;
+            font-size: 12.5px;
+            line-height: 1.5;
         }
 
         .product-features li::before {
             content: "✦";
-            position: absolute;
-            left: 0;
-            top: 1px;
+            flex: 0 0 auto;
             color: var(--dw-gold);
-            font-size: 9px;
+            font-size: 11px;
+            line-height: 1.4;
         }
 
 
-        /* ACTIONS */
+        /* ---------- SERVICE TRIO ---------- */
+
+        .product-service-info {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin: 0 0 28px;
+        }
+
+        .product-service-info > div {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px 14px 16px;
+            border: 1px solid var(--dw-border);
+            border-radius: 16px;
+            background: #fff;
+        }
+
+        .product-service-info .dw-service-icon {
+            flex: 0 0 auto;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fdf4e2, #f0e2c4);
+            color: #8a6d3f;
+        }
+
+        .product-service-info .dw-service-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .product-service-info strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--dw-charcoal);
+            font-family: Georgia, serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: .2px;
+        }
+
+        .product-service-info span {
+            display: block;
+            color: var(--dw-muted);
+            font-size: 10.5px;
+            line-height: 1.55;
+        }
+
+
+        /* ---------- ACTIONS ---------- */
 
         .product-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 28px 0 20px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin: 0 0 12px;
         }
 
         .button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 52px;
-            padding: 0 28px;
+            gap: 10px;
+            min-height: 54px;
+            padding: 0 26px;
             border-radius: 999px;
             font: inherit;
             font-size: 12px;
@@ -462,39 +550,65 @@
             text-transform: uppercase;
             text-decoration: none;
             cursor: pointer;
-            transition:
-                background .25s ease,
-                border-color .25s ease,
-                color .25s ease,
-                transform .25s ease;
+            transition: background .25s ease, border-color .25s ease, color .25s ease, transform .25s ease;
         }
 
         .button-primary {
-            background: var(--dw-charcoal);
-            border: 1px solid var(--dw-charcoal);
-            color: #fff;
+            background: linear-gradient(135deg, #b59155 0%, #8a6d3f 100%);
+            border: 1px solid transparent;
+            color: #fffaf2;
         }
 
         .button-primary:hover {
-            background: var(--dw-gold-dark);
-            border-color: var(--dw-gold-dark);
             transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 14px 30px rgba(138,109,63,.28);
         }
 
         .product-preview-button {
-            background: transparent;
+            background: #fff;
             border: 1px solid var(--dw-border);
             color: var(--dw-charcoal);
         }
 
         .product-preview-button:hover {
-            background: #fff;
             border-color: var(--dw-charcoal);
             transform: translateY(-2px);
         }
 
+        .dw-product-fav {
+            width: 54px;
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--dw-border);
+            border-radius: 999px;
+            background: #fff;
+            color: #a89070;
+            cursor: pointer;
+            transition: border-color .25s ease, color .25s ease, background .25s ease, transform .25s ease;
+        }
 
-        /* WHATSAPP */
+        .dw-product-fav:hover {
+            border-color: rgba(184,154,103,.7);
+            color: #b59155;
+            transform: translateY(-2px);
+        }
+
+        .dw-product-fav.is-active {
+            background: #f8efdd;
+            border-color: rgba(184,154,103,.8);
+            color: #b59155;
+        }
+
+        .dw-product-fav svg {
+            width: 20px;
+            height: 20px;
+        }
+
+
+        /* ---------- WHATSAPP LINK ---------- */
 
         .product-whatsapp {
             display: inline-flex;
@@ -521,7 +635,7 @@
         }
 
 
-        /* DESCRIPTION */
+        /* ---------- DESCRIPTION ---------- */
 
         .product-description-block {
             margin-top: 34px;
@@ -546,41 +660,8 @@
         }
 
 
-        /* SERVICE INFO */
-
-        .product-service-info {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            margin-top: 30px;
-            padding: 22px 24px;
-            background: #fff;
-            border: 1px solid var(--dw-border);
-        }
-
-        .product-service-info > div {
-            padding: 0 4px;
-        }
-
-        .product-service-info strong {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--dw-charcoal);
-            font-family: Georgia, serif;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: .2px;
-        }
-
-        .product-service-info span {
-            color: var(--dw-muted);
-            font-size: 11px;
-            line-height: 1.7;
-        }
-
-
         /* =====================================================
-           EVERAFTER DYNAMIC BLOCK (used by invitation.js)
+           EVERAFTER DYNAMIC BLOCK
         ===================================================== */
 
         .everafter-product-extra {
@@ -685,10 +766,7 @@
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
-            transition:
-                border-color .2s ease,
-                background .2s ease,
-                transform .2s ease;
+            transition: border-color .2s ease, background .2s ease, transform .2s ease;
         }
 
         .everafter-variant-button:hover {
@@ -725,7 +803,7 @@
 
 
         /* =====================================================
-           RELATED PRODUCTS
+           RELATED PRODUCTS (rich cards, 2-column)
         ===================================================== */
 
         .related-section {
@@ -777,90 +855,233 @@
             letter-spacing: -.8px;
         }
 
-        .product-grid {
+
+        /* ---------- Rich 2-col grid for related ---------- */
+
+        #relatedProducts.product-grid {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 22px;
         }
 
-        .product-card {
-            background: #fff;
+        .dw-product-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
             border: 1px solid var(--dw-border);
+            border-radius: 22px;
             overflow: hidden;
-            transition:
-                transform .35s ease,
-                box-shadow .35s ease,
-                border-color .35s ease;
+            box-shadow:
+                0 1px 2px rgba(31,25,19,.04),
+                0 16px 40px rgba(31,25,19,.06);
+            transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
         }
 
-        .product-card:hover {
+        .dw-product-card:hover {
             transform: translateY(-6px);
             border-color: rgba(184,154,103,.55);
-            box-shadow: 0 24px 55px rgba(31,25,19,.12);
+            box-shadow:
+                0 1px 2px rgba(31,25,19,.04),
+                0 30px 65px rgba(31,25,19,.12);
         }
 
-        .product-card-image {
-            display: block;
-            aspect-ratio: 4 / 5;
+        .dw-product-media {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
             overflow: hidden;
-            background: #f1ebe1;
-            text-decoration: none;
+            background: radial-gradient(circle at 30% 20%, #fbf5e8, #f0e8d8);
         }
 
-        .product-card-image img {
+        .dw-product-media img {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform .6s cubic-bezier(.2,.7,.2,1);
+            opacity: 0;
+            transition: opacity .35s ease, transform .8s cubic-bezier(.2,.7,.2,1);
         }
 
-        .product-card:hover .product-card-image img {
-            transform: scale(1.05);
-        }
+        .dw-product-media img.is-active { opacity: 1; }
 
-        .product-card-content {
-            padding: 18px 20px 22px;
-        }
+        .dw-product-card:hover .dw-product-media img.is-active { transform: scale(1.03); }
 
-        .product-card-content .section-label {
-            display: block;
-            margin: 0 0 8px;
-            color: var(--dw-gold-dark);
+        .dw-product-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 28px;
+            padding: 0 11px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #b59155, #8a6d3f);
+            color: #fffaf2;
             font-size: 9px;
             font-weight: 800;
-            letter-spacing: 2.4px;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            box-shadow: 0 6px 16px rgba(138,109,63,.35);
+        }
+
+        .dw-product-badge::before {
+            content: "★";
+            font-size: 9px;
+            line-height: 1;
+            color: #fdf1cf;
+        }
+
+        .dw-product-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            padding: 22px 24px 24px;
+        }
+
+        .dw-product-cat {
+            margin: 0 0 8px;
+            color: var(--dw-gold-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2.6px;
             text-transform: uppercase;
         }
 
-        .product-card-content h3 {
-            margin: 0 0 12px;
+        .dw-product-name {
+            margin: 0 0 8px;
             color: var(--dw-charcoal);
-            font-family: Georgia, serif;
-            font-size: 20px;
-            font-weight: 500;
-            line-height: 1.2;
+            font: 500 clamp(22px, 2.2vw, 28px) / 1.15 Georgia, "Times New Roman", serif;
+            letter-spacing: -.4px;
+        }
+
+        .dw-product-name a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .dw-product-desc {
+            margin: 0 0 14px;
+            color: var(--dw-muted);
+            font-size: 12.5px;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .dw-product-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin: 0 0 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px dashed rgba(184,154,103,.35);
+        }
+
+        .dw-product-price {
+            color: var(--dw-charcoal);
+            font: 600 clamp(22px, 2.4vw, 26px) / 1 Georgia, "Times New Roman", serif;
             letter-spacing: -.3px;
         }
 
-        .product-card-price {
-            margin-bottom: 16px;
-            color: var(--dw-charcoal);
-            font-family: Georgia, serif;
-            font-size: 14px;
-            font-weight: 600;
+        .dw-product-custom {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 30px;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: #f5efe2;
+            color: #8a6d3f;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .2px;
+            white-space: nowrap;
         }
 
-        .product-card-content .button {
-            min-height: 40px;
-            padding: 0 20px;
-            font-size: 10px;
-            letter-spacing: 1.2px;
+        .dw-product-custom svg { width: 13px; height: 13px; flex: 0 0 auto; }
+
+        .dw-product-features {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin: 0 0 22px;
         }
+
+        .dw-product-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .dw-product-feature-icon {
+            flex: 0 0 auto;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fdf4e2, #f0e2c4);
+            color: #8a6d3f;
+        }
+
+        .dw-product-feature-icon svg { width: 14px; height: 14px; }
+
+        .dw-product-feature-text {
+            min-width: 0;
+            color: #4e4941;
+            font-size: 10.5px;
+            font-weight: 600;
+            line-height: 1.35;
+            letter-spacing: .1px;
+        }
+
+        .dw-product-cta-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .dw-product-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 54px;
+            padding: 0 22px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            background: linear-gradient(135deg, #b59155 0%, #8a6d3f 100%);
+            color: #fffaf2;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+        }
+
+        .dw-product-cta:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 14px 30px rgba(138,109,63,.30);
+        }
+
+        .dw-product-cta svg { width: 15px; height: 15px; flex: 0 0 auto; }
 
 
         /* =====================================================
-           NOT FOUND PAGE (used by invitation.js showNotFound)
+           NOT FOUND PAGE
         ===================================================== */
 
         .premium-success-page {
@@ -939,10 +1160,7 @@
             letter-spacing: 1.4px;
             text-transform: uppercase;
             text-decoration: none;
-            transition:
-                background .25s ease,
-                border-color .25s ease,
-                transform .25s ease;
+            transition: background .25s ease, border-color .25s ease, transform .25s ease;
         }
 
         .premium-success-whatsapp:hover {
@@ -1095,17 +1313,13 @@
 
         @media (max-width: 1024px) {
 
-            .product-detail-grid {
-                grid-template-columns: 1fr;
-            }
+            .product-detail-grid { grid-template-columns: 1fr; }
 
-            .product-grid {
+            #relatedProducts.product-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
-            .footer-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
             .everafter-detail-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1127,13 +1341,15 @@
 
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 700px) {
 
             .header-actions .premium-whatsapp-button { display: none; }
 
             .header-inner { padding: 0 20px; }
 
             .product-detail-grid { padding: 0 20px; }
+
+            .product-breadcrumb { padding: 0 20px; }
 
             .related-section .container { padding: 0 20px; }
 
@@ -1153,13 +1369,16 @@
                 grid-template-columns: 1fr;
             }
 
-            .product-actions { flex-direction: column; }
+            .product-price-row {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
 
-            .product-actions .button { width: 100%; }
+            .product-actions { grid-template-columns: 1fr auto; }
 
             .product-whatsapp { width: 100%; justify-content: center; }
 
-            .product-grid { grid-template-columns: 1fr; }
+            #relatedProducts.product-grid { grid-template-columns: 1fr; }
 
             .everafter-detail-grid { grid-template-columns: 1fr; }
 
@@ -1184,9 +1403,7 @@
 <body id="top">
 
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+<!-- HEADER -->
 
 <header class="site-header">
 
@@ -1273,27 +1490,21 @@
 <main>
 
 
-    <!-- =====================================================
-         BREADCRUMB
-    ===================================================== -->
+    <!-- BREADCRUMB -->
 
     <section class="product-breadcrumb-section">
 
-        <div class="container" style="max-width:1240px;margin:0 auto;padding:0 26px;">
+        <div class="product-breadcrumb">
 
-            <div class="product-breadcrumb">
+            <a href="index.html">Home</a>
 
-                <a href="index.html">Home</a>
+            <span>/</span>
 
-                <span>/</span>
+            <a href="#" id="breadcrumbCategory">Collection</a>
 
-                <a href="#" id="breadcrumbCategory">Collection</a>
+            <span>/</span>
 
-                <span>/</span>
-
-                <span id="breadcrumbProduct">Invitation</span>
-
-            </div>
+            <span id="breadcrumbProduct">Invitation</span>
 
         </div>
 
@@ -1301,9 +1512,7 @@
 
 
 
-    <!-- =====================================================
-         PRODUCT
-    ===================================================== -->
+    <!-- PRODUCT -->
 
     <section class="product-detail-section">
 
@@ -1336,14 +1545,78 @@
                     Invitation
                 </h1>
 
-                <div class="product-price-large" id="productPrice">
-                    PKR 0
+
+                <!-- PRICE ROW -->
+
+                <div class="product-price-row">
+
+                    <div class="product-price-large" id="productPrice">
+                        PKR 0
+                    </div>
+
+                    <span class="product-custom-tag">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20h9"/>
+                            <path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4z"/>
+                        </svg>
+                        Custom Designs Available
+                    </span>
+
                 </div>
+
 
                 <p class="product-short-description" id="productDescription"></p>
 
-                <div class="product-divider"></div>
 
+                <!-- SERVICE TRIO -->
+
+                <div class="product-service-info">
+
+                    <div>
+                        <span class="dw-service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2 4 7v10l8 5 8-5V7z"/>
+                                <path d="M4 7l8 5 8-5"/>
+                                <path d="M12 12v10"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Premium Quality Card</strong>
+                            <span>Handcrafted with care.</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="dw-service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M12 3v18"/>
+                                <path d="M3 12h18"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Elegant Designs</strong>
+                            <span>Timeless, refined style.</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="dw-service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2l7 3v6c0 5-3 8-7 11-4-3-7-6-7-11V5z"/>
+                                <path d="M9 12l2 2 4-4"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Secure Packaging</strong>
+                            <span>Delivered with protection.</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURES BLOCK -->
 
                 <div class="product-features">
 
@@ -1355,27 +1628,42 @@
 
 
 
+                <!-- ACTIONS -->
+
                 <div class="product-actions">
 
                     <a
                         href="#"
-                        class="button button-primary product-order-button"
+                        class="button button-primary"
                         id="orderButton"
                     >
                         Order Now
                     </a>
 
-                    <a
-                        href="#"
-                        class="button product-preview-button"
-                        id="demoButton"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <button
+                        type="button"
+                        class="dw-product-fav"
+                        id="productFavButton"
+                        aria-label="Add to favourites"
                     >
-                        Live Preview
-                    </a>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </button>
 
                 </div>
+
+
+                <a
+                    href="#"
+                    class="button product-preview-button"
+                    id="demoButton"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="width:100%;margin-top:10px;"
+                >
+                    Live Preview
+                </a>
 
 
                 <a
@@ -1384,38 +1672,20 @@
                     id="whatsappProductButton"
                     target="_blank"
                     rel="noopener noreferrer"
+                    style="margin-top:14px;"
                 >
                     Ask About This Design on WhatsApp
                 </a>
 
 
 
+                <!-- DESCRIPTION -->
+
                 <div class="product-description-block">
 
                     <h2>About This Design</h2>
 
                     <p id="productLongDescription"></p>
-
-                </div>
-
-
-
-                <div class="product-service-info">
-
-                    <div>
-                        <strong>Personalized</strong>
-                        <span>Your wedding details are customized.</span>
-                    </div>
-
-                    <div>
-                        <strong>Mobile Friendly</strong>
-                        <span>Designed for phones, tablets and desktop.</span>
-                    </div>
-
-                    <div>
-                        <strong>Easy Ordering</strong>
-                        <span>Select your design and submit your details.</span>
-                    </div>
 
                 </div>
 
@@ -1427,9 +1697,7 @@
 
 
 
-    <!-- =====================================================
-         RELATED PRODUCTS
-    ===================================================== -->
+    <!-- RELATED PRODUCTS -->
 
     <section class="related-section">
 
@@ -1454,9 +1722,7 @@
 
 
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
+<!-- FOOTER -->
 
 <footer class="site-footer" id="contact">
 
@@ -1554,13 +1820,31 @@
 
 
 
-<!-- =====================================================
-     SCRIPTS
-===================================================== -->
+<!-- SCRIPTS -->
 
-<script type="module" src="js/invitation.js"></script>
-<script type="module" src="js/site-search.js"></script>
-<script type="module" src="js/auth-nav.js"></script>
+<script type="module" src="js/invitation.js?v=7"></script>
+<script type="module" src="js/site-search.js?v=7"></script>
+<script type="module" src="js/auth-nav.js?v=7"></script>
+
+
+<!-- Favourite button toggle -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const favBtn = document.getElementById("productFavButton");
+
+    if (favBtn) {
+        favBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            favBtn.classList.toggle("is-active");
+        });
+    }
+
+});
+
+</script>
 
 </body>
 
