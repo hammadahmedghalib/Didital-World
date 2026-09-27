@@ -1700,7 +1700,7 @@ async function renderProduct(
 
 
 // ================================================================
-// RELATED PRODUCTS
+// RELATED PRODUCTS — rich card markup
 // ================================================================
 
 async function loadRelatedProducts(
@@ -1782,113 +1782,159 @@ async function loadRelatedProducts(
             "";
 
 
-        data.forEach(
-            product => {
+        /* Feature trio used on every card */
 
-                const name =
-                    product.name ||
-                    product.title ||
-                    "Wedding Invitation";
-
-
-                const slug =
-                    product.slug ||
-                    slugify(name);
-
-
-                const image =
-                    getProductImage(
-                        product
-                    );
+        const features = [
+            {
+                label: "Premium Quality Card",
+                icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 7v10l8 5 8-5V7z"/><path d="M4 7l8 5 8-5"/><path d="M12 12v10"/></svg>`
+            },
+            {
+                label: "Elegant Designs",
+                icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M3 12h18"/></svg>`
+            },
+            {
+                label: "Secure Packaging",
+                icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 3v6c0 5-3 8-7 11-4-3-7-6-7-11V5z"/><path d="M9 12l2 2 4-4"/></svg>`
+            }
+        ];
 
 
-                const card =
-                    document.createElement(
-                        "article"
-                    );
+        data.forEach(product => {
+
+            const name =
+                product.name ||
+                product.title ||
+                "Wedding Invitation";
 
 
-                card.className =
-                    "product-card";
+            const slug =
+                product.slug ||
+                slugify(name);
 
 
-                card.innerHTML = `
-
-                    <a
-                        href="invitation.html?slug=${encodeURIComponent(
-                            slug
-                        )}"
-                        class="product-card-image"
-                    >
-
-                        ${
-                            image
-                                ? `
-                                    <img
-                                        src="${escapeHtml(
-                                            image
-                                        )}"
-                                        alt="${escapeHtml(
-                                            name
-                                        )}"
-                                        loading="lazy"
-                                    >
-                                  `
-                                : ""
-                        }
-
-                    </a>
+            const image =
+                getProductImage(
+                    product
+                );
 
 
-                    <div
-                        class="product-card-content"
-                    >
-
-                        <p
-                            class="section-label"
-                        >
-                            ${escapeHtml(
-                                categoryName
-                            )}
-                        </p>
+            const description =
+                product.short_description ||
+                product.description ||
+                "A perfect blend of tradition and elegance.";
 
 
-                        <h3>
-                            ${escapeHtml(
-                                name
-                            )}
-                        </h3>
+            const badge =
+                product.featured
+                    ? "Featured"
+                    : product.popular
+                        ? "Popular"
+                        : "";
 
 
-                        <div
-                            class="product-card-price"
-                        >
-                            ${formatPrice(
-                                product.price
-                            )}
-                        </div>
+            const relatedCategoryName =
+                product.categories?.name ||
+                categoryName ||
+                "Invitation";
 
 
-                        <a
-                            href="invitation.html?slug=${encodeURIComponent(
-                                slug
-                            )}"
-                            class="button button-primary"
-                        >
-                            View Invitation
-                        </a>
+            const href =
+                `invitation.html?slug=${encodeURIComponent(slug)}`;
+
+
+            const imageMarkup = image
+                ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(name)}" loading="lazy" class="is-active">`
+                : `<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a6d3f;font-family:Georgia,serif;font-size:20px;padding:20px;text-align:center;">${escapeHtml(name)}</div>`;
+
+
+            const badgeMarkup = badge
+                ? `<span class="dw-product-badge">${escapeHtml(badge)}</span>`
+                : "";
+
+
+            const featureMarkup = features.map(f => `
+                <div class="dw-product-feature">
+                    <span class="dw-product-feature-icon">${f.icon}</span>
+                    <span class="dw-product-feature-text">${f.label}</span>
+                </div>
+            `).join("");
+
+
+            const card = document.createElement("article");
+
+            card.className = "dw-product-card";
+
+            card.innerHTML = `
+
+                <div class="dw-product-media" data-media>
+                    ${imageMarkup}
+                    ${badgeMarkup}
+                </div>
+
+                <div class="dw-product-body">
+
+                    <p class="dw-product-cat">${escapeHtml(relatedCategoryName)}</p>
+
+                    <h3 class="dw-product-name">
+                        <a href="${href}">${escapeHtml(name)}</a>
+                    </h3>
+
+                    <p class="dw-product-desc">${escapeHtml(description)}</p>
+
+                    <div class="dw-product-price-row">
+
+                        <span class="dw-product-price">${formatPrice(product.price)}</span>
+
+                        <span class="dw-product-custom">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20h9"/>
+                                <path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4z"/>
+                            </svg>
+                            Custom Designs Available
+                        </span>
 
                     </div>
 
-                `;
+                    <div class="dw-product-features">
+                        ${featureMarkup}
+                    </div>
+
+                    <div class="dw-product-cta-row">
+
+                        <a href="${href}" class="dw-product-cta">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14"/>
+                                <path d="M13 5l7 7-7 7"/>
+                            </svg>
+                            View Design
+                        </a>
+
+                        <button type="button" class="dw-product-fav" aria-label="Add to favourites">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
 
 
-                container.appendChild(
-                    card
-                );
+            /* Favourite toggle */
 
-            }
-        );
+            const favBtn = card.querySelector(".dw-product-fav");
+
+            favBtn?.addEventListener("click", (e) => {
+                e.preventDefault();
+                favBtn.classList.toggle("is-active");
+            });
+
+
+            container.appendChild(card);
+
+        });
 
 
     } catch (error) {

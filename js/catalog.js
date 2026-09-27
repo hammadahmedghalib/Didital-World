@@ -29,7 +29,7 @@ export async function getCategories() {
 
 
 // ======================================================
-// GET PUBLISHED PRODUCTS
+// GET PUBLISHED PRODUCTS — includes gallery images
 // ======================================================
 export async function getProducts(options = {}) {
   const categorySlug = options.categorySlug || null;
@@ -55,6 +55,12 @@ export async function getProducts(options = {}) {
       id,
       name,
       slug
+    ),
+    product_images (
+      id,
+      image_url,
+      storage_path,
+      sort_order
     )
   `;
 
@@ -82,6 +88,12 @@ export async function getProducts(options = {}) {
         id,
         name,
         slug
+      ),
+      product_images (
+        id,
+        image_url,
+        storage_path,
+        sort_order
       )
     `;
   }
