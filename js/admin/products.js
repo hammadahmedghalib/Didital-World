@@ -532,10 +532,7 @@ async function loadProducts() {
         return;
     }
 
-
-    elements.table.textContent =
-        "Loading...";
-
+    elements.table.textContent = "Loading...";
 
     const {
         data,
@@ -559,14 +556,10 @@ async function loadProducts() {
                 homepage_enabled,
                 homepage_slot,
                 homepage_badge,
-                categories (
+                categories!left (
                     name
                 )
             `)
-            .eq(
-                "archived",
-                false
-            )
             .order(
                 "sort_order",
                 {
@@ -580,18 +573,15 @@ async function loadProducts() {
                 }
             );
 
-
     if (error) {
         throw error;
     }
 
+    allProducts = data || [];
 
-    allProducts =
-        data || [];
-
+    console.log("ADMIN PANEL: Total products fetched from database:", allProducts.length);
 
     renderProductTable();
-
 }
 
 
@@ -614,15 +604,11 @@ function getFilteredProducts() {
 
 
     const status =
-        elements.statusFilter
-            ?.value ||
-        "all";
+        String(elements.statusFilter?.value || "all").toLowerCase();
 
 
     const category =
-        elements.categoryFilter
-            ?.value ||
-        "all";
+        String(elements.categoryFilter?.value || "all");
 
 
     if (searchText) {
@@ -652,36 +638,32 @@ function getFilteredProducts() {
 
 
     if (
-        status !== "all"
+        status !== "all" && status !== ""
     ) {
 
         result =
             result.filter(
                 product =>
-                    product.status ===
-                    status
+                    String(product.status || "").toLowerCase() === status
             );
 
     }
 
 
     if (
-        category !== "all"
+        category !== "all" && category !== ""
     ) {
 
         result =
             result.filter(
-                product =>
-                    String(
-                        product.category_id
-                    ) ===
-                    String(
-                        category
-                    )
+                product => {
+                    const pCatId = String(product.category_id || "");
+                    const selCat = String(category || "");
+                    return pCatId === selCat;
+                }
             );
 
     }
-
 
     return result;
 
@@ -698,312 +680,110 @@ function renderProductTable() {
         return;
     }
 
+    try {
+        const products = getFilteredProducts();
 
-    const products =
-        getFilteredProducts();
+        if (elements.count) {
+            elements.count.textContent = `${products.length} ${products.length === 1 ? "product" : "products"}`;
+        }
 
+        if (!products.length) {
+            elements.table.innerHTML = `
+                <div class="admin-empty-state">
+                    No active products found.
+                </div>
+            `;
+            return;
+        }
 
-    if (elements.count) {
+        const rowsHtml = products.map(product => {
+            
+            // Safely generate the Status badge
+            const statusHtml = product.archived
+                ? `<span class="admin-status" style="background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">Archived</span>`
+                : `<span class="admin-status ${escapeHtml(product.status || "")}">${escapeHtml(product.status || "")}</span>`;
 
-        elements.count.textContent =
+            // Safely generate the Action buttons
+            const actionHtml = product.archived
+                ? `<button type="button" class="admin-small-button" style="background: #f0fdf4; color: #166534; border-color: #bbf7d0;" data-unarchive-product="${escapeHtml(product.id)}">Unarchive</button>`
+                : `<button type="button" class="admin-small-button danger" data-archive-product="${escapeHtml(product.id)}">Archive</button>`;
 
-            `${products.length} ${
-                products.length === 1
-                    ? "product"
-                    : "products"
-            }`;
+            // Generate the Row HTML
+            return `
+                <tr>
+                    <td>
+                        ${product.main_image_url 
+                            ? `<img src="${escapeHtml(product.main_image_url)}" class="admin-table-product-image" alt="">` 
+                            : `<div class="admin-table-product-image admin-no-image">—</div>`}
+                    </td>
 
-    }
+                    <td>
+                        <strong>${escapeHtml(product.name)}</strong>
+                        <small class="admin-table-subtext">/ ${escapeHtml(product.slug)}</small>
+                    </td>
 
+                    <td>${escapeHtml(product.categories?.name || "Unassigned")}</td>
 
-    if (!products.length) {
+                    <td>PKR ${Number(product.price || 0).toLocaleString()}</td>
 
+                    <td>${statusHtml}</td>
+
+                    <td>
+                        ${product.homepage_enabled 
+                            ? `<strong>Yes</strong><br><small>Slot ${Number(product.homepage_slot || 0)} ${product.homepage_badge ? ` · ${escapeHtml(product.homepage_badge)}` : ""}</small>` 
+                            : "No"}
+                    </td>
+
+                    <td>
+                        <div class="admin-row-actions">
+                            <a href="product-edit.html?id=${encodeURIComponent(product.id)}" class="admin-small-button">Edit</a>
+                            ${actionHtml}
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+
+        // Inject the completed table
         elements.table.innerHTML = `
-
-            <div class="admin-empty-state">
-
-                No active products found.
-
-            </div>
-
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Homepage</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rowsHtml}
+                </tbody>
+            </table>
         `;
 
-        return;
+        // Attach event listeners for ARCHIVE
+        elements.table.querySelectorAll("[data-archive-product]").forEach(button => {
+            button.addEventListener("click", async () => {
+                const product = allProducts.find(item => String(item.id) === String(button.dataset.archiveProduct));
+                if (product) await archiveProduct(product);
+            });
+        });
 
+        // Attach event listeners for UNARCHIVE
+        elements.table.querySelectorAll("[data-unarchive-product]").forEach(button => {
+            button.addEventListener("click", async () => {
+                const product = allProducts.find(item => String(item.id) === String(button.dataset.unarchiveProduct));
+                if (product) await unarchiveProduct(product);
+            });
+        });
+
+    } catch (error) {
+        console.error("Error rendering product table:", error);
+        elements.table.innerHTML = `<div class="admin-empty-state">Error rendering products. Check console for details.</div>`;
     }
-
-
-    elements.table.innerHTML = `
-
-        <table class="admin-table">
-
-            <thead>
-
-                <tr>
-
-                    <th>
-                        Image
-                    </th>
-
-                    <th>
-                        Product
-                    </th>
-
-                    <th>
-                        Category
-                    </th>
-
-                    <th>
-                        Price
-                    </th>
-
-                    <th>
-                        Status
-                    </th>
-
-                    <th>
-                        Homepage
-                    </th>
-
-                    <th>
-                        Actions
-                    </th>
-
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-                ${
-                    products
-                        .map(
-                            product => `
-
-                                <tr>
-
-                                    <td>
-
-                                        ${
-                                            product.main_image_url
-
-                                                ? `
-
-                                                    <img
-                                                        src="${escapeHtml(
-                                                            product.main_image_url
-                                                        )}"
-                                                        class="admin-table-product-image"
-                                                        alt=""
-                                                    >
-
-                                                `
-
-                                                : `
-
-                                                    <div
-                                                        class="
-                                                            admin-table-product-image
-                                                            admin-no-image
-                                                        "
-                                                    >
-                                                        —
-                                                    </div>
-
-                                                `
-                                        }
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <strong>
-                                            ${escapeHtml(
-                                                product.name
-                                            )}
-                                        </strong>
-
-                                        <small
-                                            class="admin-table-subtext"
-                                        >
-                                            /
-                                            ${escapeHtml(
-                                                product.slug
-                                            )}
-                                        </small>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        ${escapeHtml(
-                                            product.categories?.name ||
-                                            "Unassigned"
-                                        )}
-
-                                    </td>
-
-
-                                    <td>
-
-                                        PKR ${
-                                            Number(
-                                                product.price ||
-                                                0
-                                            ).toLocaleString()
-                                        }
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span
-                                            class="
-                                                admin-status
-                                                ${escapeHtml(
-                                                    product.status ||
-                                                    ""
-                                                )}
-                                            "
-                                        >
-
-                                            ${escapeHtml(
-                                                product.status ||
-                                                ""
-                                            )}
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        ${
-                                            product.homepage_enabled
-
-                                                ? `
-
-                                                    <strong>
-                                                        Yes
-                                                    </strong>
-
-                                                    <br>
-
-                                                    <small>
-
-                                                        Slot
-                                                        ${
-                                                            Number(
-                                                                product.homepage_slot ||
-                                                                0
-                                                            )
-                                                        }
-
-                                                        ${
-                                                            product.homepage_badge
-                                                                ? ` · ${escapeHtml(
-                                                                    product.homepage_badge
-                                                                )}`
-                                                                : ""
-                                                        }
-
-                                                    </small>
-
-                                                `
-
-                                                : "No"
-                                        }
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div
-                                            class="admin-row-actions"
-                                        >
-
-                                            <a
-                                                href="product-edit.html?id=${encodeURIComponent(
-                                                    product.id
-                                                )}"
-                                                class="admin-small-button"
-                                            >
-                                                Edit
-                                            </a>
-
-
-                                            <button
-                                                type="button"
-                                                class="admin-small-button danger"
-                                                data-archive-product="${escapeHtml(
-                                                    product.id
-                                                )}"
-                                            >
-                                                Archive
-                                            </button>
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-                            `
-                        )
-                        .join("")
-                }
-
-            </tbody>
-
-        </table>
-
-    `;
-
-
-    elements.table
-        .querySelectorAll(
-            "[data-archive-product]"
-        )
-        .forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    async () => {
-
-                        const product =
-                            allProducts.find(
-                                item =>
-                                    String(
-                                        item.id
-                                    ) ===
-                                    String(
-                                        button.dataset
-                                            .archiveProduct
-                                    )
-                            );
-
-
-                        if (product) {
-
-                            await archiveProduct(
-                                product
-                            );
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
 }
 
 
@@ -2253,6 +2033,8 @@ async function saveProduct(
 
 
         const payload = {
+            
+            archived: false, 
 
             category_id:
                 categoryId,
@@ -2385,14 +2167,7 @@ async function saveProduct(
                     .from(
                         "products"
                     )
-                    .insert({
-
-                        ...payload,
-
-                        archived:
-                            false
-
-                    })
+                    .insert(payload)
                     .select(
                         "id"
                     )
@@ -2520,6 +2295,77 @@ async function archiveProduct(
 
         console.error(
             "ARCHIVE PRODUCT ERROR:",
+            error
+        );
+
+
+        alert(
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =============================================================
+   UNARCHIVE PRODUCT
+============================================================= */
+
+async function unarchiveProduct(
+    product
+) {
+
+    const confirmed =
+        window.confirm(
+            `Unarchive "${product.name}"? This will make it visible on the website again.`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabase
+                .from(
+                    "products"
+                )
+                .update({
+
+                    archived:
+                        false,
+
+                    updated_at:
+                        new Date()
+                            .toISOString()
+
+                })
+                .eq(
+                    "id",
+                    product.id
+                );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        await loadProducts();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "UNARCHIVE PRODUCT ERROR:",
             error
         );
 

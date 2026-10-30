@@ -6412,4 +6412,127 @@ footer a[href*="category.html?category="]:not(:has(img)),
 
 
         
-        
+ /* =========================================================
+   THE ULTIMATE FORCE OVERRIDE (NO WHITE GAPS ALLOWED)
+   ========================================================= */
+
+/* 1. Force the container to have ZERO padding and exact dimensions */
+html body .dw-product-card .dw-product-media {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    width: 100% !important;
+    aspect-ratio: 4 / 5 !important;
+    position: relative !important;
+    display: block !important;
+}
+
+/* 2. Force the image to fill the container perfectly */
+html body .dw-product-card .dw-product-media img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    
+    /* THIS CROPS THE IMAGE TO FILL THE BOX */
+    object-fit: cover !important; 
+    object-position: center center !important;
+    
+    /* STRIP AWAY ANY PADDING, MARGINS, OR BORDERS */
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    
+    /* ZOOM IN SLIGHTLY to cut off any white borders inside the photo */
+    transform: scale(1.03) !important;
+    transition: transform 0.5s ease !important;
+}
+
+/* 3. Hover effect */
+html body .dw-product-card:hover .dw-product-media img {
+    transform: scale(1.08) !important;
+}
+
+/* 4. Mobile Fix (1 Card per row) */
+@media (max-width: 700px) {
+    html body .dw-product-list, 
+    html body #categoryProducts {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+        padding: 0 10px !important;
+    }
+    
+    html body .dw-product-card { 
+        height: 380px !important; 
+        border-radius: 12px !important; 
+    }
+    
+    html body .dw-product-card .dw-product-media { 
+        height: 240px !important; 
+        aspect-ratio: auto !important; 
+    }
+}
+
+
+
+/* =========================================================
+   LAPTOP / DESKTOP SCREEN FIT (Fixes the giant cards)
+   ========================================================= */
+
+/* Only apply this on screens wider than a tablet */
+@media (min-width: 701px) {
+    /* 1. Make the grid 4 columns and limit the total width */
+    .dw-product-list,
+    .catalog-section #categoryProducts,
+    #categoryProducts.product-grid,
+    #relatedProducts.product-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        max-width: 1200px !important; /* Prevents the cards from getting too wide */
+        gap: 24px !important;
+        margin: 0 auto 60px !important;
+    }
+
+    /* 2. Make the image shorter (square) so the whole card fits on screen */
+    .dw-product-card .dw-product-media {
+        aspect-ratio: 1 / 1 !important; /* Square image on laptop */
+    }
+
+    /* 3. Slightly adjust text sizes for the smaller cards */
+    .dw-product-body {
+        padding: 16px 18px 18px !important;
+    }
+    
+    .dw-product-name {
+        font-size: 18px !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .dw-product-cta {
+        min-height: 38px !important;
+        font-size: 10px !important;
+        padding: 0 14px !important;
+    }
+}
+
+/* For smaller laptops (like 13-inch), keep it at 3 columns but make them compact */
+@media (min-width: 701px) and (max-width: 1100px) {
+    .dw-product-list,
+    .catalog-section #categoryProducts,
+    #categoryProducts.product-grid,
+    #relatedProducts.product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 20px !important;
+    }
+}

@@ -440,6 +440,7 @@ function injectStyles() {
                 0 1px 2px rgba(31, 25, 19, .04),
                 0 16px 40px rgba(31, 25, 19, .06);
             transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+            padding: 0 !important; /* Ensures no inner gap */
         }
 
         .dw-product-card:hover {
@@ -450,24 +451,37 @@ function injectStyles() {
                 0 30px 65px rgba(31, 25, 19, .12);
         }
 
+        /* FULLY FITTED IMAGE CONTAINER */
         .dw-product-media {
             position: relative;
-            width: 100%;
-            aspect-ratio: 4 / 3;
-            overflow: hidden;
-            background: radial-gradient(circle at 30% 20%, #fbf5e8, #f0e8d8);
+            width: 100% !important;
+            aspect-ratio: 4 / 5 !important; /* Portrait style */
+            overflow: hidden !important;
+            background: #f4f0ea !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            display: block !important;
         }
 
+        /* FORCE IMAGE TO FILL AND CROP */
         .dw-product-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important; 
+            object-position: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            display: block !important;
             transition: transform .8s cubic-bezier(.2, .7, .2, 1);
         }
 
         .dw-product-card:hover .dw-product-media img {
-            transform: scale(1.03);
+            transform: scale(1.05);
         }
 
         .dw-product-badge {
@@ -501,22 +515,22 @@ function injectStyles() {
             display: flex;
             flex-direction: column;
             flex: 1 1 auto;
-            padding: 22px 24px 24px;
+            padding: 20px 22px 22px !important;
         }
 
         .dw-product-cat {
-            margin: 0 0 8px;
+            margin: 0 0 6px;
             color: var(--ea-gold-dark, #8e7144);
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
-            letter-spacing: 2.6px;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
         .dw-product-name {
-            margin: 0 0 18px;
+            margin: 0 0 16px;
             color: var(--ea-charcoal, #1d1c1a);
-            font: 500 clamp(22px, 2.2vw, 28px) / 1.15 Georgia, "Times New Roman", serif;
+            font: 500 clamp(18px, 1.8vw, 24px) / 1.2 Georgia, "Times New Roman", serif;
             letter-spacing: -.4px;
         }
 
@@ -529,18 +543,18 @@ function injectStyles() {
         .dw-product-footer {
             display: flex;
             flex-direction: row;
-            justify-content: space-between; /* Pushes price to left, button to right */
+            justify-content: space-between;
             align-items: center;
-            margin-top: auto;
+            margin-top: auto !important;
             gap: 10px;
             width: 100%;
-            padding-top: 16px;
+            padding-top: 14px;
             border-top: 1px dashed rgba(184, 154, 103, .35);
         }
 
         .dw-product-price {
             color: var(--ea-charcoal, #1d1c1a);
-            font: 600 18px/1 Georgia, "Times New Roman", serif;
+            font: 600 16px/1 Georgia, "Times New Roman", serif;
             letter-spacing: -.3px;
         }
 
@@ -549,17 +563,17 @@ function injectStyles() {
             align-items: center;
             justify-content: center;
             gap: 8px;
-            min-height: 42px;
-            padding: 0 20px;
+            min-height: 36px;
+            padding: 0 16px;
             width: auto;
             border-radius: 999px;
             border: 1px solid transparent;
             background: linear-gradient(135deg, #b59155 0%, #8a6d3f 100%);
             color: #fffaf2;
             text-decoration: none;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
         }
@@ -567,12 +581,12 @@ function injectStyles() {
         .dw-product-cta:hover {
             transform: translateY(-2px);
             filter: brightness(1.05);
-            box-shadow: 0 14px 30px rgba(138, 109, 63, .30);
+            box-shadow: 0 10px 20px rgba(138, 109, 63, .30);
         }
 
         .dw-product-cta svg {
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             flex: 0 0 auto;
         }
 
@@ -875,8 +889,9 @@ function createProductCard(product, category) {
     const card = document.createElement("article");
     card.className = "dw-product-card";
 
+    // FORCE INLINE STYLES TO FILL THE IMAGE
     const imageMarkup = image
-        ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(name)}" loading="lazy">`
+        ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(name)}" loading="lazy" style="position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: cover !important; object-position: center !important; padding: 0 !important; margin: 0 !important; border: none !important; border-radius: 0 !important; display: block !important;">`
         : `<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a6d3f;font-family:Georgia,serif;font-size:20px;padding:20px;text-align:center;">${escapeHtml(name)}</div>`;
 
     const badgeMarkup = badge
@@ -885,7 +900,8 @@ function createProductCard(product, category) {
 
     card.innerHTML = `
 
-        <div class="dw-product-media">
+        <!-- FORCED INLINE STYLES ON CONTAINER -->
+        <div class="dw-product-media" style="position: relative !important; width: 100% !important; aspect-ratio: 4/5 !important; padding: 0 !important; margin: 0 !important; overflow: hidden !important; background: #f4f0ea !important; border-radius: 0 !important;">
             ${imageMarkup}
             ${badgeMarkup}
         </div>
@@ -914,7 +930,6 @@ function createProductCard(product, category) {
 
     return card;
 }
-
 
 /* =============================================================
    RENDER CATEGORY SECTION
